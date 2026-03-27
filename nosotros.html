@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosotros - Proyectos Emblemáticos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .page-header {
+            padding-top: var(--spacing-16);
+            padding-bottom: var(--spacing-8);
+            background-color: var(--surface-container-low);
+        }
+        .vision-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-8);
+            padding: var(--spacing-12) 0;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <site-header></site-header>
+
+    <main>
+        <section class="page-header">
+            <div class="container section-header asymmetrical">
+                <h1 class="display-lg fade-up">Nuestra Visión.</h1>
+                <p class="body-lg text-variant fade-up" style="transition-delay:0.1s;">El Monolito y El Plano. Construyendo el futuro de la infraestructura global con precisión milimétrica.</p>
+            </div>
+        </section>
+
+        <section class="container vision-content fade-up">
+            <div class="vision-text">
+                <span class="technical-label">FILOSOFÍA FUNDACIONAL</span>
+                <h2 class="display-md" style="margin-bottom:var(--spacing-4);">Ingeniería que <br>desafía lo posible.</h2>
+                <p class="body-lg text-variant" style="margin-bottom:var(--spacing-4);">En Proyectos Emblemáticos (PE.), creemos que la arquitectura no es solo la organización del espacio, sino la cristalización de la ambición humana. Nos especializamos en mega-estructuras y proyectos complejos que requieren una ejecución impecable.</p>
+                <p class="body-md text-variant">Combinamos el peso inamovible de los materiales clásicos (El Monolito) con la agilidad y precisión de la tecnología de diseño paramétrico (El Plano).</p>
+            </div>
+            <div class="vision-visual">
+                <div style="background-image: url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2671&auto=format&fit=crop'); height: 500px; background-size: cover; background-position: center; border-radius: var(--radius-sm); box-shadow: var(--ambient-shadow);"></div>
+            </div>
+        </section>
+    </main>
+
+    <site-footer style="margin-top:var(--spacing-16);"></site-footer>
+    <script src="js/auth.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

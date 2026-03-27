@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Proyecto - Proyectos Emblemáticos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .page-header {
+            padding-top: var(--spacing-16);
+            padding-bottom: var(--spacing-8);
+            background-color: var(--surface-container-low);
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-8);
+            padding: var(--spacing-12) 0;
+        }
+        .main-image {
+            width: 100%;
+            height: 600px;
+            background-size: cover;
+            background-position: center;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--ambient-shadow);
+        }
+        @media (max-width: 900px) {
+            .product-grid { grid-template-columns: 1fr; }
+            .main-image { height: 400px; }
+        }
+    </style>
+</head>
+<body>
+    <site-header></site-header>
+
+    <main>
+        <div id="product-container">
+            <section class="page-header">
+                <div class="container fade-up">
+                    <p class="body-lg">Cargando especificaciones del proyecto...</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <site-footer></site-footer>
+    <script src="js/auth.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            const container = document.getElementById('product-container');
+
+            if (!productId) {
+                container.innerHTML = '<section class="page-header"><div class="container fade-up"><h1 class="display-md">Proyecto no encontrado</h1></div></section>';
+                return;
+            }
+
+            try {
+                let product = null;
+                if (WC_CONFIG.usarMockLocal) {
+                    const mockProducts = await getMockProducts();
+                    product = mockProducts.find(p => p.id == productId);
+                } else {
+                    const response = await fetch(`${WC_CONFIG.url}/wp-json/wc/v3/products/${productId}`);
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    product = await response.json();
+                }
+
+                if (!product) throw new Error('Producto vacio');
+
+                const imageUrl = (product.images && product.images.length > 0)
+                    ? product.images[0].src
+                    : 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop';
+                
+                let chipsHtml = '';
+                if (product.categories && product.categories.length > 0) {
+                    chipsHtml = product.categories.map(cat => `<span class="chip">${cat.name}</span>`).join('');
+                }
+
+                const priceHtml = product.price ? `<p class="body-lg" style="color:var(--primary); font-weight:600; margin-top:var(--spacing-2);">Inversión Base: $${product.price}</p>` : '';
+                const safeName = product.name.replace(/'/g, "\\'");
+                const safeSku = (product.sku || product.id).toString().replace(/'/g, "\\'");
+
+                container.innerHTML = `
+                    <section class="page-header">
+                        <div class="container section-header asymmetrical" style="margin-bottom:0;">
+                            <div>
+                                <span class="technical-label fade-up">REF // ${product.sku || product.id}</span>
+                                <h1 class="display-md fade-up">${product.name}</h1>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="container product-grid">
+                        <div class="fade-up">
+                            <div class="main-image" style="background-image: url('${imageUrl}');"></div>
+                        </div>
+                        <div class="fade-up" style="transition-delay:0.1s;">
+                            <div class="action-chips" style="margin-bottom:var(--spacing-4);">
+                                ${chipsHtml}
+                            </div>
+                            ${priceHtml}
+                            <div class="body-md text-variant" style="margin:var(--spacing-5) 0;">
+                                ${product.description || product.short_description || 'Sin especificaciones detalladas disponibles actualmente.'}
+                            </div>
+                            <hr style="border:0; border-top:1px solid var(--outline-variant); margin:var(--spacing-5) 0;">
+                            <button class="btn btn-primary btn-block" style="padding: 1rem;" 
+                                onclick="window.CartManager.addItem({id: '${product.id}', name: '${safeName}', sku: '${safeSku}'});">
+                                Añadir a Cotización
+                            </button>
+                        </div>
+                    </section>
+                `;
+
+                // Re-trigger reveal observer for newly added elements
+                const fadeElems = container.querySelectorAll('.fade-up');
+                fadeElems.forEach(el => window.revealObserver.observe(el));
+
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = '<section class="page-header"><div class="container fade-up"><h1 class="display-md" style="color:var(--error, red);">Error cargando proyecto</h1><p class="body-md mt-4">No se pudo obtener la información de este proyecto.</p><a href="proyectos.html" class="btn btn-secondary mt-4">Regresar a Proyectos</a></div></section>';
+            }
+        });
+    </script>
+</body>
+</html>
