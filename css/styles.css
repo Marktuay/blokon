@@ -1,3 +1,47 @@
+/* Superpuesto Formulario (Overlay Form) */
+.form-overlay {
+    position: relative;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 12px 40px 0 rgba(6, 76, 124, 0.18), 0 2px 8px 0 rgba(0,0,0,0.08);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2rem 2rem 2rem;
+    max-width: 480px;
+    margin: 2rem auto;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    box-sizing: border-box;
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.form-overlay h2, .form-overlay h3, .form-overlay h4 {
+    font-family: var(--font-family-secondary);
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+.form-overlay input,
+.form-overlay textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1.5px solid var(--outline-variant);
+    border-radius: var(--radius-sm);
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    background: #f7fafd;
+    transition: border 0.2s;
+}
+.form-overlay input:focus,
+.form-overlay textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+.form-overlay .btn {
+    margin-top: 1.5rem;
+    width: 100%;
+    font-size: 1.1rem;
+}
 :root {
     /* Color Palette */
     --background: #f9f9f9;
@@ -18,7 +62,8 @@
     --outline-variant: #c4c5d5;
     
     /* Typography */
-    --font-family: 'Inter', sans-serif;
+    --font-family: 'Acumin Variable Concept', Arial, Helvetica, sans-serif;
+    --font-family-secondary: 'TT Drugs Trl Cnd Bold', Arial, Helvetica, sans-serif;
     
     /* Layout */
     --spacing-1: 0.25rem;
@@ -60,6 +105,7 @@ html {
 /* Typography Scale */
 .display-lg {
     font-size: clamp(3rem, 6vw, 5rem);
+    font-family: var(--font-family-secondary);
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.1;
@@ -68,6 +114,7 @@ html {
 
 .display-md {
     font-size: clamp(2rem, 4vw, 3.5rem);
+    font-family: var(--font-family-secondary);
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.1;
@@ -75,7 +122,8 @@ html {
 
 .headline-text {
     font-size: 1.5rem;
-    font-weight: 600;
+    font-family: var(--font-family-secondary);
+    font-weight: 700;
     line-height: 1.3;
 }
 

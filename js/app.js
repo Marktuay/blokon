@@ -1,6 +1,6 @@
 // WooCommerce API Configuration
 const WC_CONFIG = {
-    url: 'http://8.229.91.134', // IP provista
+    url: 'https://blokon.com', // Dominio actualizado
     // Como implementaremos el snippet PHP de permisos públicos, ya no necesitamos exponer llaves:
     usarMockLocal: false // Cambia a `false` una vez que instales el snippet PHP en WordPress
 };
@@ -56,6 +56,58 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Initialize WooCommerce Fetching if container exists
     if (document.getElementById('wc-products-container')) {
         loadWooCommerceProjects();
+    }
+
+    // 5. Footer Quick Contact Form sync with CF7
+    const quickForm = document.querySelector('.quick-contact-form');
+    if (quickForm) {
+        quickForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = quickForm.querySelector('button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Enviando...';
+            }
+            // Recolectar datos
+            const formData = new FormData(quickForm);
+            // Obtener _wpcf7_unit_tag dinámicamente desde el HTML del formulario en WP
+            try {
+                const formPage = await fetch('https://blokon.com/contact-us/');
+                const html = await formPage.text();
+                // Buscar el valor de _wpcf7_unit_tag en el HTML
+                const match = html.match(/<input[^>]*name=["']?_wpcf7_unit_tag["']?[^>]*value=["']?([^"'> ]+)["']?[^>]*>/);
+                if (match && match[1]) {
+                    formData.append('_wpcf7_unit_tag', match[1]);
+                } else {
+                    throw new Error('No se pudo obtener _wpcf7_unit_tag');
+                }
+                // Endpoint CF7
+                const endpoint = 'https://blokon.com/wp-json/contact-form-7/v1/contact-forms/12/feedback';
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                if (data.status === 'mail_sent') {
+                    submitBtn.textContent = '¡Mensaje enviado!';
+                    submitBtn.style.backgroundColor = '#96c121';
+                    quickForm.reset();
+                } else {
+                    submitBtn.textContent = 'Error al enviar';
+                    submitBtn.style.backgroundColor = '#e74c3c';
+                    console.error('CF7 error response:', data);
+                }
+            } catch (err) {
+                submitBtn.textContent = 'Error de conexión';
+                submitBtn.style.backgroundColor = '#e74c3c';
+                console.error('CF7 fetch error:', err);
+            }
+            setTimeout(() => {
+                submitBtn.textContent = 'Enviar';
+                submitBtn.style.backgroundColor = '';
+                submitBtn.disabled = false;
+            }, 3000);
+        });
     }
 });
 

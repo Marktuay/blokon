@@ -37,18 +37,23 @@ class SiteHeader extends HTMLElement {
                     </a>
                     <nav>
                         <a href="proyectos.html" ${isProyectos ? 'style="color:var(--primary);"' : ''}>Proyectos</a>
-                        <a href="nosotros.html" ${isNosotros ? 'style="color:var(--primary);"' : ''}>Nosotros</a>
+                        <a href="#" style="color:inherit;">Muro</a>
+                        <a href="#" style="color:inherit;">Kits V</a>
+                        <a href="#" style="color:inherit;">Blog</a>
+                        <!--<a href="nosotros.html" ${isNosotros ? 'style="color:var(--primary);"' : ''}>Nosotros</a>-->
                         <a href="contacto.html" class="btn btn-primary" ${isContacto ? 'style="background-color:var(--primary-container);"' : ''}>Contacto</a>
                         
                         <div class="header-actions" style="display: flex; gap: var(--spacing-4); align-items: center; margin-left: var(--spacing-2); border-left: 1px solid var(--outline-variant); padding-left: var(--spacing-4);">
+                            <div class="header-contact-info" style="display: flex; flex-direction: column; align-items: flex-end; margin-right: var(--spacing-4);">
+                                <a href="tel:+50586927530" style="color: var(--primary); font-weight: 600; text-decoration: none; font-size: 1rem;">+505 8692 - 7530</a>
+                                <a href="mailto:ventas@blok-on.com" style="color: var(--on-background); font-size: 0.95rem; text-decoration: none;">ventas@blok-on.com</a>
+                            </div>
                             <a href="#" aria-label="Buscar" style="color: inherit; display: flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                             </a>
-                            
                             <a href="#" aria-label="Perfil" style="color: inherit; display: flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                             </a>
-                            
                             <button id="cart-toggle" aria-label="Carrito" style="position: relative; background: none; border: none; cursor: pointer; color: inherit; padding: 0; display: flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.5"></circle><circle cx="20" cy="21" r="1.5"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                                 <span id="cart-count" style="position: absolute; top: -8px; right: -10px; background: #ffcc00; color: #000; border: 2.5px solid #000; font-weight: 900; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; display: flex; align-items: center; justify-content: center;">0</span>
@@ -143,18 +148,18 @@ class SiteFooter extends HTMLElement {
                     <!-- Column 1: Quick Contact -->
                     <div class="footer-col footer-col-form">
                         <h4 class="footer-title">Cotización Rápida</h4>
-                        <form class="quick-contact-form" onsubmit="event.preventDefault(); alert('Mensaje enviado');">
-                            <div class="form-row">
-                                <input type="text" placeholder="Nombre" required>
-                                <input type="text" placeholder="Apellidos" required>
-                            </div>
-                            <div class="form-row">
-                                <input type="tel" placeholder="Teléfono" required>
-                                <input type="email" placeholder="Email" required>
-                            </div>
-                            <textarea placeholder="Mensaje" rows="3" required></textarea>
-                            <button type="submit" class="btn btn-secondary btn-block" style="padding: 0.8rem; font-weight:700;">Enviar</button>
-                        </form>
+                            <form class="quick-contact-form">
+                                <input type="hidden" name="your-subject" value="Cotización desde footer">
+                                <div class="form-row">
+                                    <input type="text" name="your-name" placeholder="Nombre" required>
+                                </div>
+                                <div class="form-row">
+                                    <input type="tel" name="tel-63" placeholder="Teléfono" required>
+                                    <input type="email" name="your-email" placeholder="Email" required>
+                                </div>
+                                <textarea name="your-message" placeholder="Mensaje" rows="3" required></textarea>
+                                <button type="submit" class="btn btn-secondary btn-block" style="padding: 0.8rem; font-weight:700;">Enviar</button>
+                            </form>
                         <p class="footer-text-small mt-3">Responderemos a la brevedad. No compartimos tu información con terceros de ninguna manera.</p>
                         <div class="footer-hours mt-3">
                             <div class="hour-row"><span>Lun - Vie:</span><span>9:00 am - 18:00 pm</span></div>
@@ -167,55 +172,134 @@ class SiteFooter extends HTMLElement {
                     <div class="footer-col">
                         <h4 class="footer-title">MENÚ</h4>
                         <ul class="footer-links-list">
-                            <li><a href="index.html"><span class="icon-accent"></span> Inicio</a></li>
-                            <li><a href="proyectos.html"><span class="icon-accent"></span> Catálogo</a></li>
-                            <li><a href="nosotros.html"><span class="icon-accent"></span> Nosotros</a></li>
-                            <li><a href="contacto.html"><span class="icon-accent"></span> Contacto</a></li>
+                            <li><a href="index.html">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                                Inicio
+                            </a></li>
+                            <li><a href="proyectos.html">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                                Catálogo
+                            </a></li>
+                            <li><a href="nosotros.html">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                                Nosotros
+                            </a></li>
+                            <li><a href="contacto.html">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                Contacto
+                            </a></li>
                         </ul>
                     </div>
 
-                    <!-- Column 3: Account -> Portafolio -->
+                    <!-- Column 3: Portafolio -->
                     <div class="footer-col">
                         <h4 class="footer-title">PORTAFOLIO</h4>
                         <ul class="footer-links-list">
-                            <li><a href="proyectos.html?f=infraestructura"><span class="icon-accent"></span> Infraestructura</a></li>
-                            <li><a href="proyectos.html?f=corporativo"><span class="icon-accent"></span> Corporativo</a></li>
-                            <li><a href="proyectos.html?f=cultura"><span class="icon-accent"></span> Cultura</a></li>
-                            <li><a href="proyectos.html?f=residencial"><span class="icon-accent"></span> Especiales</a></li>
+                            <li><a href="proyectos.html?f=infraestructura">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                                Infraestructura
+                            </a></li>
+                            <li><a href="proyectos.html?f=corporativo">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M12 22v-7"/><path d="M12 2v2"/><path d="M12 8v2"/><path d="M16 22V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v17"/><path d="M22 22V11a2 2 0 0 0-2-2h-4"/></svg>
+                                Corporativo
+                            </a></li>
+                            <li><a href="proyectos.html?f=cultura">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M4 22h16"/><path d="M6 10v9"/><path d="M10 10v9"/><path d="M14 10v9"/><path d="M18 10v9"/><path d="M12 2 2 7v3h20V7L12 2z"/></svg>
+                                Cultura
+                            </a></li>
+                            <li><a href="proyectos.html?f=residencial">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                Especiales
+                            </a></li>
                         </ul>
                     </div>
 
-                    <!-- Column 4: Categories -> Servicios -->
+                    <!-- Column 4: Servicios -->
                     <div class="footer-col">
                         <h4 class="footer-title">SERVICIOS</h4>
-                        <ul class="footer-links-list no-icons">
-                            <li><a href="#">Diseño Estructural</a></li>
-                            <li><a href="#">Supervisión</a></li>
-                            <li><a href="#">Consultoría</a></li>
-                            <li><a href="#" style="color:var(--secondary);">Sustentabilidad</a></li>
-                            <li><a href="#">Desarrollo</a></li>
+                        <ul class="footer-links-list">
+                            <li><a href="#">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                                Diseño Estructural
+                            </a></li>
+                            <li><a href="#">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M21 12a9 9 0 0 1-9 9m9-9a9 9 0 0 0-9-9m9 9H3m9 9a9 9 0 0 1-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
+                                Supervisión
+                            </a></li>
+                            <li><a href="#">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                Consultoría
+                            </a></li>
+                            <li><a href="#" style="color:var(--secondary);">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                                Sustentabilidad
+                            </a></li>
+                            <li><a href="#">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                                Desarrollo
+                            </a></li>
                         </ul>
                     </div>
 
-                    <!-- Column 5: Support -->
+                    <!-- Column 5: Account -->
                     <div class="footer-col">
-                        <h4 class="footer-title">SOPORTE</h4>
-                        <ul class="footer-links-list no-icons">
-                            <li><a href="#">Privacidad</a></li>
-                            <li><a href="#">Términos de Uso</a></li>
-                            <li><a href="#">Garantías</a></li>
-                            <li><a href="#">FAQs</a></li>
+                        <h4 class="footer-title">ACCOUNT</h4>
+                        <ul class="footer-links-list special-account-menu">
+                            <li>
+                                <a href="mi-cuenta.html" style="display:flex; align-items:center;">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:10px; flex-shrink:0;">
+                                        <path d="M3.34 16A10 10 0 1 1 20.66 16"/><path d="M12 14v2"/><path d="M12 14l4-4"/>
+                                    </svg>
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mi-cuenta.html" style="display:flex; align-items:center;">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:10px; flex-shrink:0;">
+                                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/><polyline points="9 14 11 16 15 12"></polyline>
+                                    </svg>
+                                    Orders
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mi-cuenta.html" style="display:flex; align-items:center;">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:10px; flex-shrink:0;">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+                                    </svg>
+                                    Addresses
+                                </a>
+                            </li>
+                            <li>
+                                <a href="mi-cuenta.html" style="display:flex; align-items:center;">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:10px; flex-shrink:0;">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><circle cx="18" cy="18" r="3"/><path d="M18 13v2"/><path d="M18 21v2"/><path d="M14 18h2"/><path d="M20 18h2"/><path d="M15.5 15.5l1.5 1.5"/><path d="M19 19l1.5 1.5"/><path d="M20.5 15.5L19 17"/><path d="M17 19l-1.5 1.5"/>
+                                    </svg>
+                                    Details
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
-                    <!-- Column 6: Get In Touch -->
+                    <!-- Column 6: Contacto -->
                     <div class="footer-col">
                         <h4 class="footer-title">CONTACTO</h4>
                         <ul class="footer-links-list">
-                            <li><a href="#"><span class="icon-accent"></span> +52 (55) 1234-5678</a></li>
-                            <li><a href="#"><span class="icon-accent"></span> +52 (55) 8765-4321</a></li>
-                            <li><a href="mailto:info@blokon.mx"><span class="icon-accent"></span> info@blokon.mx</a></li>
-                            <li><a href="#"><span class="icon-accent"></span> Torre Apex, Piso 12,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ciudad de México</a></li>
+                            <li><a href="#">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                +52 (55) 1234-5678
+                            </a></li>
+                            <li><a href="#">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                                +52 (55) 8765-4321
+                            </a></li>
+                            <li><a href="mailto:info@blokon.mx">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                info@blokon.mx
+                            </a></li>
+                            <li><a href="#">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                                Torre Apex, Piso 12, CDMX
+                            </a></li>
                         </ul>
                     </div>
                 </div>
@@ -242,8 +326,12 @@ class SiteFooter extends HTMLElement {
                             <a href="#" class="social-icon">𝕏</a>
                             <a href="#" class="social-icon">in</a>
                             <a href="#" class="social-icon">▶</a>
+                            
                         </div>
                     </div>
+                </div>
+                <div class="container" style="text-align:center; margin-top:2rem;">
+                    <span class="footer-text-small" style="color:var(--secondary); font-size:0.95rem;">Copyright © New Century Companies 2026. Todos los derechos reservados.</span>
                 </div>
             </footer>
             
