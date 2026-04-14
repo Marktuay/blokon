@@ -32,29 +32,31 @@ class SiteHeader extends HTMLElement {
         this.innerHTML = `
             <header class="glass-nav">
                 <div class="nav-container">
-                    <a href="index.html" class="logo" style="text-decoration:none; display:flex; align-items:center;">
+                    <a href="index.html" class="logo header-box" style="text-decoration:none; display:flex; align-items:center;">
                         <img src="images/logo-blokon.jpg" alt="Logo Blokon" style="height: 40px; width: auto; max-width: 150px; object-fit: contain;">
                     </a>
-                    <nav>
-                        <a href="proyectos.html" ${isProyectos ? 'style="color:var(--primary);"' : ''}>Proyectos</a>
-                        <a href="#" style="color:inherit;">Muro</a>
-                        <a href="#" style="color:inherit;">Kits V</a>
-                        <a href="#" style="color:inherit;">Blog</a>
-                        <!--<a href="nosotros.html" ${isNosotros ? 'style="color:var(--primary);"' : ''}>Nosotros</a>-->
-                        <a href="contacto.html" class="btn btn-primary" ${isContacto ? 'style="background-color:var(--primary-container);"' : ''}>Contacto</a>
+                    <nav class="main-nav">
+                        <div class="menu-links header-box">
+                            <a href="proyectos.html" class="nav-link" ${isProyectos ? 'style="color:var(--primary);"' : ''}>Proyectos</a>
+                            <a href="#" class="nav-link" style="color:inherit;">Muro</a>
+                            <a href="#" class="nav-link" style="color:inherit;">Kits V</a>
+                            <a href="blog.html" class="nav-link" style="color:inherit;">Blog</a>
+                            <a href="nosotros.html" class="nav-link" ${isNosotros ? 'style="color:var(--primary);"' : ''}>Sobre Nosotros</a>
+                            <a href="contacto.html" class="nav-link nav-cta" ${isContacto ? 'style="color:var(--primary);"' : ''}>Contacto</a>
+                        </div>
                         
-                        <div class="header-actions" style="display: flex; gap: var(--spacing-4); align-items: center; margin-left: var(--spacing-2); border-left: 1px solid var(--outline-variant); padding-left: var(--spacing-4);">
+                        <div class="header-actions header-box" style="display: flex; gap: var(--spacing-4); align-items: center; margin-left: var(--spacing-2); padding-left: var(--spacing-4);">
                             <div class="header-contact-info" style="display: flex; flex-direction: column; align-items: flex-end; margin-right: var(--spacing-4);">
                                 <a href="tel:+50586927530" style="color: var(--primary); font-weight: 600; text-decoration: none; font-size: 1rem;">+505 8692 - 7530</a>
                                 <a href="mailto:ventas@blok-on.com" style="color: var(--on-background); font-size: 0.95rem; text-decoration: none;">ventas@blok-on.com</a>
                             </div>
-                            <a href="#" aria-label="Buscar" style="color: inherit; display: flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">
+                            <a href="#" class="header-icon-link" aria-label="Buscar" style="color: inherit; display: flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                             </a>
-                            <a href="#" aria-label="Perfil" style="color: inherit; display: flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">
+                            <a href="#" class="header-icon-link" aria-label="Perfil" style="color: inherit; display: flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                             </a>
-                            <button id="cart-toggle" aria-label="Carrito" style="position: relative; background: none; border: none; cursor: pointer; color: inherit; padding: 0; display: flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">
+                            <button id="cart-toggle" class="header-icon-button" aria-label="Carrito" style="position: relative; background: none; cursor: pointer; color: inherit; padding: 0; display: flex; align-items: center; transition: color 0.3s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='inherit'">
                                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1.5"></circle><circle cx="20" cy="21" r="1.5"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                                 <span id="cart-count" style="position: absolute; top: -8px; right: -10px; background: #ffcc00; color: #000; border: 2.5px solid #000; font-weight: 900; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; display: flex; align-items: center; justify-content: center;">0</span>
                             </button>
@@ -298,7 +300,7 @@ class SiteFooter extends HTMLElement {
                             </a></li>
                             <li><a href="#">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#96c121" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-                                Torre Apex, Piso 12, CDMX
+                                Km 18.5 carretera nueva a León, Mateare
                             </a></li>
                         </ul>
                     </div>

@@ -1,11 +1,182 @@
 // WooCommerce API Configuration
 const WC_CONFIG = {
-    url: 'https://blokon.com', // Dominio actualizado
+    url: 'http://8.229.91.134', // Revertido a IP para pruebas
     // Como implementaremos el snippet PHP de permisos públicos, ya no necesitamos exponer llaves:
     usarMockLocal: false // Cambia a `false` una vez que instales el snippet PHP en WordPress
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    // --- Eliminar acentos en títulos en mayúscula ---
+    function removeAccents(str) {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function processUppercaseTitles() {
+        // Selecciona todos los títulos h1-h6 y .headline-text
+        const selectors = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', '.headline-text'];
+        selectors.forEach(sel => {
+            document.querySelectorAll(sel).forEach(el => {
+                el.textContent = removeAccents(el.textContent);
+            });
+        });
+    }
+
+    processUppercaseTitles();
+    // Si hay cambios dinámicos, puedes volver a llamar a processUppercaseTitles() tras actualizar títulos
+
+        // --- BLOG SYNC: Renderizar posts, búsqueda, filtro y paginación ---
+        if (document.getElementById('blog-posts-container')) {
+            const postsContainer = document.getElementById('blog-posts-container');
+            const paginationContainer = document.getElementById('blog-pagination');
+            const searchInput = document.getElementById('blog-search');
+            const categoryFilter = document.getElementById('blog-category-filter');
+            let allPosts = [];
+            let allCategories = [];
+            let currentPage = 1;
+            let postsPerPage = 6;
+            let currentSearch = '';
+            let currentCategory = '';
+
+            async function fetchPosts(page = 1, search = '', category = '') {
+                let url = `http://8.229.91.134/wp-json/wp/v2/posts?_embed&per_page=${postsPerPage}&page=${page}`;
+                if (search) url += `&search=${encodeURIComponent(search)}`;
+                if (category) url += `&categories=${category}`;
+                const res = await fetch(url);
+                const totalPosts = parseInt(res.headers.get('X-WP-Total') || '0', 10);
+                const totalPages = parseInt(res.headers.get('X-WP-TotalPages') || '1', 10);
+                const posts = await res.json();
+                return { posts, totalPosts, totalPages };
+            }
+
+            async function fetchCategories() {
+                const res = await fetch('http://8.229.91.134/wp-json/wp/v2/categories?per_page=100');
+                return await res.json();
+            }
+
+            function renderPosts(posts) {
+                postsContainer.innerHTML = '';
+                if (!posts.length) {
+                    postsContainer.innerHTML = '<p class="body-md text-variant">No se encontraron posts.</p>';
+                    return;
+                }
+                posts.forEach(post => {
+                    const img = post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0]
+                        ? post._embedded['wp:featuredmedia'][0].source_url
+                        : 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2670&auto=format&fit=crop';
+                    const excerpt = post.excerpt && post.excerpt.rendered
+                        ? post.excerpt.rendered.replace(/<[^>]+>/g, '').substring(0, 140) + '...'
+                        : '';
+                    const article = document.createElement('article');
+                    article.className = 'project-card fade-up';
+                    article.innerHTML = `
+                        <a href="#" class="card-image-wrapper" style="display:block;">
+                            <div class="card-image" style="background-image: url('${img}');"></div>
+                        </a>
+                        <div class="card-content">
+                            <span class="technical-label">${post.date.split('T')[0]}</span>
+                            <a href="#" style="text-decoration:none; color:inherit;"><h3 class="headline-text">${post.title.rendered}</h3></a>
+                            <p class="body-md text-variant" style="margin-bottom:var(--spacing-2);">${excerpt}</p>
+                            <div class="action-chips" style="margin-top:var(--spacing-3);">
+                                ${(post._embedded['wp:term'] && post._embedded['wp:term'][0]) ? post._embedded['wp:term'][0].map(cat => `<span class="chip">${cat.name}</span>`).join('') : ''}
+                            </div>
+                            <div class="blog-comments" style="margin-top:2rem;">
+                                <h4 style="margin-bottom:1rem;">Comentarios</h4>
+                                <div class="comments-list" id="comments-list-${post.id}"></div>
+                                <div class="comment-form-area" id="comment-form-area-${post.id}"></div>
+                            </div>
+                        </div>
+                    `;
+                    postsContainer.appendChild(article);
+
+                    // Render comments area
+                    const user = window.AuthManager && window.AuthManager.getUser ? window.AuthManager.getUser() : null;
+                    const commentsList = article.querySelector(`#comments-list-${post.id}`);
+                    const commentFormArea = article.querySelector(`#comment-form-area-${post.id}`);
+                    // Mock comments in localStorage
+                    const commentsKey = `blog_comments_${post.id}`;
+                    function renderComments() {
+                        const comments = JSON.parse(localStorage.getItem(commentsKey) || '[]');
+                        if (!comments.length) {
+                            commentsList.innerHTML = '<p class="body-md text-variant">No hay comentarios aún.</p>';
+                        } else {
+                            commentsList.innerHTML = comments.map(c => `<div class="comment-item" style="margin-bottom:1rem;"><b>${c.user}</b><br><span style="font-size:0.95em; color:#666;">${c.date}</span><div style="margin-top:0.5em;">${c.text}</div></div>`).join('');
+                        }
+                    }
+                    renderComments();
+                    if (!user) {
+                        commentFormArea.innerHTML = `<div class="comment-login-msg" style="margin-top:1rem; color:#b00;">Debes <a href="login.html">iniciar sesión</a> para comentar.</div>`;
+                    } else {
+                        commentFormArea.innerHTML = `
+                            <form class="comment-form" style="margin-top:1rem;">
+                                <textarea required placeholder="Escribe tu comentario..." style="width:100%; min-height:60px; margin-bottom:0.5rem;"></textarea>
+                                <button type="submit" class="btn btn-secondary">Comentar</button>
+                            </form>
+                        `;
+                        const form = commentFormArea.querySelector('form');
+                        form.addEventListener('submit', function(e) {
+                            e.preventDefault();
+                            const textarea = form.querySelector('textarea');
+                            const text = textarea.value.trim();
+                            if (!text) return;
+                            const comments = JSON.parse(localStorage.getItem(commentsKey) || '[]');
+                            comments.push({
+                                user: user.firstName || user.email,
+                                text,
+                                date: new Date().toLocaleString()
+                            });
+                            localStorage.setItem(commentsKey, JSON.stringify(comments));
+                            textarea.value = '';
+                            renderComments();
+                        });
+                    }
+                });
+            }
+
+            function renderPagination(totalPages) {
+                paginationContainer.innerHTML = '';
+                if (totalPages <= 1) return;
+                for (let i = 1; i <= totalPages; i++) {
+                    const btn = document.createElement('button');
+                    btn.textContent = i;
+                    btn.className = 'chip' + (i === currentPage ? ' active-filter' : '');
+                    btn.style.cursor = 'pointer';
+                    btn.onclick = () => {
+                        currentPage = i;
+                        loadPosts();
+                    };
+                    paginationContainer.appendChild(btn);
+                }
+            }
+
+            async function loadPosts() {
+                const { posts, totalPosts, totalPages } = await fetchPosts(currentPage, currentSearch, currentCategory);
+                renderPosts(posts);
+                renderPagination(totalPages);
+            }
+
+            async function loadCategories() {
+                allCategories = await fetchCategories();
+                categoryFilter.innerHTML = '<option value="">Todas las categorías</option>' +
+                    allCategories.map(cat => `<option value="${cat.id}">${cat.name}</option>`).join('');
+            }
+
+            // Event listeners
+            searchInput.addEventListener('input', (e) => {
+                currentSearch = e.target.value;
+                currentPage = 1;
+                loadPosts();
+            });
+            categoryFilter.addEventListener('change', (e) => {
+                currentCategory = e.target.value;
+                currentPage = 1;
+                loadPosts();
+            });
+
+            // Inicializar
+            loadCategories();
+            loadPosts();
+        }
     // 1. Reveal Animations Logic
     const fadeUpElements = document.querySelectorAll('.fade-up');
     const revealObserverOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
@@ -72,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(quickForm);
             // Obtener _wpcf7_unit_tag dinámicamente desde el HTML del formulario en WP
             try {
-                const formPage = await fetch('https://blokon.com/contact-us/');
+                const formPage = await fetch('http://8.229.91.134/contact-us/');
                 const html = await formPage.text();
                 // Buscar el valor de _wpcf7_unit_tag en el HTML
                 const match = html.match(/<input[^>]*name=["']?_wpcf7_unit_tag["']?[^>]*value=["']?([^"'> ]+)["']?[^>]*>/);
@@ -82,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error('No se pudo obtener _wpcf7_unit_tag');
                 }
                 // Endpoint CF7
-                const endpoint = 'https://blokon.com/wp-json/contact-form-7/v1/contact-forms/12/feedback';
+                const endpoint = 'http://8.229.91.134/wp-json/contact-form-7/v1/contact-forms/12/feedback';
                 const response = await fetch(endpoint, {
                     method: 'POST',
                     body: formData

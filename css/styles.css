@@ -1,3 +1,40 @@
+@font-face {
+    font-family: 'TT Drugs Trl Cnd Bold';
+    src: url('../fonts/TT Drugs Trial Condensed Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Acumin Variable Concept';
+    src: url('../fonts/Acumin-RPro.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Acumin Variable Concept';
+    src: url('../fonts/Acumin-ItPro.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Acumin Variable Concept';
+    src: url('../fonts/Acumin-BdPro.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Acumin Variable Concept';
+    src: url('../fonts/Acumin-BdItPro.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+g
 /* Superpuesto Formulario (Overlay Form) */
 .form-overlay {
     position: relative;
@@ -20,16 +57,36 @@
     margin-bottom: 1.5rem;
 }
 
-.form-overlay input,
-.form-overlay textarea {
-    width: 100%;
-    padding: 0.85rem 1rem;
-    border: 1.5px solid var(--outline-variant);
-    border-radius: var(--radius-sm);
-    margin-bottom: 1.2rem;
+
+/* Fondo blanco y borde oscuro fijo para todos los campos de formulario */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="tel"],
+input[type="number"],
+textarea,
+select {
+    background: #fff !important;
+    border: 1.5px solid #b0b3c6 !important;
+    color: var(--on-surface);
     font-size: 1rem;
-    background: #f7fafd;
+    border-radius: var(--radius-sm);
+    box-shadow: none;
     transition: border 0.2s;
+}
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--primary) !important;
+    outline: none;
+}
+
+/* Forzar fondo blanco en campos de formularios de registro/login de la derecha */
+.register-form input,
+.register-form textarea,
+.login-form input,
+.login-form textarea {
+    background: #fff !important;
 }
 .form-overlay input:focus,
 .form-overlay textarea:focus {
@@ -42,6 +99,16 @@
     width: 100%;
     font-size: 1.1rem;
 }
+
+@font-face {
+    font-family: 'Moderniz Limited';
+    src: url('../fonts/Moderniz.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0000-007F;
+}
+
 :root {
     /* Color Palette */
     --background: #f9f9f9;
@@ -63,7 +130,27 @@
     
     /* Typography */
     --font-family: 'Acumin Variable Concept', Arial, Helvetica, sans-serif;
-    --font-family-secondary: 'TT Drugs Trl Cnd Bold', Arial, Helvetica, sans-serif;
+    --font-family-secondary: 'Moderniz Limited', 'Arial Narrow', Arial, Helvetica, sans-serif;
+    --font-family-tertiary: 'TT Drugs Trl Cnd Bold', Arial, Helvetica, sans-serif;
+    /* TITULOS PRINCIPALES 1 y 2 */
+    h1, .display-lg, .display-md, .headline-text {
+        font-family: var(--font-family-secondary);
+        font-weight: 400;
+        letter-spacing: 0.5px;
+    }
+
+    /* TITULOS SECUNDARIOS */
+    h2, .subtitle, .secondary-title {
+        font-family: var(--font-family-tertiary);
+        font-weight: bold;
+        letter-spacing: 0.5px;
+    }
+
+    /* CUERPO DE TEXTO */
+    body, p, .body-md, .body-lg, .text-variant {
+        font-family: var(--font-family);
+        font-weight: 400;
+    }
     
     /* Layout */
     --spacing-1: 0.25rem;
@@ -118,6 +205,7 @@ html {
     font-weight: 700;
     letter-spacing: -0.02em;
     line-height: 1.1;
+    margin-top: 20px;
 }
 
 .headline-text {
@@ -180,6 +268,7 @@ html {
     z-index: 1000;
     padding: var(--spacing-3) var(--spacing-5);
     border-radius: var(--radius-sm);
+    border: 1px solid #f2f1ed;
     box-shadow: var(--ambient-shadow);
 }
 
@@ -187,6 +276,7 @@ html {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: var(--spacing-3);
 }
 
 .logo {
@@ -196,10 +286,22 @@ html {
     letter-spacing: -0.05em;
 }
 
+.header-box {
+    border: 1px solid #f2f1ed;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 999px;
+}
+
 nav {
     display: flex;
     align-items: center;
     gap: var(--spacing-4);
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
 }
 
 nav a {
@@ -212,6 +314,49 @@ nav a {
 
 nav a:hover:not(.btn) {
     color: var(--primary);
+}
+
+.logo.header-box {
+    padding: 0.55rem 1rem;
+}
+
+.menu-links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding: 0.5rem;
+}
+
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+}
+
+.nav-cta {
+    border: none;
+    background: transparent;
+    color: var(--on-surface);
+    padding: 0;
+    font-weight: 500;
+}
+
+.header-actions {
+    padding: 0.5rem 0.75rem 0.5rem 1rem !important;
+    gap: var(--spacing-3) !important;
+}
+
+.header-contact-info {
+    padding-right: 0.75rem;
+    border-right: 1px solid #f2f1ed;
+}
+
+.header-icon-link,
+.header-icon-button {
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
 }
 
 /* Buttons */
@@ -303,22 +448,22 @@ nav a:hover:not(.btn) {
 
 /* Asymmetrical Header */
 .section-header {
-    display: grid;
-    grid-template-columns: 5fr 7fr;
-    gap: var(--spacing-5);
+    display: block;
     margin-bottom: var(--spacing-12);
-    align-items: flex-end;
 }
 
 /* Projects Grid */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: var(--spacing-5);
+    justify-content: center;
 }
 
 .project-card {
-    background-color: var(--surface-container-lowest);
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 2px solid #143ca9 !important;
     border-radius: var(--radius-sm);
     overflow: hidden;
     box-shadow: var(--ambient-shadow);
@@ -349,7 +494,9 @@ nav a:hover:not(.btn) {
 }
 
 .card-content {
-    padding: var(--spacing-5);
+    padding: 2.5rem 2rem !important;
+    color: #000 !important;
+    background: #fff !important;
 }
 
 .card-content h3 {
@@ -539,31 +686,174 @@ input:focus + label, textarea:focus + label {
         grid-template-columns: 1fr;
         padding-top: 0;
     }
-    
     .hero-content {
         padding: var(--spacing-16) var(--spacing-5) var(--spacing-8) var(--spacing-5);
     }
-    
     .hero-visual {
         min-height: 50vh;
     }
-    
     .section-header {
-        grid-template-columns: 1fr;
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
         gap: var(--spacing-2);
+        align-items: flex-start !important;
     }
-    
     .contact-grid {
         grid-template-columns: 1fr;
         gap: var(--spacing-8);
     }
-    
     .glass-nav {
         width: 95%;
     }
-    
     nav {
         display: none;
+    }
+}
+
+.about-hero {
+    padding-top: calc(var(--spacing-16) + 2rem);
+}
+
+.about-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.7fr);
+    gap: var(--spacing-8);
+    align-items: center;
+}
+
+.about-title {
+    margin-bottom: var(--spacing-4);
+}
+
+.about-intro {
+    max-width: 52rem;
+}
+
+.about-hero-card,
+.about-story-panel,
+.about-principle-card,
+.about-benefit-card {
+    background: #ffffff;
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--ambient-shadow);
+}
+
+.about-hero-card {
+    padding: 2rem;
+}
+
+.about-hero-card h2 {
+    margin-bottom: var(--spacing-3);
+}
+
+.about-hero-points,
+.about-values-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+    margin-top: var(--spacing-4);
+}
+
+.about-story {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr);
+    gap: var(--spacing-8);
+    align-items: start;
+    padding: var(--spacing-12) 0;
+}
+
+.about-section-title {
+    margin-bottom: var(--spacing-4);
+}
+
+.about-story-panel {
+    padding: 1.5rem;
+    display: grid;
+    gap: 1rem;
+}
+
+.about-metric {
+    padding: 1rem;
+    background: var(--surface-container-low);
+    border-radius: var(--radius-sm);
+}
+
+.about-metric strong {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--primary);
+}
+
+.about-metric span {
+    color: var(--on-surface-variant);
+    font-size: 0.95rem;
+}
+
+.about-benefits-section {
+    padding: var(--spacing-12) 0;
+}
+
+.about-section-head {
+    margin-bottom: var(--spacing-5);
+}
+
+.about-benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--spacing-4);
+}
+
+.about-benefit-card {
+    padding: 1.5rem;
+}
+
+.about-benefit-card h3 {
+    font-family: var(--font-family-secondary);
+    color: var(--primary);
+    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+}
+
+.about-principles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-5);
+    padding: var(--spacing-12) 0 var(--spacing-8) 0;
+}
+
+.about-principle-card {
+    padding: 2rem;
+}
+
+.about-principle-card h2 {
+    margin-bottom: var(--spacing-3);
+}
+
+.about-values {
+    padding-bottom: var(--spacing-12);
+}
+
+@media (max-width: 1024px) {
+    .about-hero-grid,
+    .about-story,
+    .about-principles {
+        grid-template-columns: 1fr;
+    }
+
+    .about-benefits-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .about-benefits-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-hero {
+        padding-top: calc(var(--spacing-16) + 5rem);
     }
 }
 
@@ -681,6 +971,12 @@ input:focus + label, textarea:focus + label {
     display: flex;
     align-items: flex-start;
     gap: 0.4rem;
+}
+
+.footer-links-list a svg {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
 }
 
 .footer-links-list a:hover {
@@ -817,4 +1113,125 @@ input:focus + label, textarea:focus + label {
         width: 24px;
         height: 24px;
     }
+}
+
+.blog-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.blog-controls {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.blog-title {
+    margin-bottom: 0;
+}
+
+.blog-controls input,
+.blog-controls select {
+    height: 44px;
+    padding: 0 1rem;
+    border: 2px solid var(--primary);
+    border-radius: 10px;
+    background-color: #ffffff;
+    color: var(--on-surface);
+    font-size: 1rem;
+    box-shadow: none;
+}
+
+.blog-controls input {
+    flex: 1;
+    max-width: 600px;
+}
+
+.blog-controls select {
+    min-width: 260px;
+    background-color: #ffffff;
+}
+
+.blog-controls input:focus,
+.blog-controls select:focus {
+    border-color: var(--primary);
+    outline: none;
+    background-color: #ffffff !important;
+}
+
+#blog-posts-container,
+#blog-pagination {
+    max-width: 1120px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .blog-header {
+        gap: 1.25rem;
+    }
+
+    .blog-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .blog-controls input,
+    .blog-controls select {
+        max-width: none;
+        width: 100%;
+    }
+
+    .blog-controls select {
+        min-width: 0;
+    }
+}
+
+/* DEBUG BLOG VISIBILITY */
+.project-card,
+.card-content,
+.card-image-wrapper,
+.card-image {
+    background: #fff !important;
+    color: #000 !important;
+    z-index: 1000 !important;
+    position: relative !important;
+    opacity: 1 !important;
+    filter: none !important;
+    pointer-events: auto !important;
+}
+.project-card {
+    border: 2px solid #143ca9 !important;
+    overflow: visible !important;
+}
+.card-image-wrapper {
+    overflow: visible !important;
+}
+.project-card {
+    min-height: 220px !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
+    overflow: hidden !important;
+}
+
+.card-content {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    height: auto !important;
+    padding: 2rem 2rem 1.5rem 2rem !important;
+}
+
+.card-image-wrapper {
+    height: 180px !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    background: #fff !important;
 }
