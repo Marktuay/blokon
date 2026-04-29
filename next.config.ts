@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://songbird.cardinalcommerce.com https://*.cardinalcommerce.com; frame-src 'self' https://*.cardinalcommerce.com; connect-src 'self' https://blok-on.com https://*.cardinalcommerce.com; img-src 'self' data: https://blok-on.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://songbird.cardinalcommerce.com https://*.cardinalcommerce.com; frame-src 'self' https://*.cardinalcommerce.com; connect-src 'self' https://blok-on.com https://api.blok-on.com https://*.cardinalcommerce.com; img-src 'self' data: https://blok-on.com https://api.blok-on.com https://images.unsplash.com https://secure.gravatar.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;",
           },
           {
             key: 'X-Content-Type-Options',
@@ -27,6 +27,18 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'blok-on.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.blok-on.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'secure.gravatar.com',
       },
     ],
   },

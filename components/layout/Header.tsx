@@ -17,6 +17,7 @@ export const Header = () => {
                 src="/brand/logo.jpg" 
                 alt="Blok-On Logo" 
                 fill 
+                sizes="(max-width: 768px) 160px, 160px"
                 className="object-contain object-left"
                 priority
               />

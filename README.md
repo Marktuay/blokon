@@ -43,7 +43,14 @@ El proyecto cuenta con un estado global que mantiene la persistencia del carrito
 - **Inicio (`app/page.tsx`):** Portada de impacto arquitectónico con Hero Section interactivo, bloques de filosofía corporativa y pre-visualización del catálogo principal.
 - **Footer y Globales:** Maquetación premium y corrección estricta de SVG de redes sociales.
 
-## 🛠 Configuración del Backend (WooCommerce)
+### Blog Dinámico (`app/blog`)
+Se ha implementado una revista arquitectónica (Blog) integrada totalmente con las publicaciones (`Posts`) de WordPress:
+- Renderizado de artículos con la consulta `GET_POSTS_QUERY`.
+- Vista de artículo individual (`/blog/[slug]`) utilizando Server Components para un renderizado veloz (SEO amigable).
+- Tipografía optimizada mediante clases `prose` (Tailwind Typography).
+- Listas blancas configuradas en `next.config.ts` para cargar imágenes desde Unsplash (`images.unsplash.com`) y avatares nativos de WordPress (`secure.gravatar.com`).
+
+## 🛠 Configuración del Backend (WooCommerce & Infraestructura)
 
 La instancia de WooCommerce (`api.blok-on.com`) ha sido configurada vía **WP-CLI** para coincidir exactamente con el frontend:
 
@@ -51,6 +58,14 @@ La instancia de WooCommerce (`api.blok-on.com`) ha sido configurada vía **WP-CL
 - **Moneda:** Córdobas Nicaragüenses (`NIO`).
 - **Posición del Símbolo:** Izquierda con espacio (ej. `C$ 100.00`).
 - **Resolución de Errores:** Re-compilación de librerías nativas (`composer install --no-dev`) para recuperar la compatibilidad JWT.
+
+### Seguridad CORS y Nginx (CRÍTICO)
+Debido a la estricta seguridad requerida por el carrito de WooCommerce (envío de cabecera `woocommerce-session`), se requiere intervenir a nivel de infraestructura para evitar errores `Preflight OPTIONS` (CORS):
+1. **Frontend:** Apollo Client envía `woocommerce-session: Session xxx` únicamente si el carrito posee productos (optimizado para evitar bloqueos innecesarios en el blog).
+2. **Backend (Nginx):** Es necesario inyectar la regla CORS directamente en `/etc/nginx/sites-available/api.blok-on.com`:
+   ```nginx
+   add_header 'Access-Control-Allow-Headers' 'Authorization, Content-Type, woocommerce-session, X-Requested-With' always;
+   ```
 
 ## 📦 Ejecución Local
 
@@ -65,4 +80,4 @@ El portal estará disponible en `http://localhost:3000`.
 
 ## 🔒 Próximos Pasos (Roadmap)
 - Integración del plugin de **Cardinal Commerce** (3D Secure) proporcionado por el procesador bancario.
-- Creación de páginas de archivo (`/kits`, `/proyectos`) para consumir el catálogo de WooCommerce.
+- Finalización de las pasarelas de pago al realizar el Checkout final con el Banco.
