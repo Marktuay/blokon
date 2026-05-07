@@ -2,10 +2,16 @@ import { ApolloClient, InMemoryCache, createHttpLink, ApolloLink, from, Observab
 import { setContext } from '@apollo/client/link/context';
 import Cookies from 'js-cookie';
 
+// Lógica forzada para evitar que Next.js inyecte la URL de WordPress en el cliente
+let graphqlUri = process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://api.blok-on.com/graphql';
+
+if (typeof window !== 'undefined') {
+  // En el navegador, SIEMPRE usamos el proxy relativo
+  graphqlUri = '/api/graphql';
+}
+
 const httpLink = createHttpLink({
-  uri: typeof window !== 'undefined' 
-    ? '/api/graphql' 
-    : (process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://api.blok-on.com/graphql'),
+  uri: graphqlUri,
 });
 
 /**

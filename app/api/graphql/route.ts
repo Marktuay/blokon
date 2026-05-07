@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
+  console.log('>>> [PROXY] Petición GraphQL recibida');
   const body = await request.json();
   const requestHeaders = new Headers(request.headers);
   
