@@ -62,11 +62,11 @@ export const CheckoutForm = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 font-inter text-[#1a1c1c]">
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 font-acumin text-[#1a1c1c]">
       {/* Columna Izquierda: Formulario */}
       <div className="lg:col-span-7 space-y-12">
         <section>
-          <h2 className="font-epilogue text-3xl font-bold uppercase tracking-tighter mb-8 border-b-4 border-[#11406C] inline-block">
+          <h2 className="font-tt-drugs text-3xl font-bold uppercase tracking-tighter mb-8 border-b-4 border-[#11406C] inline-block">
             Información de Envío
           </h2>
           <form id="checkout-form" onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -174,7 +174,7 @@ export const CheckoutForm = () => {
         </section>
 
         <section>
-          <h2 className="font-epilogue text-3xl font-bold uppercase tracking-tighter mb-8 border-b-4 border-[#11406C] inline-block">
+          <h2 className="font-tt-drugs text-3xl font-bold uppercase tracking-tighter mb-8 border-b-4 border-[#11406C] inline-block">
             Método de Pago
           </h2>
           <div className="space-y-4">
@@ -239,7 +239,7 @@ export const CheckoutForm = () => {
       {/* Columna Derecha: Resumen */}
       <div className="lg:col-span-5">
         <div className="bg-[#11406C] p-8 text-white sticky top-8 shadow-2xl">
-          <h3 className="font-epilogue text-2xl font-bold uppercase tracking-tight mb-8">Resumen Estructural</h3>
+          <h3 className="font-tt-drugs text-2xl font-bold uppercase tracking-tight mb-8">Resumen Estructural</h3>
           
           <div className="space-y-4 mb-6">
             {mockCartItems.map((item) => (
@@ -267,8 +267,8 @@ export const CheckoutForm = () => {
             </div>
 
             <div className="flex justify-between items-center pt-4 text-xl">
-              <p className="font-epilogue font-bold uppercase">Inversión Total</p>
-              <p className="font-epilogue font-bold text-[#96C121] text-3xl">${finalTotal.toFixed(2)}</p>
+              <p className="font-moderniz font-bold uppercase">Inversión Total</p>
+              <p className="font-moderniz font-bold text-[#96C121] text-3xl">${finalTotal.toFixed(2)}</p>
             </div>
           </div>
 

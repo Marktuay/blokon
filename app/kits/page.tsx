@@ -22,7 +22,7 @@ export default function KitsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white text-red-500 p-8 text-center font-inter">
+      <div className="min-h-screen flex items-center justify-center bg-white text-red-500 p-8 text-center font-acumin">
         <p>Error al cargar el catálogo desde la API: {error.message}</p>
       </div>
     );
@@ -31,10 +31,10 @@ export default function KitsPage() {
   const products = data?.products?.nodes || [];
 
   return (
-    <main className="min-h-screen bg-gray-50 pt-32 pb-24 font-inter text-[#1a1c1c]">
+    <main className="min-h-screen bg-gray-50 pt-32 pb-24 font-acumin text-[#1a1c1c]">
       <div className="container mx-auto px-6 md:px-12">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="font-epilogue text-5xl font-bold uppercase tracking-tighter text-[#11406C] mb-6">
+          <h1 className="font-moderniz text-5xl font-bold uppercase tracking-tighter text-[#11406C] mb-6">
             Catálogo de <span className="text-[#96C121]">Kits</span>
           </h1>
           <p className="text-lg text-gray-600">
@@ -73,7 +73,7 @@ export default function KitsPage() {
                     </p>
                   )}
                   
-                  <h3 className="font-epilogue text-xl font-bold uppercase tracking-tight text-[#1a1c1c] mb-2">
+                  <h3 className="font-tt-drugs text-xl font-bold uppercase tracking-tight text-[#1a1c1c] mb-2">
                     {product.name}
                   </h3>
                   
