@@ -3,17 +3,20 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   console.log('>>> [PROXY] Petición GraphQL recibida');
   const body = await request.json();
-  const requestHeaders = new Headers(request.headers);
+  // Limpieza estricta de headers para evitar "invalid connection header" en Node.js/Undici
+  const headersToSend = new Headers();
+  headersToSend.set('Content-Type', 'application/json');
   
-  // Limpiamos headers que puedan causar conflicto
-  requestHeaders.delete('host');
-  requestHeaders.delete('origin');
-  requestHeaders.delete('referer');
+  // Reenviamos la sesión de WooCommerce si existe
+  const wooSession = request.headers.get('woocommerce-session');
+  if (wooSession) {
+    headersToSend.set('woocommerce-session', wooSession);
+  }
 
   try {
     const response = await fetch('https://api.blok-on.com/graphql', {
       method: 'POST',
-      headers: requestHeaders,
+      headers: headersToSend,
       body: JSON.stringify(body),
     });
 
