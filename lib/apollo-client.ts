@@ -3,7 +3,9 @@ import { setContext } from '@apollo/client/link/context';
 import Cookies from 'js-cookie';
 
 const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://api.blok-on.com/graphql',
+  uri: typeof window !== 'undefined' 
+    ? '/api/graphql' 
+    : (process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://api.blok-on.com/graphql'),
 });
 
 /**
