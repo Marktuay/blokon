@@ -20,7 +20,16 @@ export async function POST(request: Request) {
       body: JSON.stringify(body),
     });
 
+    console.log(`<<< [PROXY] WP respondió con status: ${response.status}`);
+    
     const data = await response.json();
+    
+    if (data.errors) {
+      console.error('!!! [PROXY] Error de GraphQL:', JSON.stringify(data.errors));
+    } else if (data.data?.posts?.nodes) {
+      console.log(`--- [PROXY] Se encontraron ${data.data.posts.nodes.length} artículos`);
+    }
+
     const responseHeaders = new Headers();
     
     // Reenviamos el token de sesión de WooCommerce si WordPress lo envía
