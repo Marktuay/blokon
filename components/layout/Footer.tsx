@@ -174,9 +174,9 @@ export const Footer = () => {
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                 <Link href="/">Inicio</Link>
               </li>
-              <li className="flex items-center gap-3 hover:text-white transition-colors text-[#96C121]">
+              <li className="flex items-center gap-3 hover:text-white transition-colors">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>
-                <Link href="/proyectos">Proyectos</Link>
+                <Link href="/">Proyectos</Link>
               </li>
               <li className="flex items-center gap-3 hover:text-white transition-colors">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="16" y2="12"/><line x1="12" x2="12" y1="8" y2="8"/></svg>
@@ -195,19 +195,19 @@ export const Footer = () => {
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="flex items-center gap-3 hover:text-white transition-colors">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 21h18"/><path d="M5 21V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v14"/></svg>
-                <Link href="/infraestructura">Infraestructura</Link>
+                <Link href="/">Infraestructura</Link>
               </li>
               <li className="flex items-center gap-3 hover:text-white transition-colors">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 21V3"/><path d="M18 21V3"/><path d="M6 21V3"/></svg>
-                <Link href="/corporativo">Corporativo</Link>
+                <Link href="/">Corporativo</Link>
               </li>
               <li className="flex items-center gap-3 hover:text-white transition-colors">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z"/><path d="M12 12v9"/><path d="m8 17 4 4 4-4"/></svg>
-                <Link href="/cultura">Cultura</Link>
+                <Link href="/">Cultura</Link>
               </li>
               <li className="flex items-center gap-3 hover:text-white transition-colors">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <Link href="/especiales">Especiales</Link>
+                <Link href="/">Especiales</Link>
               </li>
             </ul>
           </div>
@@ -218,19 +218,19 @@ export const Footer = () => {
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="flex items-center gap-3 hover:text-white transition-colors">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3a9 9 0 1 0 9 9 9.75 9.75 0 0 0-6.74-9.26"/><path d="M8 3v5.17A4 4 0 0 0 8.95 15.3l3.05 3.05"/></svg>
-                <Link href="/diseno">Diseño Estructural</Link>
+                <Link href="/">Diseño Estructural</Link>
               </li>
               <li className="flex items-center gap-3 hover:text-white transition-colors">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                <Link href="/supervision">Supervisión</Link>
+                <Link href="/">Supervisión</Link>
               </li>
               <li className="flex items-center gap-3 hover:text-white transition-colors">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                <Link href="/consultoria">Consultoría</Link>
+                <Link href="/">Consultoría</Link>
               </li>
               <li className="flex items-center gap-3 hover:text-white transition-colors text-[#96C121]">
                 <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8a8 8 0 0 1-10 10Z"/><path d="M11 20c-1 1-1.3 1-3.5 2C10 20 10 18 10 18"/></svg>
-                <Link href="/sustentabilidad">Sustentabilidad</Link>
+                <Link href="/">Sustentabilidad</Link>
               </li>
             </ul>
           </div>
