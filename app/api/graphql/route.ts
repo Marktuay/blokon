@@ -29,6 +29,12 @@ export async function POST(request: Request) {
 
     console.log(`<<< [PROXY] WP respondió con status: ${response.status}`);
     
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`!!! [PROXY] Error de WordPress (Cuerpo): ${errorText.substring(0, 1000)}`);
+      return NextResponse.json({ error: 'WP_ERROR', details: errorText }, { status: 500 });
+    }
+
     const data = await response.json();
     
     if (data.errors) {
