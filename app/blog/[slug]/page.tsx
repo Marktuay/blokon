@@ -12,7 +12,7 @@ export default async function SinglePostPage({ params }: { params: { slug: strin
   let error = null;
 
   try {
-    const { data } = await client.query({
+    const { data } = await client.query<any>({
       query: GET_POST_BY_SLUG_QUERY,
       variables: { slug },
       fetchPolicy: 'no-cache', // Evitamos el cacheo estricto para ver cambios en tiempo real
