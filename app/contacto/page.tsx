@@ -31,6 +31,7 @@ export default function ContactPage() {
     e.preventDefault();
     setStatus('loading');
 
+    const FORM_ID = '14'; 
     // Usamos el proxy local para evitar problemas de CORS en producción
     const API_URL = typeof window !== 'undefined' 
       ? `/api/contact-proxy?id=${FORM_ID}`
