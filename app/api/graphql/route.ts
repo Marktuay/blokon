@@ -2,22 +2,29 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   console.log('>>> [PROXY] Petición GraphQL recibida');
-  const body = await request.json();
-  // Limpieza estricta de headers para evitar "invalid connection header" en Node.js/Undici
-  const headersToSend = new Headers();
-  headersToSend.set('Content-Type', 'application/json');
   
-  // Reenviamos la sesión de WooCommerce si existe
-  const wooSession = request.headers.get('woocommerce-session');
-  if (wooSession) {
-    headersToSend.set('woocommerce-session', wooSession);
-  }
-
   try {
+    const body = await request.json();
+    const wooSession = request.headers.get('woocommerce-session');
+
+    // Headers en objeto plano, sin usar la clase Headers para evitar herencias
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'User-Agent': 'Blokon-Proxy/1.0',
+    };
+
+    if (wooSession) {
+      headers['woocommerce-session'] = wooSession;
+    }
+
+    console.log('--- [PROXY] Enviando petición a WordPress...');
+
     const response = await fetch('https://api.blok-on.com/graphql', {
       method: 'POST',
-      headers: headersToSend,
+      headers: headers,
       body: JSON.stringify(body),
+      cache: 'no-store', // Forzamos a no usar caché
     });
 
     console.log(`<<< [PROXY] WP respondió con status: ${response.status}`);
@@ -26,35 +33,14 @@ export async function POST(request: Request) {
     
     if (data.errors) {
       console.error('!!! [PROXY] Error de GraphQL:', JSON.stringify(data.errors));
-    } else if (data.data?.posts?.nodes) {
-      console.log(`--- [PROXY] Se encontraron ${data.data.posts.nodes.length} artículos`);
     }
 
-    const responseHeaders = new Headers();
-    
-    // Reenviamos el token de sesión de WooCommerce si WordPress lo envía
-    const wooSession = response.headers.get('woocommerce-session');
-    if (wooSession) {
-      responseHeaders.set('woocommerce-session', wooSession);
-    }
-    
-    return NextResponse.json(data, {
-      headers: responseHeaders
-    });
-  } catch (error) {
-    console.error('Error in GraphQL Proxy:', error);
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json(data);
+  } catch (error: any) {
+    console.error('!!! [PROXY] Error fatal:', error.message || error);
+    return NextResponse.json(
+      { error: 'Internal Server Error', message: error.message }, 
+      { status: 500 }
+    );
   }
-}
-
-// También manejamos OPTIONS para evitar problemas de pre-vuelo locales si se dieran
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 204,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    },
-  });
 }
