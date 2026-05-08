@@ -267,7 +267,7 @@ export const CheckoutForm = () => {
             </div>
 
             <div className="flex justify-between items-center pt-4 text-xl">
-              <p className="font-moderniz font-bold uppercase">Inversión Total</p>
+              <p className="font-moderniz font-bold uppercase">Inversion Total</p>
               <p className="font-moderniz font-bold text-[#96C121] text-3xl">${finalTotal.toFixed(2)}</p>
             </div>
           </div>

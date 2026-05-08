@@ -35,7 +35,7 @@ export default function KitsPage() {
       <div className="container mx-auto px-6 md:px-12">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="font-moderniz text-5xl font-bold uppercase tracking-tighter text-[#11406C] mb-6">
-            Catálogo de <span className="text-[#96C121]">Kits</span>
+            Catalogo de <span className="text-[#96C121]">Kits</span>
           </h1>
           <p className="text-lg text-gray-600">
             Nuestros sistemas constructivos listos para ensamblar. Desde estructuras básicas hasta proyectos complejos de rápida ejecución en Nicaragua.
