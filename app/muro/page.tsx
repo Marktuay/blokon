@@ -111,36 +111,67 @@ export default function MuroPage() {
               {/* Datos de Contacto */}
               <div className="space-y-4 md:col-span-2">
                 <label className="font-moderniz text-[10px] uppercase tracking-widest text-gray-400">Datos del Solicitante</label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input type="text" placeholder="Nombre Completo" className="w-full bg-gray-50 border-0 p-4 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
-                  <input type="email" placeholder="Correo Electrónico" className="w-full bg-gray-50 border-0 p-4 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                    </span>
+                    <input type="text" placeholder="Nombre Completo" className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
+                  </div>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                    </span>
+                    <input type="email" placeholder="Correo Electrónico" className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
+                  </div>
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    </span>
+                    <input type="tel" placeholder="Teléfono / WhatsApp" className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
+                  </div>
                 </div>
               </div>
 
               {/* Forma y Medidas */}
               <div className="space-y-4">
                 <label className="font-moderniz text-[10px] uppercase tracking-widest text-gray-400">Forma del Muro</label>
-                <select className="w-full bg-gray-50 border-0 p-4 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all">
-                  <option>Línea Recta</option>
-                  <option>Con 1 Esquina (L)</option>
-                  <option>Con 2 Esquinas (U)</option>
-                  <option>Perímetro Completo</option>
-                </select>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" /></svg>
+                  </span>
+                  <select className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all appearance-none cursor-pointer">
+                    <option>Línea Recta</option>
+                    <option>Con 1 Esquina (L)</option>
+                    <option>Con 2 Esquinas (U)</option>
+                    <option>Perímetro Completo</option>
+                  </select>
+                </div>
               </div>
 
               <div className="space-y-4">
                 <label className="font-moderniz text-[10px] uppercase tracking-widest text-gray-400">Altura Requerida</label>
-                <select className="w-full bg-gray-50 border-0 p-4 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all">
-                  <option>2.00 Metros</option>
-                  <option>2.50 Metros</option>
-                  <option>3.00 Metros</option>
-                  <option>3.25 Metros</option>
-                </select>
+                <div className="relative">
+                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" /></svg>
+                  </span>
+                  <select className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all appearance-none cursor-pointer">
+                    <option>2.00 Metros</option>
+                    <option>2.50 Metros</option>
+                    <option>3.00 Metros</option>
+                    <option>3.25 Metros</option>
+                  </select>
+                </div>
               </div>
 
               <div className="space-y-4 md:col-span-2">
                 <label className="font-moderniz text-[10px] uppercase tracking-widest text-gray-400">Medidas Detalladas (Metros por lado)</label>
-                <textarea placeholder="Ej: Lado A: 10m, Lado B: 15m..." className="w-full bg-gray-50 border-0 p-4 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all h-24 resize-none" required></textarea>
+                <div className="relative">
+                  <span className="absolute left-4 top-6 text-gray-400">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
+                  </span>
+                  <textarea placeholder="Ej: Lado A: 10m, Lado B: 15m..." className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all h-24 resize-none" required></textarea>
+                </div>
               </div>
 
               {/* Archivo y Croquis */}
