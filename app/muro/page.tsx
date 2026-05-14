@@ -191,7 +191,7 @@ export default function MuroPage() {
 
               <div className="md:col-span-2">
                 <button type="submit" className="w-full bg-[#96C121] text-[#11406C] font-moderniz py-5 uppercase tracking-widest text-sm hover:bg-[#11406C] hover:text-white transition-all">
-                  Enviar Solicitud de Cotización
+                  Enviar Solicitud de Cotizacion
                 </button>
               </div>
             </form>
