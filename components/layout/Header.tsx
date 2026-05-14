@@ -8,6 +8,7 @@ const MENU_ITEMS = [
   { name: 'Proyectos', href: '/' },
   { name: 'Muro', href: '/' },
   { name: 'Kits', href: '/kits' },
+  { name: 'Productos', href: '/productos' },
   { name: 'Blog', href: '/blog' },
   { name: 'Sobre Nosotros', href: '/sobre-nosotros' },
   { name: 'Contacto', href: '/contacto' },
