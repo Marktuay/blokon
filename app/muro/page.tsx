@@ -29,7 +29,7 @@ export default function MuroPage() {
       {/* Hero Section */}
       <section className="relative py-32 bg-[#11406C] overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1590069230002-70cc3bc430aa?q=80&w=2000&auto=format&fit=crop" 
+          src="/images/muro/muro27.jpg" 
           alt="Muro Perimetral Blok-On"
           fill
           className="object-cover opacity-20"
@@ -165,6 +165,35 @@ export default function MuroPage() {
               </div>
             </form>
           </div>
+
+          {/* Galería de Proyectos */}
+          <div className="mt-32">
+            <div className="text-center mb-16">
+              <span className="font-tt-drugs text-[#96C121] uppercase tracking-[0.3em] text-xs font-bold">Portafolio</span>
+              <h2 className="font-moderniz text-3xl md:text-5xl text-[#11406C] uppercase mt-4">
+                Galería de <span className="text-[#96C121]">Proyectos</span>
+              </h2>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {[
+                "MURO (4).jpg", "MURO (17).jpg", "MURO (18).JPG", "MURO (19).jpg", 
+                "MURO (20).jpg", "MURO (21).jpg", "MURO (22).jpg", "MURO (23).JPG", 
+                "MURO (24).JPG", "MURO (26).jpg", "MURO (28).JPG", "MURO (29).jpg",
+                "MURO (32).jpg", "MURO (33).jpg", "MURO (34).jpg", "MURO (36).jpg",
+                "MURO (37).jpg", "MURO (38).jpg", "murio25.JPG", "muro27.jpg"
+              ].map((img, idx) => (
+                <div key={idx} className="group relative aspect-square overflow-hidden bg-gray-100 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500">
+                  <Image 
+                    src={`/images/muro/${img}`}
+                    alt={`Proyecto Muro Blok-On ${idx + 1}`}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -178,7 +207,7 @@ export default function MuroPage() {
             href="/contacto"
             className="inline-block bg-[#96C121] text-[#11406C] font-bold py-4 px-12 uppercase tracking-[0.2em] text-xs hover:bg-white transition-colors"
           >
-            Solicitar Cotización
+            Contáctenos
           </Link>
         </div>
       </section>
