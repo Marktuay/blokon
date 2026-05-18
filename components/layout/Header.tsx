@@ -5,7 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 const MENU_ITEMS = [
-  { name: 'Proyectos', href: '/' },
+  { name: 'Inicio', href: '/' },
+  { name: 'Proyectos', href: '/proyectos' },
   { name: 'Muro', href: '/muro' },
   { name: 'Kits', href: '/kits' },
   { name: 'Productos', href: '/productos' },

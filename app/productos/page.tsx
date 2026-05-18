@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 
-const ProductCard = ({ name, price, desc, category }: { name: string, price: string, desc?: string, category: string }) => (
+const ProductCard = ({ name, price, regularPrice, desc, category }: { name: string, price: string, regularPrice?: string, desc?: string, category: string }) => (
   <div className="bg-white group overflow-hidden border border-gray-200 hover:border-[#96C121] transition-all duration-300 flex flex-col shadow-sm hover:shadow-2xl">
     {/* Image Placeholder */}
     <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
@@ -15,6 +15,11 @@ const ProductCard = ({ name, price, desc, category }: { name: string, price: str
       <div className="absolute top-4 left-4 bg-[#11406C] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
         {category}
       </div>
+      {regularPrice && (
+        <div className="absolute top-4 right-4 bg-[#96C121] text-[#11406C] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+          Oferta
+        </div>
+      )}
     </div>
 
     <div className="p-6 flex flex-col flex-1">
@@ -28,7 +33,12 @@ const ProductCard = ({ name, price, desc, category }: { name: string, price: str
       </div>
 
       <div className="mt-auto">
-        <p className="font-bold text-2xl text-[#1a1c1c] mb-6">{price}</p>
+        <div className="flex items-end gap-3 mb-6">
+          <p className="font-bold text-2xl text-[#1a1c1c]">{price}</p>
+          {regularPrice && (
+            <p className="text-sm font-bold text-gray-400 line-through pb-1">{regularPrice}</p>
+          )}
+        </div>
         <button 
           onClick={() => alert(`Agregado a la cotización: ${name}`)}
           className="w-full py-3 bg-[#11406C] text-white font-bold uppercase tracking-widest text-[10px] hover:bg-[#96C121] hover:text-[#11406C] transition-all"
@@ -101,11 +111,11 @@ export default function ProductosPage() {
           
           {/* 1. Elementos del Sistema Blok-On */}
           <CategorySection title="Sistema Blok-On">
-            <ProductCard category="Postes" name="Poste 2.60 m" price="C$ 480.00" desc="Concreto Pretensado" />
+            <ProductCard category="Postes" name="Poste 2.60 m" price="C$ 480.00" regularPrice="C$ 550.00" desc="Concreto Pretensado" />
             <ProductCard category="Postes" name="Poste 3.10 m" price="C$ 600.00" desc="Concreto Pretensado" />
             <ProductCard category="Postes" name="Poste 3.80 m" price="C$ 750.00" desc="Concreto Pretensado" />
             <ProductCard category="Bloques" name="Blok-On Entero 12 cm" price="C$ 92.00" desc="12 x 25 x 96 cm" />
-            <ProductCard category="Bloques" name="Blok-On Entero 15 cm" price="C$ 101.00" desc="15 x 25 x 96 cm" />
+            <ProductCard category="Bloques" name="Blok-On Entero 15 cm" price="C$ 101.00" regularPrice="C$ 115.00" desc="15 x 25 x 96 cm" />
             <ProductCard category="Bloques" name="Blok-On Mitad 12 cm" price="C$ 58.00" desc="12 x 25 x 48 cm" />
             <ProductCard category="Bloques" name="Blok-On Mitad 15 cm" price="C$ 60.00" desc="15 x 25 x 48 cm" />
             <ProductCard category="Vigas" name="Viga Corona (VC-C-2)" price="C$ 675.00" />

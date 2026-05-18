@@ -98,43 +98,141 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Sobre Nosotros Summary */}
+      <section className="py-24 bg-gray-50">
+        <div className="container mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center gap-12">
+          <div className="md:w-1/2">
+            <h2 className="font-moderniz text-3xl md:text-5xl text-[#11406C] uppercase tracking-tight mb-6">
+              Revolucionando la Construcción
+            </h2>
+            <div className="w-24 h-1 bg-[#96C121] mb-8"></div>
+            <p className="font-acumin text-gray-600 text-lg leading-relaxed mb-8">
+              Blok-On es un innovador sistema constructivo nicaragüense que combina velocidad, economía y seguridad estructural. Nuestra tecnología permite desarrollar proyectos habitacionales, comerciales y muros perimetrales con un acabado perfecto y resistencia antisísmica comprobada.
+            </p>
+            <Link href="/sobre-nosotros" className="inline-block border-b-2 border-[#11406C] font-bold uppercase tracking-widest text-[#11406C] pb-1 hover:text-[#96C121] hover:border-[#96C121] transition-colors">
+              Conoce Más de Nosotros
+            </Link>
+          </div>
+          <div className="md:w-1/2 relative aspect-video w-full rounded-2xl overflow-hidden shadow-2xl">
+            <Image src="https://images.unsplash.com/photo-1541888081640-5e347eb108e4?q=80&w=800&auto=format&fit=crop" alt="Construcción Blok-On" fill className="object-cover" />
+          </div>
+        </div>
+      </section>
+
+      {/* Proyectos Summary */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-6 md:px-12 text-center">
+          <h2 className="font-moderniz text-3xl md:text-5xl text-[#11406C] uppercase tracking-tight mb-4">
+            Proyectos Destacados
+          </h2>
+          <p className="font-acumin text-gray-500 max-w-2xl mx-auto mb-16">
+            Grandes desarrollos ya confían en la eficiencia de Blok-On.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            {['Ciudad El Doral', 'Residencial Monte Nebo', 'Praderas del Mombacho', 'Ciudad Campuzano'].map((proyecto, idx) => (
+              <div key={idx} className="bg-gray-50 p-6 rounded-xl border border-gray-100 flex flex-col items-center justify-center text-center aspect-square hover:border-[#96C121] hover:shadow-lg transition-all">
+                <span className="font-moderniz text-[10px] md:text-xs uppercase text-[#11406C]">{proyecto}</span>
+              </div>
+            ))}
+          </div>
+          <Link href="/proyectos" className="bg-[#11406C] text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-[#96C121] hover:text-[#11406C] transition-colors">
+            Ver Todos los Proyectos
+          </Link>
+        </div>
+      </section>
+
       {/* Highlighted Kits Section */}
       <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-6 md:px-12">
-          <div className="flex justify-between items-end mb-12">
-            <h2 className="font-moderniz text-2xl sm:text-4xl font-bold uppercase tracking-tight text-[#11406C]">
-              Kits de Viviendas
-            </h2>
-            <Link href="/kits" className="hidden md:inline-block border-b-2 border-[#96C121] font-bold uppercase tracking-widest text-sm pb-1 hover:text-[#96C121] transition-colors">
-              Ver Catálogo Completo
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+            <div>
+              <h2 className="font-moderniz text-3xl md:text-5xl uppercase tracking-tight text-[#11406C] mb-4">
+                Kits de Viviendas
+              </h2>
+              <p className="font-acumin text-gray-500 max-w-xl">
+                Modelos pre-diseñados listos para ensamblar. Tu casa construida en tiempo récord.
+              </p>
+            </div>
+            <Link href="/kits" className="hidden md:inline-block border-b-2 border-[#96C121] font-bold uppercase tracking-widest text-sm pb-1 hover:text-[#11406C] hover:border-[#11406C] transition-colors text-[#96C121]">
+              Ver Catálogo de Kits
             </Link>
           </div>
-          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Kit Card Mock */}
             {[1, 2, 3].map((i) => (
-              <div key={i} className="group cursor-pointer bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+              <div key={i} className="group cursor-pointer bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl">
                 <div className="h-64 bg-gray-200 relative overflow-hidden">
                   <div className="absolute inset-0 bg-[#11406C]/10 group-hover:bg-transparent transition-all z-10"></div>
-                  {/* Imagen Placeholder */}
                   <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center transform group-hover:scale-105 transition-transform duration-700"></div>
                 </div>
                 <div className="p-8">
                   <p className="text-[#96C121] font-bold text-xs uppercase tracking-widest mb-2">Modelo Minimal</p>
-                  <h3 className="font-tt-drugs text-2xl font-bold uppercase tracking-tight text-[#1a1c1c] mb-4">Vivienda Tipo {i}</h3>
+                  <h3 className="font-tt-drugs text-2xl font-bold uppercase tracking-tight text-[#11406C] mb-4">Vivienda Tipo {i}</h3>
                   <div className="flex justify-between items-center border-t border-gray-100 pt-4">
-                    <span className="font-bold text-lg">C$ 45,000</span>
+                    <span className="font-bold text-lg text-gray-700">Cotizar ahora</span>
                     <button className="text-sm font-bold uppercase tracking-widest text-[#11406C] hover:text-[#96C121] transition-colors">
-                      Cotizar +
+                      Ver Detalles →
                     </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          
-          <Link href="/kits" className="md:hidden block text-center mt-12 border border-[#11406C] text-[#11406C] py-4 font-bold uppercase tracking-widest">
-            Ver Catálogo Completo
+          <div className="text-center mt-12 md:hidden">
+            <Link href="/kits" className="inline-block border border-[#11406C] text-[#11406C] px-8 py-4 font-bold uppercase tracking-widest hover:bg-[#11406C] hover:text-white transition-colors">
+              Ver Catálogo Completo
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Muro Perimetral Preview */}
+      <section className="py-24 bg-[#11406C] text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-full md:w-1/2 h-full opacity-10 md:opacity-30">
+          <Image src="/images/muro/muro27.jpg" alt="Muro Perimetral" fill className="object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#11406C] to-transparent"></div>
+        </div>
+        <div className="container mx-auto px-6 md:px-12 relative z-10">
+          <div className="max-w-2xl">
+            <h2 className="font-moderniz text-3xl md:text-5xl uppercase tracking-tight mb-6">
+              Muros Perimetrales
+            </h2>
+            <div className="w-24 h-1 bg-[#96C121] mb-8"></div>
+            <p className="font-acumin text-white/80 text-lg leading-relaxed mb-10">
+              Seguridad total para tu propiedad con una estética inigualable. Nuestro sistema permite levantar metros lineales a una velocidad insuperable, con acabados listos y resistencia garantizada frente a cualquier adversidad.
+            </p>
+            <Link href="/muro" className="bg-[#96C121] text-[#11406C] px-8 py-4 font-bold uppercase tracking-widest hover:bg-white transition-all inline-block">
+              Cotiza tu Muro
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Productos Summary */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-6 md:px-12 text-center">
+          <h2 className="font-moderniz text-3xl md:text-5xl text-[#11406C] uppercase tracking-tight mb-4">
+            Catálogo de Productos
+          </h2>
+          <p className="font-acumin text-gray-500 max-w-2xl mx-auto mb-16">
+            Adquiere los bloques, vigas y materiales que conforman nuestro revolucionario sistema.
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            {[1, 2, 3, 4].map((item) => (
+              <div key={item} className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-gray-100 flex flex-col items-center">
+                <div className="w-full aspect-square bg-gray-200 rounded-xl mb-6 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-[#11406C]/5"></div>
+                  {/* Imagen Placeholder - Usaremos algo sutil */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <svg className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                  </div>
+                </div>
+                <h4 className="font-moderniz text-[10px] md:text-xs text-[#11406C] uppercase tracking-tight mb-2">Bloque Tipo {item}</h4>
+                <p className="font-acumin text-[#96C121] font-bold text-sm">Ver producto →</p>
+              </div>
+            ))}
+          </div>
+          <Link href="/productos" className="inline-block border-b-2 border-[#11406C] font-bold uppercase tracking-widest text-[#11406C] pb-1 hover:text-[#96C121] hover:border-[#96C121] transition-colors">
+            Explorar Tienda
           </Link>
         </div>
       </section>
