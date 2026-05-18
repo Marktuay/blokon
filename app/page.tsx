@@ -19,7 +19,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative w-full h-[85vh] bg-[#11406C] flex items-center overflow-hidden">
         {/* Imagen de fondo arquitectónico Blok-On */}
-        <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-[url('/images/muro/home/1%20D.png')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-[url('/images/muro/home/1-D.png')] bg-cover bg-center"></div>
         
         <div className="container mx-auto px-6 md:px-12 relative z-10">
           <div className="max-w-3xl">
@@ -114,7 +114,7 @@ export default function Home() {
             </Link>
           </div>
           <div className="md:w-1/2 relative aspect-video w-full rounded-2xl overflow-hidden shadow-2xl">
-            <Image src="/images/muro/home/ESTRELLA B-12 R-1.png" alt="Construcción Blok-On" fill className="object-cover" />
+            <Image src="/images/muro/home/ESTRELLA-B-12-R-1.png" alt="Construcción Blok-On" fill className="object-cover" />
           </div>
         </div>
       </section>
