@@ -57,7 +57,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${moderniz.variable} ${ttDrugs.variable} ${acumin.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-acumin bg-white text-slate-900">
+      <body suppressHydrationWarning className="min-h-full flex flex-col font-acumin bg-white text-slate-900">
         <Providers>
           <Header />
           <main className="flex-grow">
