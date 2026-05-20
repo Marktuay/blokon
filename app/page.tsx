@@ -129,9 +129,19 @@ export default function Home() {
             Grandes desarrollos ya confían en la eficiencia de Blok-On.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            {['Ciudad El Doral', 'Residencial Monte Nebo', 'Praderas del Mombacho', 'Ciudad Campuzano'].map((proyecto, idx) => (
-              <div key={idx} className="bg-gray-50 p-6 rounded-xl border border-gray-100 flex flex-col items-center justify-center text-center aspect-square hover:border-[#96C121] hover:shadow-lg transition-all">
-                <span className="font-moderniz text-[10px] md:text-xs uppercase text-[#11406C]">{proyecto}</span>
+            {[
+              { nombre: 'Ciudad El Doral', imagen: 'https://www.new-century-companies.com/wp-content/uploads/2025/06/modelo-promesa-ciudad-el-doral.jpg' },
+              { nombre: 'Residencial Monte Nebo', imagen: 'https://www.new-century-companies.com/wp-content/uploads/2025/06/Modelo-Promesa-32.jpg' },
+              { nombre: 'Praderas del Mombacho', imagen: 'https://www.new-century-companies.com/wp-content/uploads/2025/06/354532911_719213250207918_5158571041498534011_n.png' },
+              { nombre: 'Ciudad Campuzano', imagen: 'https://www.new-century-companies.com/wp-content/uploads/2025/06/Modelo-San-Santiago-35-1.jpg' }
+            ].map((proyecto, idx) => (
+              <div key={idx} className="bg-gray-50 p-6 rounded-xl border border-gray-100 flex flex-col items-center justify-center text-center aspect-square hover:border-[#96C121] hover:shadow-lg transition-all relative overflow-hidden group">
+                {proyecto.imagen && (
+                  <div className="absolute inset-0 z-0">
+                    <Image src={proyecto.imagen} alt={proyecto.nombre} fill className="object-cover opacity-40 group-hover:opacity-70 transition-opacity duration-300" />
+                  </div>
+                )}
+                <span className={`font-moderniz text-[10px] md:text-xs uppercase text-[#11406C] relative z-10 ${proyecto.imagen ? 'bg-white/90 px-3 py-2 rounded shadow-sm backdrop-blur-md' : ''}`}>{proyecto.nombre}</span>
               </div>
             ))}
           </div>
@@ -158,16 +168,22 @@ export default function Home() {
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="group cursor-pointer bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl">
+            {[
+              { nombre: 'Azucena', imagen: '/images/muro/home/azucena.png' },
+              { nombre: 'Dalila', imagen: '/images/muro/home/dalila.png' },
+              { nombre: 'Esperanza', imagen: '/images/muro/home/esperanza.png' }
+            ].map((kit, idx) => (
+              <div key={idx} className="group cursor-pointer bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl flex flex-col">
                 <div className="h-64 bg-gray-200 relative overflow-hidden">
                   <div className="absolute inset-0 bg-[#11406C]/10 group-hover:bg-transparent transition-all z-10"></div>
-                  <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center transform group-hover:scale-105 transition-transform duration-700"></div>
+                  <Image src={kit.imagen} alt={`Modelo ${kit.nombre}`} fill className="object-cover transform group-hover:scale-105 transition-transform duration-700" />
                 </div>
-                <div className="p-8">
-                  <p className="text-[#96C121] font-bold text-xs uppercase tracking-widest mb-2">Modelo Minimal</p>
-                  <h3 className="font-tt-drugs text-2xl font-bold uppercase tracking-tight text-[#11406C] mb-4">Vivienda Tipo {i}</h3>
-                  <div className="flex justify-between items-center border-t border-gray-100 pt-4">
+                <div className="p-8 flex-1 flex flex-col justify-between">
+                  <div>
+                    <p className="text-[#96C121] font-bold text-xs uppercase tracking-widest mb-2">Kit de Vivienda</p>
+                    <h3 className="font-tt-drugs text-2xl font-bold uppercase tracking-tight text-[#11406C] mb-4">Modelo {kit.nombre}</h3>
+                  </div>
+                  <div className="flex justify-between items-center border-t border-gray-100 pt-4 mt-4">
                     <span className="font-bold text-lg text-gray-700">Cotizar ahora</span>
                     <button className="text-sm font-bold uppercase tracking-widest text-[#11406C] hover:text-[#96C121] transition-colors">
                       Ver Detalles →
