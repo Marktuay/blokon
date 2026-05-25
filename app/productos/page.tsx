@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { GET_PRODUCTS_QUERY } from '@/lib/graphql/queries';
 
 const ProductCard = ({ name, price, regularPrice, desc, category, image }: { name: string, price: string, regularPrice?: string, desc?: string, category: string, image?: string }) => (
