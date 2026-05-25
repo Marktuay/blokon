@@ -2,16 +2,27 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useQuery } from '@apollo/client';
+import { GET_PRODUCTS_QUERY } from '@/lib/graphql/queries';
 
-const ProductCard = ({ name, price, regularPrice, desc, category }: { name: string, price: string, regularPrice?: string, desc?: string, category: string }) => (
+const ProductCard = ({ name, price, regularPrice, desc, category, image }: { name: string, price: string, regularPrice?: string, desc?: string, category: string, image?: string }) => (
   <div className="bg-white group overflow-hidden border border-gray-200 hover:border-[#96C121] transition-all duration-300 flex flex-col shadow-sm hover:shadow-2xl">
-    {/* Image Placeholder */}
+    {/* Image Placeholder or Dynamic Image */}
     <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
-      <div className="absolute inset-0 flex items-center justify-center text-gray-300">
-        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-        </svg>
-      </div>
+      {image ? (
+        <Image 
+          src={image} 
+          alt={name} 
+          fill 
+          className="object-cover group-hover:scale-105 transition-transform duration-500" 
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+          <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+      )}
       <div className="absolute top-4 left-4 bg-[#11406C] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
         {category}
       </div>
@@ -64,7 +75,121 @@ const CategorySection = ({ title, children }: { title: string, children: React.R
   </div>
 );
 
+// Respaldo de productos estáticos
+const STATIC_CATEGORIES = [
+  {
+    title: "Sistema Blok-On",
+    products: [
+      { name: "Poste 2.60 m", price: "C$ 480.00", regularPrice: "C$ 550.00", desc: "Concreto Pretensado" },
+      { name: "Poste 3.10 m", price: "C$ 600.00", desc: "Concreto Pretensado" },
+      { name: "Poste 3.80 m", price: "C$ 750.00", desc: "Concreto Pretensado" },
+      { name: "Blok-On Entero 12 cm", price: "C$ 92.00", desc: "12 x 25 x 96 cm" },
+      { name: "Blok-On Entero 15 cm", price: "C$ 101.00", regularPrice: "C$ 115.00", desc: "15 x 25 x 96 cm" },
+      { name: "Blok-On Mitad 12 cm", price: "C$ 58.00", desc: "12 x 25 x 48 cm" },
+      { name: "Blok-On Mitad 15 cm", price: "C$ 60.00", desc: "12 x 25 x 48 cm" },
+      { name: "Viga Corona (VC-C-2)", price: "C$ 675.00" },
+      { name: "Viga Asísmica (VA-C-23)", price: "C$ 675.00" },
+      { name: "Accesorio C", price: "C$ 32.00", desc: "Pieza de Continuidad" }
+    ]
+  },
+  {
+    title: "Bloques Estructurales",
+    products: [
+      { name: 'Bloque de 4"', price: "C$ 18.00" },
+      { name: 'Bloque de 6"', price: "C$ 21.00" },
+      { name: 'Bloque de 8"', price: "C$ 27.00" }
+    ]
+  },
+  {
+    title: "Jardín (Eblokon)",
+    products: [
+      { name: "Banca de Concreto", price: "C$ 875.00" },
+      { name: "Cuadrante Decorativo", price: "C$ 190.00" },
+      { name: "Huella Forma de Tortuga", price: "C$ 190.00" },
+      { name: "Huella Flor de 6 Piezas", price: "C$ 450.00" }
+    ]
+  },
+  {
+    title: "Ingeniería Vial",
+    products: [
+      { name: "Adoquín Cruz Convencional (10 cm)", price: "C$ 16.00" },
+      { name: "Medio Adoquín Cruz (10 cm)", price: "C$ 9.00" },
+      { name: "Adoquín Tipo S (Gris)", price: "C$ 9.50" },
+      { name: "Adoquín Tipo S (Rojo)", price: "C$ 17.00" },
+      { name: "Bordillo (30x50x15 cm)", price: "C$ 195.00" }
+    ]
+  },
+  {
+    title: "Productos Varios",
+    products: [
+      { name: "Lavanderos Sencillos", price: "C$ 1,675.00" },
+      { name: "Lavanderos Dobles", price: "C$ 2,250.00" },
+      { name: "Poste Agricon (2.13 m)", price: "C$ 360.00" },
+      { name: "Cajas de Registro (0.50m³)", price: "C$ 1,500.00" }
+    ]
+  }
+];
+
+// Helper para clasificar productos de WooCommerce en las 5 secciones
+const getSectionForWpCategory = (categories: { name: string }[]) => {
+  if (!categories || categories.length === 0) return 'Productos Varios';
+  
+  const mainCat = categories[0].name.toLowerCase();
+  
+  if (mainCat.includes('sistema') || mainCat.includes('blok-on') || mainCat.includes('postes') || mainCat.includes('bloques') || mainCat.includes('vigas')) {
+    return 'Sistema Blok-On';
+  }
+  if (mainCat.includes('estructural') || mainCat.includes('bloque')) {
+    return 'Bloques Estructurales';
+  }
+  if (mainCat.includes('jardín') || mainCat.includes('jardin') || mainCat.includes('eblokon') || mainCat.includes('banca') || mainCat.includes('huella')) {
+    return 'Jardín (Eblokon)';
+  }
+  if (mainCat.includes('vial') || mainCat.includes('adoquín') || mainCat.includes('adoquin') || mainCat.includes('bordillo')) {
+    return 'Ingeniería Vial';
+  }
+  return 'Productos Varios';
+};
+
 export default function ProductosPage() {
+  const { data, loading } = useQuery<any>(GET_PRODUCTS_QUERY, {
+    variables: { first: 100 }
+  });
+
+  const wpProducts = data?.products?.nodes || [];
+  const hasWpProducts = wpProducts.length > 0;
+
+  // Si hay productos en WooCommerce, los agrupamos
+  const categoriesToRender = React.useMemo(() => {
+    if (!hasWpProducts) return STATIC_CATEGORIES;
+
+    // Inicializamos las secciones vacías
+    const sections: Record<string, any[]> = {
+      "Sistema Blok-On": [],
+      "Bloques Estructurales": [],
+      "Jardín (Eblokon)": [],
+      "Ingeniería Vial": [],
+      "Productos Varios": []
+    };
+
+    wpProducts.forEach((prod: any) => {
+      const targetSection = getSectionForWpCategory(prod.productCategories?.nodes || []);
+      sections[targetSection].push({
+        name: prod.name,
+        price: prod.price || 'Consultar',
+        regularPrice: prod.regularPrice || undefined,
+        desc: prod.shortDescription ? prod.shortDescription.replace(/<[^>]*>/g, '') : undefined, // Limpiamos HTML de WooCommerce
+        image: prod.image?.sourceUrl || undefined
+      });
+    });
+
+    // Convertimos a formato de renderizado
+    return Object.keys(sections).map(title => ({
+      title,
+      products: sections[title]
+    })).filter(sec => sec.products.length > 0); // Opcionalmente ocultar categorías vacías de WP
+  }, [wpProducts, hasWpProducts]);
+
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section Estandarizado */}
@@ -108,53 +233,27 @@ export default function ProductosPage() {
       {/* Grid de Productos */}
       <section className="py-24">
         <div className="container mx-auto px-6 md:px-12">
-          
-          {/* 1. Elementos del Sistema Blok-On */}
-          <CategorySection title="Sistema Blok-On">
-            <ProductCard category="Postes" name="Poste 2.60 m" price="C$ 480.00" regularPrice="C$ 550.00" desc="Concreto Pretensado" />
-            <ProductCard category="Postes" name="Poste 3.10 m" price="C$ 600.00" desc="Concreto Pretensado" />
-            <ProductCard category="Postes" name="Poste 3.80 m" price="C$ 750.00" desc="Concreto Pretensado" />
-            <ProductCard category="Bloques" name="Blok-On Entero 12 cm" price="C$ 92.00" desc="12 x 25 x 96 cm" />
-            <ProductCard category="Bloques" name="Blok-On Entero 15 cm" price="C$ 101.00" regularPrice="C$ 115.00" desc="15 x 25 x 96 cm" />
-            <ProductCard category="Bloques" name="Blok-On Mitad 12 cm" price="C$ 58.00" desc="12 x 25 x 48 cm" />
-            <ProductCard category="Bloques" name="Blok-On Mitad 15 cm" price="C$ 60.00" desc="15 x 25 x 48 cm" />
-            <ProductCard category="Vigas" name="Viga Corona (VC-C-2)" price="C$ 675.00" />
-            <ProductCard category="Vigas" name="Viga Asísmica (VA-C-23)" price="C$ 675.00" />
-            <ProductCard category="Accesorios" name="Accesorio C" price="C$ 32.00" desc="Pieza de Continuidad" />
-          </CategorySection>
+          {loading && !hasWpProducts && (
+            <div className="flex justify-center items-center py-20">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#11406C]"></div>
+            </div>
+          )}
 
-          {/* 2. Bloques Estructurales */}
-          <CategorySection title="Bloques Estructurales">
-            <ProductCard category="Estructural" name='Bloque de 4"' price="C$ 18.00" />
-            <ProductCard category="Estructural" name='Bloque de 6"' price="C$ 21.00" />
-            <ProductCard category="Estructural" name='Bloque de 8"' price="C$ 27.00" />
-          </CategorySection>
-
-          {/* 3. Elementos de Jardín */}
-          <CategorySection title="Jardín (Eblokon)">
-            <ProductCard category="Eblokon" name="Banca de Concreto" price="C$ 875.00" />
-            <ProductCard category="Eblokon" name="Cuadrante Decorativo" price="C$ 190.00" />
-            <ProductCard category="Eblokon" name="Huella Forma de Tortuga" price="C$ 190.00" />
-            <ProductCard category="Eblokon" name="Huella Flor de 6 Piezas" price="C$ 450.00" />
-          </CategorySection>
-
-          {/* 4. Proyectos Viales */}
-          <CategorySection title="Ingeniería Vial">
-            <ProductCard category="Viales" name="Adoquín Cruz Convencional (10 cm)" price="C$ 16.00" />
-            <ProductCard category="Viales" name="Medio Adoquín Cruz (10 cm)" price="C$ 9.00" />
-            <ProductCard category="Viales" name="Adoquín Tipo S (Gris)" price="C$ 9.50" />
-            <ProductCard category="Viales" name="Adoquín Tipo S (Rojo)" price="C$ 17.00" />
-            <ProductCard category="Viales" name="Bordillo (30x50x15 cm)" price="C$ 195.00" />
-          </CategorySection>
-
-          {/* 5. Productos Varios */}
-          <CategorySection title="Productos Varios">
-            <ProductCard category="Varios" name="Lavanderos Sencillos" price="C$ 1,675.00" />
-            <ProductCard category="Varios" name="Lavanderos Dobles" price="C$ 2,250.00" />
-            <ProductCard category="Varios" name="Poste Agricon (2.13 m)" price="C$ 360.00" />
-            <ProductCard category="Varios" name="Cajas de Registro (0.50m³)" price="C$ 1,500.00" />
-          </CategorySection>
-
+          {(!loading || hasWpProducts) && categoriesToRender.map((category, index) => (
+            <CategorySection key={index} title={category.title}>
+              {category.products.map((product, pIdx) => (
+                <ProductCard 
+                  key={pIdx}
+                  category={category.title}
+                  name={product.name}
+                  price={product.price}
+                  regularPrice={product.regularPrice}
+                  desc={product.desc}
+                  image={product.image}
+                />
+              ))}
+            </CategorySection>
+          ))}
         </div>
       </section>
 
