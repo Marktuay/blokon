@@ -16,14 +16,14 @@ interface KitModel {
 
 const KIT_MODELS: KitModel[] = [
   { name: 'Azucena', area: 36.51, priceCompleto12: 73715.00, priceCompleto15: 76614.15, priceCajon12: 50358.50, priceCajon15: 52256.00, image: '/images/muro/home/azucena.png' },
-  { name: 'Julieta', area: 39.76, priceCompleto12: 80654.00, priceCompleto15: 83667.10, priceCajon12: 60871.80, priceCajon15: 63110.85 },
+  { name: 'Julieta', area: 39.76, priceCompleto12: 80654.00, priceCompleto15: 83667.10, priceCajon12: 60871.80, priceCajon15: 63110.85, image: '/images/muro/home/JULIETA.png' },
   { name: 'Esperanza', area: 42.86, priceCompleto12: 82894.30, priceCompleto15: 85712.95, priceCajon12: 60135.80, priceCajon15: 62196.60, image: '/images/muro/home/esperanza.png' },
   { name: 'Dalila', area: 47.73, priceCompleto12: 86928.50, priceCompleto15: 90102.50, priceCajon12: 65257.90, priceCajon15: 67640.70, image: '/images/muro/home/dalila.png' },
-  { name: 'Mariana', area: 56.09, priceCompleto12: 87749.60, priceCompleto15: 91613.60, priceCajon12: 63693.90, priceCajon15: 66487.25 },
+  { name: 'Mariana', area: 56.09, priceCompleto12: 87749.60, priceCompleto15: 91613.60, priceCajon12: 63693.90, priceCajon15: 66487.25, image: '/images/muro/home/MARIANA.png' },
   { name: 'Promesa', area: 56.54, priceCompleto12: 85394.40, priceCompleto15: 89390.65, priceCajon12: 60066.80, priceCajon15: 62837.15, image: '/images/muro/home/promesa.png' },
   { name: 'Zoe', area: 56.95, priceCompleto12: 106133.50, priceCompleto15: 109956.10, priceCajon12: 71440.30, priceCajon15: 73853.00, image: '/images/muro/home/zoe.png' },
   { name: 'Laiz', area: 67.63, priceCompleto12: 108918.80, priceCompleto15: 113411.85, priceCajon12: 74161.20, priceCajon15: 77174.20, image: '/images/muro/home/laiz.png' },
-  { name: 'Victoria', area: 74.49, priceCompleto12: 121702.20, priceCompleto15: 126694.35, priceCajon12: 75469.90, priceCajon15: 78503.60 },
+  { name: 'Victoria', area: 74.49, priceCompleto12: 121702.20, priceCompleto15: 126694.35, priceCajon12: 75469.90, priceCajon15: 78503.60, image: '/images/muro/home/VICTORIA.png' },
   { name: 'Estrella', area: 80.83, priceCompleto12: 127702.90, priceCompleto15: 133013.60, priceCajon12: 82570.00, priceCajon15: 86064.25, image: '/images/muro/home/estrella.png' },
   { name: 'Sofia', area: 83.73, priceCompleto12: 130950.50, priceCompleto15: 136191.05, priceCajon12: 77758.40, priceCajon15: 80908.25, image: '/images/muro/home/sofia.png' },
   { name: 'Agustina', area: 91.41, priceCompleto12: 140336.80, priceCompleto15: 145876.35, priceCajon12: 86374.20, priceCajon15: 89811.55, image: '/images/muro/home/agustina.png' },
