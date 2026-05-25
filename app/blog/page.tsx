@@ -33,7 +33,7 @@ export default function BlogPage() {
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative py-32 bg-[#11406C] overflow-hidden">
-        <div className="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1487958449943-2429e8be8625?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 opacity-30 bg-[url('/images/muro/home/MARIANA.png')] bg-cover bg-center"></div>
         <div className="container mx-auto px-6 md:px-12 relative z-10 text-center">
           <p className="text-[#96C121] font-tt-drugs font-bold tracking-[0.3em] uppercase text-xs mb-4">Ingenieria & Modularidad</p>
           <h1 className="font-moderniz text-4xl md:text-6xl font-bold text-white uppercase tracking-tight mb-6">

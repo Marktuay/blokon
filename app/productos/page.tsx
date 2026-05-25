@@ -70,7 +70,7 @@ export default function ProductosPage() {
       {/* Hero Section Estandarizado */}
       <section className="relative py-32 bg-[#11406C] overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=2000&auto=format&fit=crop" 
+          src="/images/muro/home/esperanza.png" 
           alt="Catálogo Productos BLOKON"
           fill
           className="object-cover opacity-20"

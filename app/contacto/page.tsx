@@ -77,7 +77,7 @@ export default function ContactPage() {
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative py-32 bg-[#11406C] overflow-hidden">
-        <div className="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 opacity-30 bg-[url('/images/muro/home/zoe.png')] bg-cover bg-center"></div>
         <div className="container mx-auto px-6 md:px-12 relative z-10 text-center">
           <h1 className="font-moderniz text-3xl sm:text-4xl md:text-6xl font-bold text-white uppercase tracking-tight mb-4">
             Contacto <span className="text-[#96C121]">Directo</span>

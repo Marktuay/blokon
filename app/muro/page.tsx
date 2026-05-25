@@ -29,7 +29,7 @@ export default function MuroPage() {
       {/* Hero Section */}
       <section className="relative py-32 bg-[#11406C] overflow-hidden">
         <Image 
-          src="/images/muro/muro27.jpg" 
+          src="/images/muro/home/JULIETA.png" 
           alt="Muro Perimetral Blok-On"
           fill
           className="object-cover opacity-20"

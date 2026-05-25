@@ -38,7 +38,7 @@ export default function SobreNosotros() {
       {/* Hero Section */}
       <section className="relative py-32 bg-[#11406C] overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop"
+          src="/images/muro/home/promesa.png"
           alt="Ingenieria Blok-On"
           fill
           className="object-cover opacity-30"

@@ -49,7 +49,7 @@ export default function ProyectosPage() {
       {/* Hero Section */}
       <section className="relative py-32 bg-[#11406C] overflow-hidden">
         <Image 
-          src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=2000&auto=format&fit=crop" 
+          src="/images/muro/home/azucena.png" 
           alt="Proyectos BLOKON"
           fill
           className="object-cover opacity-20"
