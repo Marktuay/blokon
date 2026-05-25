@@ -74,7 +74,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-24">
-            <div className="bg-[#11406C] p-10 flex flex-col md:flex-row items-center gap-8 text-white group cursor-pointer overflow-hidden relative">
+            <Link href="/muro" className="bg-[#11406C] p-10 flex flex-col md:flex-row items-center gap-8 text-white group cursor-pointer overflow-hidden relative">
               <div className="absolute inset-0 bg-[#96C121] translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 z-0"></div>
               <div className="relative z-10 text-[#96C121] group-hover:text-[#11406C] transition-colors">
                 <IconMuro size={80} />
@@ -83,8 +83,8 @@ export default function Home() {
                 <h3 className="font-moderniz text-xl md:text-2xl font-bold uppercase tracking-tight group-hover:text-[#11406C] transition-colors">Muro Perimetral</h3>
                 <p className="text-white/70 group-hover:text-[#11406C]/80 transition-colors font-acumin text-xs sm:text-sm mt-2">Seguridad y elegancia con precisión estructural.</p>
               </div>
-            </div>
-            <div className="bg-[#11406C] p-6 md:p-10 flex flex-col md:flex-row items-center gap-8 text-white group cursor-pointer overflow-hidden relative">
+            </Link>
+            <Link href="/kits" className="bg-[#11406C] p-6 md:p-10 flex flex-col md:flex-row items-center gap-8 text-white group cursor-pointer overflow-hidden relative">
               <div className="absolute inset-0 bg-[#96C121] translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500 z-0"></div>
               <div className="relative z-10 text-[#96C121] group-hover:text-[#11406C] transition-colors">
                 <IconFachadas size={80} />
@@ -93,7 +93,7 @@ export default function Home() {
                 <h3 className="font-moderniz text-xl md:text-2xl font-bold uppercase tracking-tight group-hover:text-[#11406C] transition-colors">Fachadas Modernas</h3>
                 <p className="text-white/70 group-hover:text-[#11406C]/80 transition-colors font-acumin text-xs sm:text-sm mt-2">Diseños vanguardistas que transforman el entorno.</p>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
