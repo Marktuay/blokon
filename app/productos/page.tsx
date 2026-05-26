@@ -5,6 +5,11 @@ import Image from 'next/image';
 import { useQuery } from '@apollo/client/react';
 import { GET_PRODUCTS_QUERY } from '@/lib/graphql/queries';
 
+const formatPrice = (rawPrice: string) => {
+  if (!rawPrice) return '';
+  return rawPrice.replace(/&nbsp;/g, ' ').replace(/<[^>]*>/g, '').trim();
+};
+
 const ProductCard = ({ name, price, regularPrice, desc, category, image }: { name: string, price: string, regularPrice?: string, desc?: string, category: string, image?: string }) => (
   <div className="bg-white group overflow-hidden border border-gray-200 hover:border-[#96C121] transition-all duration-300 flex flex-col shadow-sm hover:shadow-2xl">
     {/* Image Placeholder or Dynamic Image */}
@@ -45,9 +50,9 @@ const ProductCard = ({ name, price, regularPrice, desc, category, image }: { nam
 
       <div className="mt-auto">
         <div className="flex items-end gap-3 mb-6">
-          <p className="font-bold text-2xl text-[#1a1c1c]">{price}</p>
+          <p className="font-bold text-2xl text-[#1a1c1c]">{formatPrice(price)}</p>
           {regularPrice && (
-            <p className="text-sm font-bold text-gray-400 line-through pb-1">{regularPrice}</p>
+            <p className="text-sm font-bold text-gray-400 line-through pb-1">{formatPrice(regularPrice)}</p>
           )}
         </div>
         <button 
