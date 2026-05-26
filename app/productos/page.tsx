@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useQuery } from '@apollo/client/react';
 import { GET_PRODUCTS_QUERY } from '@/lib/graphql/queries';
 
-const formatPrice = (rawPrice: string) => {
+const formatPrice = (rawPrice?: string) => {
   if (!rawPrice) return '';
   return rawPrice.replace(/&nbsp;/g, ' ').replace(/<[^>]*>/g, '').trim();
 };
