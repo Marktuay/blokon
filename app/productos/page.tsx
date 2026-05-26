@@ -69,8 +69,8 @@ const ProductCard = ({ name, price, regularPrice, desc, category, image }: { nam
         </button>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const CategorySection = ({ title, children }: { title: string, children: React.ReactNode }) => (
   <div className="mb-24">
