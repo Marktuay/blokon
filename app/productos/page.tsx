@@ -10,51 +10,57 @@ const formatPrice = (rawPrice: string) => {
   return rawPrice.replace(/&nbsp;/g, ' ').replace(/<[^>]*>/g, '').trim();
 };
 
-const ProductCard = ({ name, price, regularPrice, desc, category, image }: { name: string, price: string, regularPrice?: string, desc?: string, category: string, image?: string }) => (
-  <div className="bg-white group overflow-hidden border border-gray-200 hover:border-[#96C121] transition-all duration-300 flex flex-col shadow-sm hover:shadow-2xl">
-    {/* Image Placeholder or Dynamic Image */}
-    <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
-      {image ? (
-        <Image 
-          src={image} 
-          alt={name} 
-          fill 
-          className="object-cover group-hover:scale-105 transition-transform duration-500" 
-        />
-      ) : (
-        <div className="absolute inset-0 flex items-center justify-center text-gray-300">
-          <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-          </svg>
-        </div>
-      )}
-      <div className="absolute top-4 left-4 bg-[#11406C] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-        {category}
-      </div>
-      {regularPrice && (
-        <div className="absolute top-4 right-4 bg-[#96C121] text-[#11406C] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
-          Oferta
-        </div>
-      )}
-    </div>
+const ProductCard = ({ name, price, regularPrice, desc, category, image }: { name: string, price: string, regularPrice?: string, desc?: string, category: string, image?: string }) => {
+  const formattedPrice = formatPrice(price);
+  const formattedRegularPrice = formatPrice(regularPrice);
+  // Hay oferta si existe precio regular, precio de oferta y son distintos
+  const isSale = formattedRegularPrice && formattedPrice && formattedPrice !== formattedRegularPrice;
 
-    <div className="p-6 flex flex-col flex-1">
-      <div className="mb-4">
-        <h3 className="font-moderniz text-lg font-bold uppercase tracking-tight text-[#11406C] group-hover:text-[#96C121] transition-colors leading-tight min-h-[3rem] flex items-center">
-          {name}
-        </h3>
-        <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest mt-2">
-          {desc || 'Material de alta resistencia'}
-        </p>
+  return (
+    <div className="bg-white group overflow-hidden border border-gray-200 hover:border-[#96C121] transition-all duration-300 flex flex-col shadow-sm hover:shadow-2xl">
+      {/* Image Placeholder or Dynamic Image */}
+      <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
+        {image ? (
+          <Image 
+            src={image} 
+            alt={name} 
+            fill 
+            className="object-cover group-hover:scale-105 transition-transform duration-500" 
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-gray-300">
+            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+        )}
+        <div className="absolute top-4 left-4 bg-[#11406C] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+          {category}
+        </div>
+        {isSale && (
+          <div className="absolute top-4 right-4 bg-[#96C121] text-[#11406C] text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">
+            Oferta
+          </div>
+        )}
       </div>
 
-      <div className="mt-auto">
-        <div className="flex items-end gap-3 mb-6">
-          <p className="font-bold text-2xl text-[#1a1c1c]">{formatPrice(price)}</p>
-          {regularPrice && (
-            <p className="text-sm font-bold text-gray-400 line-through pb-1">{formatPrice(regularPrice)}</p>
-          )}
+      <div className="p-6 flex flex-col flex-1">
+        <div className="mb-4">
+          <h3 className="font-moderniz text-lg font-bold uppercase tracking-tight text-[#11406C] group-hover:text-[#96C121] transition-colors leading-tight min-h-[3rem] flex items-center">
+            {name}
+          </h3>
+          <p className="text-[10px] uppercase font-bold text-gray-400 tracking-widest mt-2">
+            {desc || 'Material de alta resistencia'}
+          </p>
         </div>
+
+        <div className="mt-auto">
+          <div className="flex items-end gap-3 mb-6">
+            <p className="font-bold text-2xl text-[#1a1c1c]">{formattedPrice}</p>
+            {isSale && (
+              <p className="text-sm font-bold text-gray-400 line-through pb-1">{formattedRegularPrice}</p>
+            )}
+          </div>
         <button 
           onClick={() => alert(`Agregado a la cotización: ${name}`)}
           className="w-full py-3 bg-[#11406C] text-white font-bold uppercase tracking-widest text-[10px] hover:bg-[#96C121] hover:text-[#11406C] transition-all"
