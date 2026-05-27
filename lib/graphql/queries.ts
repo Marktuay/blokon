@@ -18,6 +18,10 @@ export const GET_PRODUCTS_QUERY = gql`
           price
           regularPrice
         }
+        ... on VariableProduct {
+          price
+          regularPrice
+        }
         productCategories {
           nodes {
             name
