@@ -230,13 +230,58 @@ export default function ProductosPage() {
 
     wpProducts.forEach((prod: any) => {
       const targetSection = getSectionForWpCategory(prod.productCategories?.nodes || []);
+      
+      let variations = prod.variations?.nodes || [];
+      
+      // Si el producto es variable pero no tiene variaciones reales configuradas en WooCommerce,
+      // las generamos dinámicamente a partir de los atributos que se marcan "para variaciones".
+      if (variations.length === 0 && prod.attributes?.nodes) {
+        const variationAttrs = prod.attributes.nodes.filter((attr: any) => attr.variation);
+        if (variationAttrs.length > 0) {
+          variations = variationAttrs.map((attr: any, idx: number) => {
+            const rawPriceVal = attr.options?.[0]; // Ejemplo: "480"
+            const price = rawPriceVal ? `C$ ${rawPriceVal}.00` : '';
+            
+            // Limpiamos y formateamos el nombre (ej: "postes-2-60m" -> "Poste 2.60 m")
+            let cleanAttrName = attr.name
+              .replace(/-/g, ' ')
+              .replace(/\b(postes)\b/gi, 'Poste')
+              .replace(/(\d+)\s+(\d+)\s*m/gi, '$1.$2 m')
+              .trim();
+            
+            // Capitalizar la primera letra
+            cleanAttrName = cleanAttrName.charAt(0).toUpperCase() + cleanAttrName.slice(1);
+
+            return {
+              id: `virtual-${prod.id}-${idx}`,
+              name: cleanAttrName,
+              price: price,
+              regularPrice: undefined,
+              attributes: {
+                nodes: [
+                  {
+                    name: attr.name,
+                    value: cleanAttrName
+                  }
+                ]
+              }
+            };
+          });
+        }
+      }
+
+      // Si prod.price es nulo o 'Consultar', pero tenemos variaciones virtuales, usamos el precio de la primera.
+      const displayPrice = prod.price && prod.price !== 'Consultar'
+        ? prod.price
+        : (variations.length > 0 ? variations[0].price : 'Consultar');
+
       sections[targetSection].push({
         name: prod.name,
-        price: prod.price || 'Consultar',
+        price: displayPrice,
         regularPrice: prod.regularPrice || undefined,
         desc: prod.shortDescription ? prod.shortDescription.replace(/<[^>]*>/g, '') : undefined, // Limpiamos HTML de WooCommerce
         image: prod.image?.sourceUrl || undefined,
-        variations: prod.variations?.nodes || []
+        variations: variations
       });
     });
 

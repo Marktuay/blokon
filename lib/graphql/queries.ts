@@ -14,6 +14,16 @@ export const GET_PRODUCTS_QUERY = gql`
           sourceUrl
           altText
         }
+        ... on ProductWithAttributes {
+          attributes {
+            nodes {
+              name
+              options
+              variation
+              visible
+            }
+          }
+        }
         ... on SimpleProduct {
           price
           regularPrice
