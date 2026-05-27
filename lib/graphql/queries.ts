@@ -21,6 +21,21 @@ export const GET_PRODUCTS_QUERY = gql`
         ... on VariableProduct {
           price
           regularPrice
+          variations(first: 50) {
+            nodes {
+              id
+              databaseId
+              name
+              price
+              regularPrice
+              attributes {
+                nodes {
+                  name
+                  value
+                }
+              }
+            }
+          }
         }
         productCategories {
           nodes {

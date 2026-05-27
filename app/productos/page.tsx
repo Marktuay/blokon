@@ -10,11 +10,35 @@ const formatPrice = (rawPrice?: string) => {
   return rawPrice.replace(/&nbsp;/g, ' ').replace(/<[^>]*>/g, '').trim();
 };
 
-const ProductCard = ({ name, price, regularPrice, desc, category, image }: { name: string, price: string, regularPrice?: string, desc?: string, category: string, image?: string }) => {
-  const formattedPrice = formatPrice(price);
-  const formattedRegularPrice = formatPrice(regularPrice);
+const ProductCard = ({ name, price, regularPrice, desc, category, image, variations = [] }: { name: string, price: string, regularPrice?: string, desc?: string, category: string, image?: string, variations?: any[] }) => {
+  // Estado para la variación seleccionada
+  const [selectedVariationId, setSelectedVariationId] = React.useState<string>(
+    variations.length > 0 ? variations[0].id : ''
+  );
+
+  // Encontrar la variación seleccionada
+  const selectedVariation = React.useMemo(() => {
+    return variations.find(v => v.id === selectedVariationId);
+  }, [selectedVariationId, variations]);
+
+  // Si hay una variación seleccionada, usamos sus precios; si no, los del producto padre
+  const activePrice = selectedVariation ? selectedVariation.price : price;
+  const activeRegularPrice = selectedVariation ? selectedVariation.regularPrice : regularPrice;
+
+  const formattedPrice = formatPrice(activePrice);
+  const formattedRegularPrice = formatPrice(activeRegularPrice);
   // Hay oferta si existe precio regular, precio de oferta y son distintos
   const isSale = formattedRegularPrice && formattedPrice && formattedPrice !== formattedRegularPrice;
+
+  // Obtener el valor del atributo (ej: "2.60 m") para mostrarlo en el select
+  const getVariationLabel = (variation: any) => {
+    const attrs = variation.attributes?.nodes || [];
+    if (attrs.length > 0) {
+      return attrs.map((a: any) => a.value).join(' - ');
+    }
+    // Si no tiene atributos definidos, usamos el nombre de la variación completo limpiando el nombre base del producto
+    return variation.name.replace(`${name} - `, '').replace(`${name} `, '');
+  };
 
   return (
     <div className="bg-white group overflow-hidden border border-gray-200 hover:border-[#96C121] transition-all duration-300 flex flex-col shadow-sm hover:shadow-2xl">
@@ -54,6 +78,26 @@ const ProductCard = ({ name, price, regularPrice, desc, category, image }: { nam
           </p>
         </div>
 
+        {/* Variaciones (Selector de tamaño/opciones) */}
+        {variations.length > 0 && (
+          <div className="mb-6">
+            <label className="block text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-1.5">
+              Seleccionar Opción
+            </label>
+            <select
+              value={selectedVariationId}
+              onChange={(e) => setSelectedVariationId(e.target.value)}
+              className="w-full p-2.5 bg-gray-50 border border-gray-200 text-xs font-semibold text-[#11406C] focus:border-[#96C121] outline-none rounded transition-colors"
+            >
+              {variations.map((v: any) => (
+                <option key={v.id} value={v.id}>
+                  {getVariationLabel(v)}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
+
         <div className="mt-auto">
           <div className="flex items-end gap-3 mb-6">
             <p className="font-bold text-2xl text-[#1a1c1c]">{formattedPrice}</p>
@@ -62,7 +106,7 @@ const ProductCard = ({ name, price, regularPrice, desc, category, image }: { nam
             )}
           </div>
         <button 
-          onClick={() => alert(`Agregado a la cotización: ${name}`)}
+          onClick={() => alert(`Agregado a la cotización: ${name}${selectedVariation ? ` - ${getVariationLabel(selectedVariation)}` : ''}`)}
           className="w-full py-3 bg-[#11406C] text-white font-bold uppercase tracking-widest text-[10px] hover:bg-[#96C121] hover:text-[#11406C] transition-all"
         >
           Agregar a Cotización
@@ -191,7 +235,8 @@ export default function ProductosPage() {
         price: prod.price || 'Consultar',
         regularPrice: prod.regularPrice || undefined,
         desc: prod.shortDescription ? prod.shortDescription.replace(/<[^>]*>/g, '') : undefined, // Limpiamos HTML de WooCommerce
-        image: prod.image?.sourceUrl || undefined
+        image: prod.image?.sourceUrl || undefined,
+        variations: prod.variations?.nodes || []
       });
     });
 
@@ -262,6 +307,7 @@ export default function ProductosPage() {
                   regularPrice={product.regularPrice}
                   desc={product.desc}
                   image={product.image}
+                  variations={product.variations}
                 />
               ))}
             </CategorySection>
