@@ -58,3 +58,40 @@ export const GET_CUSTOMER_QUERY = gql`
     }
   }
 `;
+
+export const UPDATE_CUSTOMER_MUTATION = gql`
+  mutation UpdateCustomer($input: UpdateCustomerInput!) {
+    updateCustomer(input: $input) {
+      customer {
+        databaseId
+        firstName
+        lastName
+        billing {
+          firstName
+          lastName
+          company
+          address1
+          address2
+          city
+          state
+          postcode
+          country
+          email
+          phone
+        }
+        shipping {
+          firstName
+          lastName
+          company
+          address1
+          address2
+          city
+          state
+          postcode
+          country
+        }
+      }
+    }
+  }
+`;
+
