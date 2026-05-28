@@ -64,9 +64,10 @@ export default function CarritoPage() {
             <div className="lg:col-span-8 space-y-6">
               {cartItems.map((item: any) => {
                 const product = item.product?.node;
-                const imageSrc = product?.image?.sourceUrl;
+                const imageSrc = product?.image?.sourceUrl || product?.parent?.node?.image?.sourceUrl;
                 const formattedTotal = formatPrice(item.total);
                 const formattedPrice = formatPrice(product?.price || item.subtotal);
+                const attributes = product?.attributes?.nodes || [];
 
                 return (
                   <div 
@@ -79,7 +80,7 @@ export default function CarritoPage() {
                         {imageSrc ? (
                           <Image 
                             src={imageSrc} 
-                            alt={product.name} 
+                            alt={product.name || 'Producto'} 
                             fill 
                             className="object-cover"
                           />
@@ -97,7 +98,28 @@ export default function CarritoPage() {
                         <h3 className="font-bold text-[#11406C] text-lg uppercase tracking-tight truncate">
                           {product?.name || 'Producto'}
                         </h3>
-                        <p className="text-sm text-gray-500 mt-1">
+                        
+                        {/* Atributos / Tamaño de la Variación */}
+                        {attributes.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mt-1.5">
+                            {attributes.map((attr: any, idx: number) => {
+                              if (!attr.value) return null;
+                              const cleanName = attr.name
+                                .replace('attribute_pa_', '')
+                                .replace('attribute_', '')
+                                .replace(/-/g, ' ')
+                                .trim();
+                              const displayName = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+                              return (
+                                <span key={idx} className="inline-block bg-[#96C121]/15 text-[#11406C] text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-widest border border-[#96C121]/20">
+                                  {displayName}: {attr.value}
+                                </span>
+                              );
+                            })}
+                          </div>
+                        )}
+
+                        <p className="text-xs text-gray-500 mt-2 font-medium">
                           Precio Unitario: {formattedPrice || 'Consultar'}
                         </p>
                       </div>
