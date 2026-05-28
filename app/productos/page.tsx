@@ -83,7 +83,7 @@ const ProductCard = ({ name, price, regularPrice, desc, category, image, variati
         {variations.length > 0 && (
           <div className="mb-6">
             <label className="block text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-1.5">
-              Seleccionar Opción
+              Seleccionar tamaño
             </label>
             <select
               value={selectedVariationId}
