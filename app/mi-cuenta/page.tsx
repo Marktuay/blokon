@@ -124,7 +124,7 @@ export default function MiCuentaPage() {
                         onClick={() => setActiveTab('addresses')}
                         className="border border-gray-100 hover:border-[#96C121] transition-all p-6 rounded-2xl cursor-pointer shadow-sm hover:shadow-md flex flex-col justify-between"
                       >
-                        <span className="font-moderniz text-xs uppercase tracking-widest text-gray-400">Dirección Principal</span>
+                        <span className="font-moderniz text-xs uppercase tracking-widest text-gray-400">Direccion Principal</span>
                         <span className="font-acumin text-xs text-gray-500 mt-4 truncate">
                           {billing?.address1 ? `${billing.address1}, ${billing.city}` : 'No definida todavía'}
                         </span>
@@ -133,7 +133,7 @@ export default function MiCuentaPage() {
                         onClick={() => setActiveTab('details')}
                         className="border border-gray-100 hover:border-[#96C121] transition-all p-6 rounded-2xl cursor-pointer shadow-sm hover:shadow-md flex flex-col justify-between"
                       >
-                        <span className="font-moderniz text-xs uppercase tracking-widest text-gray-400">Correo Electrónico</span>
+                        <span className="font-moderniz text-xs uppercase tracking-widest text-gray-400">Correo Electronico</span>
                         <span className="font-acumin text-xs text-[#11406C] font-bold mt-4 truncate">{customer?.email || user?.email}</span>
                       </div>
                     </div>
@@ -213,7 +213,7 @@ export default function MiCuentaPage() {
                       {/* Dirección de Facturación */}
                       <div className="border border-gray-100 p-6 rounded-2xl space-y-4">
                         <div className="flex justify-between items-center border-b border-gray-50 pb-3">
-                          <h4 className="font-moderniz text-sm text-[#11406C] uppercase tracking-wider">Facturación</h4>
+                          <h4 className="font-moderniz text-sm text-[#11406C] uppercase tracking-wider">Facturacion</h4>
                         </div>
                         {billing?.address1 ? (
                           <div className="font-acumin text-sm text-gray-600 space-y-1">
@@ -233,7 +233,7 @@ export default function MiCuentaPage() {
                       {/* Dirección de Envío */}
                       <div className="border border-gray-100 p-6 rounded-2xl space-y-4">
                         <div className="flex justify-between items-center border-b border-gray-50 pb-3">
-                          <h4 className="font-moderniz text-sm text-[#11406C] uppercase tracking-wider">Envío</h4>
+                          <h4 className="font-moderniz text-sm text-[#11406C] uppercase tracking-wider">Envio</h4>
                         </div>
                         {shipping?.address1 ? (
                           <div className="font-acumin text-sm text-gray-600 space-y-1">
