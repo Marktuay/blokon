@@ -45,11 +45,18 @@ export async function POST(request: Request) {
     const data = await response.json();
     
     // 4. Respuesta limpia al cliente
+    const responseHeaders: Record<string, string> = {
+      'X-Content-Type-Options': 'nosniff',
+      'X-Frame-Options': 'DENY'
+    };
+
+    const wpSession = response.headers.get('woocommerce-session');
+    if (wpSession) {
+      responseHeaders['woocommerce-session'] = wpSession;
+    }
+
     return NextResponse.json(data, {
-      headers: {
-        'X-Content-Type-Options': 'nosniff',
-        'X-Frame-Options': 'DENY'
-      }
+      headers: responseHeaders
     });
   } catch (error: any) {
     console.error('[SEC-PROXY FATAL ERROR]:', error.message);

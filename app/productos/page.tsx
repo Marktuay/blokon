@@ -6,12 +6,20 @@ import Image from 'next/image';
 import { useQuery } from '@apollo/client/react';
 import { GET_PRODUCTS_QUERY } from '@/lib/graphql/queries';
 
+import { useCart } from '@/hooks/useCart';
+import { useAuth } from '@/contexts/AuthContext';
+
 const formatPrice = (rawPrice?: string) => {
   if (!rawPrice) return '';
   return rawPrice.replace(/&nbsp;/g, ' ').replace(/<[^>]*>/g, '').trim();
 };
 
-const ProductCard = ({ name, price, regularPrice, desc, category, image, variations = [] }: { name: string, price: string, regularPrice?: string, desc?: string, category: string, image?: string, variations?: any[] }) => {
+const ProductCard = ({ databaseId, name, price, regularPrice, desc, category, image, variations = [] }: { databaseId?: number, name: string, price: string, regularPrice?: string, desc?: string, category: string, image?: string, variations?: any[] }) => {
+  const { addToCart } = useCart();
+  const { isAuthenticated, openAuthModal } = useAuth();
+  const [isAdding, setIsAdding] = React.useState(false);
+  const [added, setAdded] = React.useState(false);
+
   // Estado para la variación seleccionada
   const [selectedVariationId, setSelectedVariationId] = React.useState<string>(
     variations.length > 0 ? variations[0].id : ''
@@ -39,6 +47,47 @@ const ProductCard = ({ name, price, regularPrice, desc, category, image, variati
     }
     // Si no tiene atributos definidos, usamos el nombre de la variación completo limpiando el nombre base del producto
     return variation.name.replace(`${name} - `, '').replace(`${name} `, '');
+  };
+
+  const handleAddToCart = async () => {
+    // Determinar qué ID agregar
+    const targetId = selectedVariation?.databaseId || databaseId;
+    console.log('Adding to cart debug info:', {
+      parentDatabaseId: databaseId,
+      selectedVariationId,
+      selectedVariation,
+      targetId,
+      allVariations: variations
+    });
+    if (!targetId) {
+      alert('Este producto no tiene un ID de base de datos de WooCommerce válido.');
+      return;
+    }
+
+    const performAdd = async () => {
+      setIsAdding(true);
+      try {
+        const result = await addToCart(targetId, 1);
+        if (result && !result.success) {
+          alert(`Error al agregar: ${result.error}`);
+          return;
+        }
+        setAdded(true);
+        setTimeout(() => setAdded(false), 2000);
+      } catch (err) {
+        console.error(err);
+        alert('Ocurrió un error al agregar el producto al carrito.');
+      } finally {
+        setIsAdding(false);
+      }
+    };
+
+    if (!isAuthenticated) {
+      openAuthModal(performAdd);
+      return;
+    }
+
+    await performAdd();
   };
 
   return (
@@ -118,16 +167,33 @@ const ProductCard = ({ name, price, regularPrice, desc, category, image, variati
               <p className="text-sm font-bold text-gray-400 line-through pb-1">{formattedRegularPrice}</p>
             )}
           </div>
-        <button 
-          onClick={() => alert(`Agregado a la cotización: ${name}${selectedVariation ? ` - ${getVariationLabel(selectedVariation)}` : ''}`)}
-          className="w-full py-3 bg-[#11406C] text-white font-bold uppercase tracking-widest text-[10px] hover:bg-[#96C121] hover:text-[#11406C] transition-all"
-        >
-          Agregar a Cotización
-        </button>
+          <button 
+            onClick={handleAddToCart}
+            disabled={isAdding}
+            className={`w-full py-3 font-bold uppercase tracking-widest text-[10px] transition-all flex items-center justify-center gap-2 ${
+              added 
+                ? 'bg-[#96C121] text-[#11406C]' 
+                : 'bg-[#11406C] text-white hover:bg-[#96C121] hover:text-[#11406C]'
+            } disabled:opacity-50`}
+          >
+            {isAdding ? (
+              <>
+                <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                Agregando...
+              </>
+            ) : added ? (
+              '¡Agregado a la Cesta!'
+            ) : (
+              'Agregar a Cotización'
+            )}
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
 };
 
 const CategorySection = ({ title, children }: { title: string, children: React.ReactNode }) => (
@@ -290,6 +356,7 @@ export default function ProductosPage() {
         : (variations.length > 0 ? variations[0].price : 'Consultar');
 
       sections[targetSection].push({
+        databaseId: prod.databaseId,
         name: prod.name,
         price: displayPrice,
         regularPrice: prod.regularPrice || undefined,
@@ -360,6 +427,7 @@ export default function ProductosPage() {
               {category.products.map((product, pIdx) => (
                 <ProductCard 
                   key={pIdx}
+                  databaseId={product.databaseId}
                   category={category.title}
                   name={product.name}
                   price={product.price}

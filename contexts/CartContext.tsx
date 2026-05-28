@@ -1,13 +1,14 @@
 'use client';
 
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { GET_CART_QUERY, ADD_TO_CART_MUTATION, REMOVE_ITEMS_FROM_CART_MUTATION, UPDATE_ITEM_QUANTITIES_MUTATION } from '@/lib/graphql/cart';
+import { useAuth } from '@/contexts/AuthContext';
 
 type CartContextType = {
   cart: any;
   loading: boolean;
-  addToCart: (productId: number, quantity?: number) => Promise<void>;
+  addToCart: (productId: number, quantity?: number) => Promise<{ success: boolean; error?: string }>;
   removeFromCart: (keys: string[]) => Promise<void>;
   updateQuantity: (key: string, quantity: number) => Promise<void>;
 };
@@ -15,14 +16,22 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { data, loading: queryLoading, refetch } = useQuery<any>(GET_CART_QUERY);
+  const { isAuthenticated } = useAuth();
+  const { data, loading: queryLoading, refetch } = useQuery<any>(GET_CART_QUERY, {
+    fetchPolicy: 'network-only',
+  });
+
+  useEffect(() => {
+    refetch().catch((err) => console.error('Error refetching cart on auth change:', err));
+  }, [isAuthenticated, refetch]);
+
   const [addToCartMutation] = useMutation(ADD_TO_CART_MUTATION);
   const [removeItemsMutation] = useMutation(REMOVE_ITEMS_FROM_CART_MUTATION);
   const [updateQuantityMutation] = useMutation(UPDATE_ITEM_QUANTITIES_MUTATION);
 
   const cart = data?.cart || null;
 
-  const addToCart = async (productId: number, quantity: number = 1) => {
+  const addToCart = async (productId: number, quantity: number = 1): Promise<{ success: boolean; error?: string }> => {
     try {
       await addToCartMutation({
         variables: {
@@ -33,8 +42,10 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         },
       });
       await refetch();
-    } catch (error) {
+      return { success: true };
+    } catch (error: any) {
       console.error('Error adding to cart:', error);
+      return { success: false, error: error.message || 'Error al agregar al carrito' };
     }
   };
 

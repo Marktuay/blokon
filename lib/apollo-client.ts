@@ -24,10 +24,12 @@ const authLink = setContext((_, { headers }) => {
     return { headers };
   }
 
+  const cleanSession = session.startsWith('Session ') ? session.substring(8) : session;
+
   return {
     headers: {
       ...headers,
-      'woocommerce-session': `Session ${session}`,
+      'woocommerce-session': `Session ${cleanSession}`,
     },
   };
 });
@@ -47,9 +49,11 @@ const sessionLink = new ApolloLink((operation, forward) => {
           if (headers && typeof window !== 'undefined') {
             const session = headers.get('woocommerce-session');
             if (session) {
-              Cookies.set('woo-session', session, { 
-                secure: true, 
-                sameSite: 'none', 
+              const cleanSession = session.startsWith('Session ') ? session.substring(8) : session;
+              const isSecure = typeof window !== 'undefined' && window.location.protocol === 'https:';
+              Cookies.set('woo-session', cleanSession, { 
+                secure: isSecure, 
+                sameSite: isSecure ? 'none' : 'lax', 
                 expires: 7 
               });
             }

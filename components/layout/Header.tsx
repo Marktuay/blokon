@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useCart } from '@/hooks/useCart';
+import { useAuth } from '@/contexts/AuthContext';
 
 const MENU_ITEMS = [
   { name: 'Inicio', href: '/' },
@@ -17,6 +19,21 @@ const MENU_ITEMS = [
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const { cart } = useCart();
+  const { isAuthenticated, user, openAuthModal, logout } = useAuth();
+  
+  const itemCount = typeof cart?.contents?.itemCount === 'number'
+    ? cart.contents.itemCount
+    : typeof cart?.contents?.itemCount === 'string'
+      ? parseInt(cart.contents.itemCount, 10) || 0
+      : cart?.contents?.nodes?.reduce((sum: number, node: any) => sum + (node.quantity || 0), 0) || 0;
 
   return (
     <header className="w-full bg-white sticky top-0 z-50 py-6 border-b border-gray-50">
@@ -60,16 +77,57 @@ export const Header = () => {
               <span className="font-acumin text-[11px] text-gray-500">ventas@blok-on.com</span>
             </div>
 
-            <div className="flex items-center gap-4 md:gap-5 text-gray-600">
+            <div className="flex items-center gap-4 md:gap-5 text-gray-600 relative">
               <button className="hover:text-[#96C121] transition-colors hidden sm:block">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
               </button>
-              <button className="hover:text-[#96C121] transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-              </button>
-              <Link href="/checkout" className="relative hover:text-[#96C121] transition-colors">
+              
+              {/* Profile User Icon & Dropdown */}
+              <div className="relative">
+                <button 
+                  onClick={() => isAuthenticated ? setIsProfileDropdownOpen(!isProfileDropdownOpen) : openAuthModal()}
+                  className="hover:text-[#96C121] transition-colors flex items-center gap-1 focus:outline-none"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  {isAuthenticated && (
+                    <span className="w-2 h-2 bg-[#96C121] rounded-full border border-white absolute top-0 right-0"></span>
+                  )}
+                </button>
+
+                {isAuthenticated && isProfileDropdownOpen && (
+                  <>
+                    <div 
+                      onClick={() => setIsProfileDropdownOpen(false)}
+                      className="fixed inset-0 z-10"
+                    ></div>
+                    <div className="absolute right-0 mt-3 w-56 bg-white border border-gray-100 shadow-2xl p-4 z-20 flex flex-col font-acumin text-[#1a1c1c] animate-in fade-in slide-in-from-top-1 duration-200">
+                      <div className="pb-3 border-b border-gray-100">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#96C121]">Sesión Activa</p>
+                        <p className="font-bold text-[#11406C] truncate mt-1">{user?.name}</p>
+                        <p className="text-xs text-gray-400 truncate">{user?.email}</p>
+                      </div>
+                      <button 
+                        onClick={() => {
+                          setIsProfileDropdownOpen(false);
+                          logout();
+                        }}
+                        className="text-left text-xs text-red-600 hover:text-red-800 font-bold uppercase tracking-wider pt-3 flex items-center gap-2 hover:bg-red-50/50 -mx-4 px-4 py-2 transition-colors"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        Cerrar Sesión
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <Link href="/carrito" className="relative hover:text-[#96C121] transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
-                <span className="absolute -top-2 -right-2 bg-[#96C121] text-[#11406C] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">0</span>
+                {mounted && itemCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-[#96C121] text-[#11406C] text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
               </Link>
             </div>
           </div>

@@ -2,22 +2,22 @@
 
 import React, { useState } from 'react';
 import { useCheckout } from '@/hooks/useCheckout';
+import { useCart } from '@/hooks/useCart';
 
 export const CheckoutForm = () => {
   const { processCheckout, loading, error } = useCheckout();
+  const { cart, loading: cartLoading } = useCart();
   const [needsInvoice, setNeedsInvoice] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'transfer'>('card');
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [discountCode, setDiscountCode] = useState('');
 
-  // Simulación de datos del carrito (se reemplazará por context/estado global)
-  const mockCartItems = [
-    { id: '1', name: 'Bloque Estándar x 150', price: 1800.00 },
-    { id: '2', name: 'Logística de Carga', price: 450.00 }
-  ];
-  const subtotal = mockCartItems.reduce((acc, item) => acc + item.price, 0);
-  const discountAmount = discountCode === 'PROMO2026' ? 200 : 0;
-  const finalTotal = subtotal - discountAmount;
+  const cartItems = cart?.contents?.nodes || [];
+  
+  const totalNum = cart?.total ? parseFloat(cart.total.replace(/[^0-9.]/g, '')) : 0;
+  const subtotalNum = cart?.subtotal ? parseFloat(cart.subtotal.replace(/[^0-9.]/g, '')) : 0;
+  const discountNum = cart?.discountTotal ? parseFloat(cart.discountTotal.replace(/[^0-9.]/g, '')) : 0;
+  // Retain calculation references for backward compatibility if needed
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -51,7 +51,7 @@ export const CheckoutForm = () => {
       customer_note: formData.get('order_comments'),
       paymentMethod: paymentMethod,
       coupon: discountCode,
-      total: finalTotal.toFixed(2),
+      total: totalNum.toFixed(2),
     };
 
     const result = await processCheckout(data);
@@ -242,12 +242,16 @@ export const CheckoutForm = () => {
           <h3 className="font-tt-drugs text-2xl font-bold uppercase tracking-tight mb-8">Resumen Estructural</h3>
           
           <div className="space-y-4 mb-6">
-            {mockCartItems.map((item) => (
-              <div key={item.id} className="flex justify-between items-center pb-4 border-b border-white/10">
-                <p className="opacity-80">{item.name}</p>
-                <p className="font-bold">${item.price.toFixed(2)}</p>
-              </div>
-            ))}
+            {cartItems.map((item: any) => {
+              const product = item.product?.node;
+              const cleanTotal = item.total ? item.total.replace(/&nbsp;/g, ' ').replace(/<[^>]*>/g, '').trim() : '';
+              return (
+                <div key={item.key} className="flex justify-between items-center pb-4 border-b border-white/10">
+                  <p className="opacity-80 truncate max-w-[70%]">{product?.name || 'Producto'} (x{item.quantity})</p>
+                  <p className="font-bold">{cleanTotal}</p>
+                </div>
+              );
+            })}
             
             {/* Input de Descuento */}
             <div className="pt-2 pb-4 border-b border-white/10">
@@ -261,14 +265,16 @@ export const CheckoutForm = () => {
                   className="w-full bg-white/10 border border-white/20 p-2 outline-none uppercase text-sm focus:border-[#96C121] transition-colors"
                 />
               </div>
-              {discountAmount > 0 && (
-                <p className="text-[#96C121] text-xs mt-2">¡Descuento aplicado: -${discountAmount.toFixed(2)}!</p>
+              {discountNum > 0 && (
+                <p className="text-[#96C121] text-xs mt-2">¡Descuento aplicado: -{cart?.discountTotal?.replace(/&nbsp;/g, ' ').replace(/<[^>]*>/g, '').trim()}!</p>
               )}
             </div>
 
             <div className="flex justify-between items-center pt-4 text-xl">
               <p className="font-moderniz font-bold uppercase">Inversion Total</p>
-              <p className="font-moderniz font-bold text-[#96C121] text-3xl">${finalTotal.toFixed(2)}</p>
+              <p className="font-moderniz font-bold text-[#96C121] text-3xl">
+                {cart?.total ? cart.total.replace(/&nbsp;/g, ' ').replace(/<[^>]*>/g, '').trim() : '$0.00'}
+              </p>
             </div>
           </div>
 
