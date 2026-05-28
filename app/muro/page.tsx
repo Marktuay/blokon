@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -24,6 +24,9 @@ const StepCard = ({ number, title, desc, icon }: { number: string, title: string
 );
 
 export default function MuroPage() {
+  const [forma, setForma] = useState('Línea Recta');
+  const [altura, setAltura] = useState('2.00 Metros');
+
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -136,31 +139,48 @@ export default function MuroPage() {
               {/* Forma y Medidas */}
               <div className="space-y-4">
                 <label className="font-moderniz text-[10px] uppercase tracking-widest text-gray-400">Forma del Muro</label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V5z" /></svg>
-                  </span>
-                  <select className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all appearance-none cursor-pointer">
-                    <option>Línea Recta</option>
-                    <option>Con 1 Esquina (L)</option>
-                    <option>Con 2 Esquinas (U)</option>
-                    <option>Perímetro Completo</option>
-                  </select>
+                <input type="hidden" name="forma-muro" value={forma} />
+                <div className="grid grid-cols-2 gap-2 bg-gray-50 p-1.5 border border-gray-200/60 rounded-xl shadow-sm">
+                  {[
+                    { key: 'Línea Recta', label: 'Línea Recta' },
+                    { key: 'Con 1 Esquina (L)', label: '1 Esquina (L)' },
+                    { key: 'Con 2 Esquinas (U)', label: '2 Esquinas (U)' },
+                    { key: 'Perímetro Completo', label: 'Perímetro' }
+                  ].map((opt) => (
+                    <button
+                      key={opt.key}
+                      type="button"
+                      onClick={() => setForma(opt.key)}
+                      className={`py-3 px-2 rounded-lg font-bold text-[11px] uppercase tracking-wider text-center transition-all duration-200 ${
+                        forma === opt.key
+                          ? 'bg-[#11406C] text-white shadow-md'
+                          : 'text-gray-500 hover:text-[#11406C] hover:bg-white/50'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
                 </div>
               </div>
 
               <div className="space-y-4">
                 <label className="font-moderniz text-[10px] uppercase tracking-widest text-gray-400">Altura Requerida</label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" /></svg>
-                  </span>
-                  <select className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all appearance-none cursor-pointer">
-                    <option>2.00 Metros</option>
-                    <option>2.50 Metros</option>
-                    <option>3.00 Metros</option>
-                    <option>3.25 Metros</option>
-                  </select>
+                <input type="hidden" name="altura-muro" value={altura} />
+                <div className="grid grid-cols-2 gap-2 bg-gray-50 p-1.5 border border-gray-200/60 rounded-xl shadow-sm">
+                  {['2.00 Metros', '2.50 Metros', '3.00 Metros', '3.25 Metros'].map((opt) => (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => setAltura(opt)}
+                      className={`py-3 px-2 rounded-lg font-bold text-[11px] uppercase tracking-wider text-center transition-all duration-200 ${
+                        altura === opt
+                          ? 'bg-[#96C121] text-[#11406C] shadow-md'
+                          : 'text-gray-500 hover:text-[#96C121] hover:bg-white/50'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  ))}
                 </div>
               </div>
 

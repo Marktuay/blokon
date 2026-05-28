@@ -79,23 +79,35 @@ const ProductCard = ({ name, price, regularPrice, desc, category, image, variati
           </p>
         </div>
 
-        {/* Variaciones (Selector de tamaño/opciones) */}
+        {/* Variaciones (Botones de opción de tamaño) */}
         {variations.length > 0 && (
           <div className="mb-6">
-            <label className="block text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-1.5">
+            <label className="block text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">
               Seleccionar tamaño
             </label>
-            <select
-              value={selectedVariationId}
-              onChange={(e) => setSelectedVariationId(e.target.value)}
-              className="w-full p-2.5 bg-gray-50 border border-gray-200 text-xs font-semibold text-[#11406C] focus:border-[#96C121] outline-none rounded transition-colors"
-            >
-              {variations.map((v: any) => (
-                <option key={v.id} value={v.id}>
-                  {getVariationLabel(v)}
-                </option>
-              ))}
-            </select>
+            <div className="inline-flex p-1 bg-gray-100 rounded-lg w-full gap-1">
+              {variations.map((v: any) => {
+                const isActive = v.id === selectedVariationId;
+                let label = getVariationLabel(v);
+                // Limpiar la palabra "Poste" para que quede solo la medida y quepa perfectamente en los botones
+                label = label.replace(/poste\s+/gi, '').trim();
+
+                return (
+                  <button
+                    key={v.id}
+                    type="button"
+                    onClick={() => setSelectedVariationId(v.id)}
+                    className={`flex-1 py-2 px-3 text-center text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-200 ${
+                      isActive
+                        ? 'bg-[#11406C] text-white shadow-sm'
+                        : 'text-gray-500 hover:text-[#11406C] hover:bg-white/50'
+                    }`}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         )}
 
