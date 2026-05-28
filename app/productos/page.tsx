@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+export const dynamic = 'force-dynamic';
 import Image from 'next/image';
 import { useQuery } from '@apollo/client/react';
 import { GET_PRODUCTS_QUERY } from '@/lib/graphql/queries';
@@ -209,7 +210,8 @@ const getSectionForWpCategory = (categories: { name: string }[]) => {
 
 export default function ProductosPage() {
   const { data, loading } = useQuery<any>(GET_PRODUCTS_QUERY, {
-    variables: { first: 100 }
+    variables: { first: 100 },
+    fetchPolicy: 'no-cache'
   });
 
   const wpProducts = data?.products?.nodes || [];
