@@ -64,10 +64,13 @@ export default function CarritoPage() {
             <div className="lg:col-span-8 space-y-6">
               {cartItems.map((item: any) => {
                 const product = item.product?.node;
-                const imageSrc = product?.image?.sourceUrl || product?.parent?.node?.image?.sourceUrl;
+                const variation = item.variation?.node;
+                
+                // Si hay variación, prioritariamente usamos sus datos; si no, del producto simple/padre
+                const imageSrc = variation?.image?.sourceUrl || product?.image?.sourceUrl;
                 const formattedTotal = formatPrice(item.total);
-                const formattedPrice = formatPrice(product?.price || item.subtotal);
-                const attributes = product?.attributes?.nodes || [];
+                const formattedPrice = formatPrice(variation?.price || product?.price || item.subtotal);
+                const attributes = variation?.attributes?.nodes || [];
 
                 return (
                   <div 

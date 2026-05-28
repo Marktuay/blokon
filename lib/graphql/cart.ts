@@ -32,26 +32,23 @@ export const CART_FRAGMENT = gql`
                 altText
               }
             }
-            ... on ProductVariation {
-              price
-              regularPrice
-              image {
-                sourceUrl
-                altText
-              }
-              attributes {
-                nodes {
-                  name
-                  value
-                }
-              }
-              parent {
-                node {
-                  image {
-                    sourceUrl
-                    altText
-                  }
-                }
+          }
+        }
+        variation {
+          node {
+            id
+            databaseId
+            name
+            price
+            regularPrice
+            image {
+              sourceUrl
+              altText
+            }
+            attributes {
+              nodes {
+                name
+                value
               }
             }
           }
