@@ -275,7 +275,7 @@ const getSectionForWpCategory = (categories: { name: string }[]) => {
   
   const mainCat = categories[0].name.toLowerCase();
   
-  if (mainCat.includes('sistema') || mainCat.includes('blok-on') || mainCat.includes('postes') || mainCat.includes('bloques') || mainCat.includes('vigas')) {
+  if (mainCat.includes('sistema') || mainCat.includes('blok-on') || mainCat.includes('postes') || mainCat.includes('vigas')) {
     return 'Sistema Blok-On';
   }
   if (mainCat.includes('estructural') || mainCat.includes('bloque')) {
