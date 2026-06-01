@@ -234,18 +234,21 @@ export default function Home() {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             {[
-              { nombre: "Poste 2.60 m" },
-              { nombre: "Blok-On Entero 12 cm" },
-              { nombre: "Viga Corona (VC-C-2)" },
-              { nombre: "Adoquín Cruz Convencional" }
+              { nombre: "Postes", imagen: "https://api.blok-on.com/wp-content/uploads/2026/05/postes.png" },
+              { nombre: "Vigas", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/vigas.png" },
+              { nombre: "Lavanderos", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/lavanderos.png" },
+              { nombre: "Bordillo 30 CM x 50 CM", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/bordillo.png" }
             ].map((item, idx) => (
               <div key={idx} className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-gray-100 flex flex-col items-center">
                 <div className="w-full aspect-square bg-gray-200 rounded-xl mb-6 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-[#11406C]/5"></div>
-                  {/* Imagen Placeholder - Usaremos algo sutil */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <svg className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                  </div>
+                  <div className="absolute inset-0 bg-[#11406C]/5 z-10"></div>
+                  {item.imagen ? (
+                    <Image src={item.imagen} alt={item.nombre} fill className="object-cover transition-transform duration-500 hover:scale-105" />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <svg className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                    </div>
+                  )}
                 </div>
                 <h4 className="font-moderniz text-[10px] md:text-xs text-[#11406C] uppercase tracking-tight mb-2 text-center">{item.nombre}</h4>
                 <p className="font-acumin text-[#96C121] font-bold text-sm">Ver producto →</p>
