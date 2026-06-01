@@ -134,7 +134,11 @@ const ProductCard = ({ databaseId, name, price, regularPrice, desc, category, im
             <label className="block text-[10px] uppercase font-bold text-gray-400 tracking-widest mb-2">
               Seleccionar tamaño
             </label>
-            <div className="inline-flex p-1 bg-gray-100 rounded-lg w-full gap-1">
+            <div className={`grid gap-1 p-1 bg-gray-100 rounded-lg w-full ${
+              variations.length === 2 ? 'grid-cols-2' :
+              variations.length === 3 ? 'grid-cols-3' :
+              'grid-cols-2'
+            }`}>
               {variations.map((v: any) => {
                 const isActive = v.id === selectedVariationId;
                 let label = getVariationLabel(v);
@@ -146,7 +150,7 @@ const ProductCard = ({ databaseId, name, price, regularPrice, desc, category, im
                     key={v.id}
                     type="button"
                     onClick={() => setSelectedVariationId(v.id)}
-                    className={`flex-1 py-2 px-3 text-center text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-200 ${
+                    className={`py-2 px-1 text-center text-[10px] font-bold uppercase tracking-wider rounded-md transition-all duration-200 ${
                       isActive
                         ? 'bg-[#11406C] text-white shadow-sm'
                         : 'text-gray-500 hover:text-[#11406C] hover:bg-white/50'
