@@ -191,7 +191,7 @@ const ProductCard = ({ databaseId, name, price, regularPrice, desc, category, im
             ) : added ? (
               '¡Agregado a la Cesta!'
             ) : (
-              'Agregar a Cotización'
+              'Agregar a Cesta'
             )}
           </button>
         </div>
