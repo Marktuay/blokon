@@ -212,25 +212,17 @@ export const Footer = () => {
             </ul>
           </div>
 
-          {/* Column 4: Servicios */}
+          {/* Column 4: Catálogo */}
           <div className="lg:col-span-2 space-y-6">
-            <h3 className="font-tt-drugs text-sm font-bold uppercase tracking-[0.2em] mb-8">Servicios</h3>
+            <h3 className="font-tt-drugs text-sm font-bold uppercase tracking-[0.2em] mb-8">Catálogo</h3>
             <ul className="space-y-4 text-sm text-gray-400">
               <li className="flex items-center gap-3 hover:text-white transition-colors">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3a9 9 0 1 0 9 9 9.75 9.75 0 0 0-6.74-9.26"/><path d="M8 3v5.17A4 4 0 0 0 8.95 15.3l3.05 3.05"/></svg>
-                <Link href="/">Diseño Estructural</Link>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <Link href="/kits">Kits de Vivienda</Link>
               </li>
               <li className="flex items-center gap-3 hover:text-white transition-colors">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-                <Link href="/">Supervisión</Link>
-              </li>
-              <li className="flex items-center gap-3 hover:text-white transition-colors">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                <Link href="/">Consultoría</Link>
-              </li>
-              <li className="flex items-center gap-3 hover:text-white transition-colors text-[#96C121]">
-                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8a8 8 0 0 1-10 10Z"/><path d="M11 20c-1 1-1.3 1-3.5 2C10 20 10 18 10 18"/></svg>
-                <Link href="/">Sustentabilidad</Link>
+                <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M4 10h16"/><path d="M4 14h16"/><path d="M4 6h16"/><path d="M4 18h16"/><path d="M12 6v4"/><path d="M8 10v4"/><path d="M16 10v4"/><path d="M12 14v4"/><path d="M8 18v4"/><path d="M16 18v4"/></svg>
+                <Link href="/muro">Muro Perimetral</Link>
               </li>
             </ul>
           </div>
