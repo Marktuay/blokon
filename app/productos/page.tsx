@@ -269,26 +269,7 @@ const STATIC_CATEGORIES = [
   }
 ];
 
-// Helper para clasificar productos de WooCommerce en las 5 secciones
-const getSectionForWpCategory = (categories: { name: string }[]) => {
-  if (!categories || categories.length === 0) return 'Productos Varios';
-  
-  const mainCat = categories[0].name.toLowerCase();
-  
-  if (mainCat.includes('sistema') || mainCat.includes('blok-on') || mainCat.includes('postes') || mainCat.includes('vigas')) {
-    return 'Sistema Blok-On';
-  }
-  if (mainCat.includes('estructural') || mainCat.includes('bloque')) {
-    return 'Bloques Estructurales';
-  }
-  if (mainCat.includes('jardín') || mainCat.includes('jardin') || mainCat.includes('eblokon') || mainCat.includes('banca') || mainCat.includes('huella')) {
-    return 'Jardín (Eblokon)';
-  }
-  if (mainCat.includes('vial') || mainCat.includes('adoquín') || mainCat.includes('adoquin') || mainCat.includes('bordillo')) {
-    return 'Ingeniería Vial';
-  }
-  return 'Productos Varios';
-};
+
 
 export default function ProductosPage() {
   const { data, loading } = useQuery<any>(GET_PRODUCTS_QUERY, {
@@ -304,16 +285,15 @@ export default function ProductosPage() {
     if (!hasWpProducts) return STATIC_CATEGORIES;
 
     // Inicializamos las secciones vacías
-    const sections: Record<string, any[]> = {
-      "Sistema Blok-On": [],
-      "Bloques Estructurales": [],
-      "Jardín (Eblokon)": [],
-      "Ingeniería Vial": [],
-      "Productos Varios": []
-    };
+    const sections: Record<string, any[]> = {};
 
     wpProducts.forEach((prod: any) => {
-      const targetSection = getSectionForWpCategory(prod.productCategories?.nodes || []);
+      const categories = prod.productCategories?.nodes || [];
+      const targetSection = categories.length > 0 ? categories[0].name : 'Otros';
+      
+      if (!sections[targetSection]) {
+        sections[targetSection] = [];
+      }
       
       let variations = prod.variations?.nodes || [];
       
