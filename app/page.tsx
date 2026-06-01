@@ -239,20 +239,24 @@ export default function Home() {
               { nombre: "Lavanderos", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/lavanderos.png" },
               { nombre: "Bordillo 30 CM x 50 CM", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/bordillo.png" }
             ].map((item, idx) => (
-              <div key={idx} className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-gray-100 flex flex-col items-center">
+              <Link 
+                key={idx} 
+                href={`/productos?search=${encodeURIComponent(item.nombre)}`}
+                className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-gray-100 flex flex-col items-center cursor-pointer group"
+              >
                 <div className="w-full aspect-square bg-gray-200 rounded-xl mb-6 relative overflow-hidden">
                   <div className="absolute inset-0 bg-[#11406C]/5 z-10"></div>
                   {item.imagen ? (
-                    <Image src={item.imagen} alt={item.nombre} fill className="object-cover transition-transform duration-500 hover:scale-105" />
+                    <Image src={item.imagen} alt={item.nombre} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <svg className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                     </div>
                   )}
                 </div>
-                <h4 className="font-moderniz text-[10px] md:text-xs text-[#11406C] uppercase tracking-tight mb-2 text-center">{item.nombre}</h4>
+                <h4 className="font-moderniz text-[10px] md:text-xs text-[#11406C] uppercase tracking-tight mb-2 text-center group-hover:text-[#96C121] transition-colors">{item.nombre}</h4>
                 <p className="font-acumin text-[#96C121] font-bold text-sm">Ver producto →</p>
-              </div>
+              </Link>
             ))}
           </div>
           <Link href="/productos" className="inline-block border-b-2 border-[#11406C] font-bold uppercase tracking-widest text-[#11406C] pb-1 hover:text-[#96C121] hover:border-[#96C121] transition-colors">

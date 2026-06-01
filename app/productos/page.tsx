@@ -5,6 +5,7 @@ export const dynamic = 'force-dynamic';
 import Image from 'next/image';
 import { useQuery } from '@apollo/client/react';
 import { GET_PRODUCTS_QUERY } from '@/lib/graphql/queries';
+import { useSearchParams } from 'next/navigation';
 
 import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/contexts/AuthContext';
@@ -270,8 +271,12 @@ const STATIC_CATEGORIES = [
 ];
 
 
+import { Suspense } from 'react';
 
-export default function ProductosPage() {
+function ProductosContent() {
+  const searchParams = useSearchParams();
+  const searchParam = searchParams?.get('search')?.toLowerCase() || '';
+
   const { data, loading } = useQuery<any>(GET_PRODUCTS_QUERY, {
     variables: { first: 100 },
     fetchPolicy: 'no-cache'
@@ -282,80 +287,92 @@ export default function ProductosPage() {
 
   // Si hay productos en WooCommerce, los agrupamos
   const categoriesToRender = React.useMemo(() => {
-    if (!hasWpProducts) return STATIC_CATEGORIES;
-
-    // Inicializamos las secciones vacías
+    let baseCategories = STATIC_CATEGORIES;
     const sections: Record<string, any[]> = {};
 
-    wpProducts.forEach((prod: any) => {
-      const categories = prod.productCategories?.nodes || [];
-      const targetSection = categories.length > 0 ? categories[0].name : 'Otros';
-      
-      if (!sections[targetSection]) {
-        sections[targetSection] = [];
-      }
-      
-      let variations = prod.variations?.nodes || [];
-      
-      // Si el producto es variable pero no tiene variaciones reales configuradas en WooCommerce,
-      // las generamos dinámicamente a partir de los atributos que se marcan "para variaciones".
-      if (variations.length === 0 && prod.attributes?.nodes) {
-        const variationAttrs = prod.attributes.nodes.filter((attr: any) => attr.variation);
-        if (variationAttrs.length > 0) {
-          variations = variationAttrs.map((attr: any, idx: number) => {
-            const rawPriceVal = attr.options?.[0]; // Ejemplo: "480"
-            const price = rawPriceVal ? `C$ ${rawPriceVal}.00` : '';
-            
-            // Limpiamos y formateamos el nombre (ej: "postes-2-60m" -> "Poste 2.60 m")
-            let cleanAttrName = attr.name
-              .replace(/-/g, ' ')
-              .replace(/\b(postes)\b/gi, 'Poste')
-              .replace(/(\d+)\s+(\d+)\s*m/gi, '$1.$2 m')
-              .trim();
-            
-            // Capitalizar la primera letra
-            cleanAttrName = cleanAttrName.charAt(0).toUpperCase() + cleanAttrName.slice(1);
-
-            return {
-              id: `virtual-${prod.id}-${idx}`,
-              name: cleanAttrName,
-              price: price,
-              regularPrice: undefined,
-              attributes: {
-                nodes: [
-                  {
-                    name: attr.name,
-                    value: cleanAttrName
-                  }
-                ]
-              }
-            };
-          });
+    if (hasWpProducts) {
+      wpProducts.forEach((prod: any) => {
+        const categories = prod.productCategories?.nodes || [];
+        const targetSection = categories.length > 0 ? categories[0].name : 'Otros';
+        
+        if (!sections[targetSection]) {
+          sections[targetSection] = [];
         }
-      }
+        
+        let variations = prod.variations?.nodes || [];
+        
+        // Si el producto es variable pero no tiene variaciones reales configuradas en WooCommerce,
+        // las generamos dinámicamente a partir de los atributos que se marcan "para variaciones".
+        if (variations.length === 0 && prod.attributes?.nodes) {
+          const variationAttrs = prod.attributes.nodes.filter((attr: any) => attr.variation);
+          if (variationAttrs.length > 0) {
+            variations = variationAttrs.map((attr: any, idx: number) => {
+              const rawPriceVal = attr.options?.[0]; // Ejemplo: "480"
+              const price = rawPriceVal ? `C$ ${rawPriceVal}.00` : '';
+              
+              // Limpiamos y formateamos el nombre (ej: "postes-2-60m" -> "Poste 2.60 m")
+              let cleanAttrName = attr.name
+                .replace(/-/g, ' ')
+                .replace(/\b(postes)\b/gi, 'Poste')
+                .replace(/(\d+)\s+(\d+)\s*m/gi, '$1.$2 m')
+                .trim();
+              
+              // Capitalizar la primera letra
+              cleanAttrName = cleanAttrName.charAt(0).toUpperCase() + cleanAttrName.slice(1);
 
-      // Si prod.price es nulo o 'Consultar', pero tenemos variaciones virtuales, usamos el precio de la primera.
-      const displayPrice = prod.price && prod.price !== 'Consultar'
-        ? prod.price
-        : (variations.length > 0 ? variations[0].price : 'Consultar');
+              return {
+                id: `virtual-${prod.id}-${idx}`,
+                name: cleanAttrName,
+                price: price,
+                regularPrice: undefined,
+                attributes: {
+                  nodes: [
+                    {
+                      name: attr.name,
+                      value: cleanAttrName
+                    }
+                  ]
+                }
+              };
+            });
+          }
+        }
 
-      sections[targetSection].push({
-        databaseId: prod.databaseId,
-        name: prod.name,
-        price: displayPrice,
-        regularPrice: prod.regularPrice || undefined,
-        desc: prod.shortDescription ? prod.shortDescription.replace(/<[^>]*>/g, '') : undefined, // Limpiamos HTML de WooCommerce
-        image: prod.image?.sourceUrl || undefined,
-        variations: variations
+        // Si prod.price es nulo o 'Consultar', pero tenemos variaciones virtuales, usamos el precio de la primera.
+        const displayPrice = prod.price && prod.price !== 'Consultar'
+          ? prod.price
+          : (variations.length > 0 ? variations[0].price : 'Consultar');
+
+        sections[targetSection].push({
+          databaseId: prod.databaseId,
+          name: prod.name,
+          price: displayPrice,
+          regularPrice: prod.regularPrice || undefined,
+          desc: prod.shortDescription ? prod.shortDescription.replace(/<[^>]*>/g, '') : undefined, // Limpiamos HTML de WooCommerce
+          image: prod.image?.sourceUrl || undefined,
+          variations: variations
+        });
       });
-    });
 
-    // Convertimos a formato de renderizado
-    return Object.keys(sections).map(title => ({
-      title,
-      products: sections[title]
-    })).filter(sec => sec.products.length > 0); // Opcionalmente ocultar categorías vacías de WP
-  }, [wpProducts, hasWpProducts]);
+      baseCategories = Object.keys(sections).map(title => ({
+        title,
+        products: sections[title]
+      })).filter(sec => sec.products.length > 0);
+    }
+
+    if (searchParam) {
+      return baseCategories.map(cat => ({
+        ...cat,
+        products: cat.products.filter((p: any) => 
+          p.name.toLowerCase().includes(searchParam) || 
+          (p.desc && p.desc.toLowerCase().includes(searchParam)) ||
+          cat.title.toLowerCase().includes(searchParam)
+        )
+      })).filter(cat => cat.products.length > 0);
+    }
+
+    return baseCategories;
+  }, [wpProducts, hasWpProducts, searchParam]);
 
   return (
     <main className="min-h-screen bg-white">
@@ -408,7 +425,7 @@ export default function ProductosPage() {
 
           {(!loading || hasWpProducts) && categoriesToRender.map((category, index) => (
             <CategorySection key={index} title={category.title}>
-              {category.products.map((product, pIdx) => (
+              {category.products.map((product: any, pIdx: number) => (
                 <ProductCard 
                   key={pIdx}
                   databaseId={product.databaseId}
@@ -418,7 +435,7 @@ export default function ProductosPage() {
                   regularPrice={product.regularPrice}
                   desc={product.desc}
                   image={product.image}
-                  variations={product.variations}
+                  variations={product.variations || []}
                 />
               ))}
             </CategorySection>
@@ -448,5 +465,13 @@ export default function ProductosPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function ProductosPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center font-moderniz text-2xl text-[#11406C]">Cargando...</div>}>
+      <ProductosContent />
+    </Suspense>
   );
 }

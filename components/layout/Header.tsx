@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const MENU_ITEMS = [
   { name: 'Inicio', href: '/' },
@@ -21,6 +22,9 @@ export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const router = useRouter();
 
   React.useEffect(() => {
     setMounted(true);
@@ -78,9 +82,43 @@ export const Header = () => {
             </div>
 
             <div className="flex items-center gap-4 md:gap-5 text-gray-600 relative">
-              <button className="hover:text-[#96C121] transition-colors hidden sm:block">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-              </button>
+              <div className="relative flex items-center">
+                <button 
+                  onClick={() => setIsSearchOpen(!isSearchOpen)}
+                  className="hover:text-[#96C121] transition-colors hidden sm:block z-10 relative"
+                  aria-label="Buscar"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </button>
+                {isSearchOpen && (
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (searchQuery.trim()) {
+                        router.push(`/productos?search=${encodeURIComponent(searchQuery.trim())}`);
+                        setIsSearchOpen(false);
+                      }
+                    }}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 mr-8 flex items-center animate-in fade-in slide-in-from-right-4 duration-200 z-20"
+                  >
+                    <input 
+                      type="text" 
+                      autoFocus
+                      placeholder="Buscar productos..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="border border-gray-200 rounded-full py-1.5 px-4 text-xs w-48 focus:outline-none focus:border-[#96C121] font-acumin pr-8 bg-white shadow-sm"
+                    />
+                    <button 
+                      type="button" 
+                      onClick={() => setIsSearchOpen(false)}
+                      className="absolute right-2 text-gray-400 hover:text-gray-600 p-1"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                  </form>
+                )}
+              </div>
               
               {/* Profile User Icon & Dropdown */}
               <div className="relative">
