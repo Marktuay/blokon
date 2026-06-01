@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   IconWhatsApp, 
   IconCheckCircle 
@@ -22,6 +22,22 @@ export default function ContactPage() {
     'your-subject': '',
     'your-message': ''
   });
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const subject = params.get('subject');
+      const message = params.get('message');
+      
+      if (subject || message) {
+        setFormData(prev => ({
+          ...prev,
+          'your-subject': subject || prev['your-subject'],
+          'your-message': message || prev['your-message']
+        }));
+      }
+    }
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

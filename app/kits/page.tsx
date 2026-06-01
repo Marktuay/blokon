@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useCart } from '@/hooks/useCart';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 interface KitModel {
   name: string;
@@ -35,6 +36,7 @@ export default function KitsPage() {
   const [thickness, setThickness] = useState<12 | 15>(12);
   const [option, setOption] = useState<'completo' | 'cajon'>('completo');
   const { addToCart } = useCart();
+  const router = useRouter();
 
   const getPrice = (model: KitModel) => {
     if (option === 'completo') {
@@ -193,7 +195,9 @@ export default function KitsPage() {
 
                   <button 
                     onClick={() => {
-                      alert(`¡${model.name} (${option.toUpperCase()} ${thickness}cm) agregado a la cotización!`);
+                      const price = getPrice(model).toLocaleString('es-NI', { minimumFractionDigits: 2 });
+                      const msg = `Me interesa cotizar el Kit de Vivienda modelo ${model.name}.\nConfiguración: Opción ${option.toUpperCase()}, Espesor ${thickness}cm.\nPrecio estimado: C$ ${price}.`;
+                      router.push(`/contacto?subject=Kits de Vivienda&message=${encodeURIComponent(msg)}`);
                     }}
                     className="w-full py-4 bg-[#11406C] text-white font-bold uppercase tracking-widest text-sm hover:bg-[#96C121] hover:text-[#11406C] transition-all"
                   >
