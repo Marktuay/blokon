@@ -167,11 +167,11 @@ export default function ContactPage() {
                 <div className="space-y-3 font-acumin text-sm text-gray-600">
                   <div className="flex justify-between border-b border-gray-200 pb-2">
                     <span>Lunes a Viernes:</span>
-                    <span className="font-bold text-[#11406C]">9:00 am - 18:00 pm</span>
+                    <span className="font-bold text-[#11406C]">8:00 am - 5:00 pm</span>
                   </div>
                   <div className="flex justify-between border-b border-gray-200 pb-2">
                     <span>Sábados:</span>
-                    <span className="font-bold text-[#11406C]">9:00 am - 14:00 pm</span>
+                    <span className="font-bold text-[#11406C]">8:00 am - 12:00 pm</span>
                   </div>
                   <div className="flex justify-between text-gray-400">
                     <span>Domingos:</span>
