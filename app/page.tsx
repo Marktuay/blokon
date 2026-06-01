@@ -233,8 +233,13 @@ export default function Home() {
             Adquiere los bloques, vigas y materiales que conforman nuestro revolucionario sistema.
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-gray-100 flex flex-col items-center">
+            {[
+              { nombre: "Poste 2.60 m" },
+              { nombre: "Blok-On Entero 12 cm" },
+              { nombre: "Viga Corona (VC-C-2)" },
+              { nombre: "Adoquín Cruz Convencional" }
+            ].map((item, idx) => (
+              <div key={idx} className="bg-gray-50 rounded-2xl p-6 hover:shadow-lg transition-all border border-gray-100 flex flex-col items-center">
                 <div className="w-full aspect-square bg-gray-200 rounded-xl mb-6 relative overflow-hidden">
                   <div className="absolute inset-0 bg-[#11406C]/5"></div>
                   {/* Imagen Placeholder - Usaremos algo sutil */}
@@ -242,7 +247,7 @@ export default function Home() {
                     <svg className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
                   </div>
                 </div>
-                <h4 className="font-moderniz text-[10px] md:text-xs text-[#11406C] uppercase tracking-tight mb-2">Bloque Tipo {item}</h4>
+                <h4 className="font-moderniz text-[10px] md:text-xs text-[#11406C] uppercase tracking-tight mb-2 text-center">{item.nombre}</h4>
                 <p className="font-acumin text-[#96C121] font-bold text-sm">Ver producto →</p>
               </div>
             ))}
