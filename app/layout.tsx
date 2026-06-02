@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   title: "Blok-On | Soluciones Estructurales",
   description: "Arquitectura y construcción premium con precisión industrial.",
   icons: {
-    icon: "/images/muro/home/favicon.png",
+    icon: "/images/muro/home/iconopestana.jpg",
   },
 };
 
