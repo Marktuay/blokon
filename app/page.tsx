@@ -133,7 +133,7 @@ export default function Home() {
               { nombre: 'Ciudad El Doral', imagen: 'https://www.new-century-companies.com/wp-content/uploads/2025/06/modelo-promesa-ciudad-el-doral.jpg' },
               { nombre: 'Residencial Monte Nebo', imagen: 'https://www.new-century-companies.com/wp-content/uploads/2025/06/Modelo-Promesa-32.jpg' },
               { nombre: 'Praderas del Mombacho', imagen: 'https://www.new-century-companies.com/wp-content/uploads/2025/06/354532911_719213250207918_5158571041498534011_n.png' },
-              { nombre: 'Ciudad Campuzano', imagen: 'https://www.new-century-companies.com/wp-content/uploads/2025/06/Modelo-San-Santiago-35-1.jpg' }
+              { nombre: 'Ciudad Campuzano', imagen: '/images/muro/home/modelo-campuzano.jpg' }
             ].map((proyecto, idx) => (
               <div key={idx} className="bg-gray-50 p-6 rounded-xl border border-gray-100 flex flex-col items-center justify-center text-center aspect-square hover:border-[#96C121] hover:shadow-lg transition-all relative overflow-hidden group">
                 {proyecto.imagen && (
