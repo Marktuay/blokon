@@ -54,17 +54,16 @@ export default function Home() {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-y-16 gap-x-8">
             {[
-              { icon: <IconAntisismico size={64} />, title: "Antisísmico", color: "text-[#11406C]" },
-              { icon: <IconViento size={64} />, title: "Resistente al viento", color: "text-[#11406C]" },
-              { icon: <IconRapido size={64} />, title: "70% más rápido de construir", color: "text-[#11406C]" },
-              { icon: <IconEconomico size={64} />, title: "25% más económico", color: "text-[#11406C]" },
-              { icon: <IconAcustico size={64} />, title: "Aislamiento Acústico", color: "text-[#11406C]" },
-              { icon: <IconBuenAspecto size={64} />, title: "Buen Aspecto", color: "text-[#11406C]" },
-              { icon: <IconCertificado size={64} />, title: "Material certificado 100% seguro y resistente", color: "text-[#11406C]" },
-              { icon: <IconKits size={64} />, title: "Kits de Viviendas", color: "text-[#11406C]" },
+              { icon: <Image src="/icons/ICON-01.png" width={64} height={64} alt="Antisísmico" className="object-contain" />, title: "Antisísmico" },
+              { icon: <Image src="/icons/ICON-02.png" width={64} height={64} alt="Resistente al viento" className="object-contain" />, title: "Resistente al viento" },
+              { icon: <Image src="/icons/ICON-03.png" width={64} height={64} alt="70% más rápido de construir" className="object-contain" />, title: "70% más rápido de construir" },
+              { icon: <Image src="/icons/ICON-04.png" width={64} height={64} alt="25% más económico" className="object-contain" />, title: "25% más económico" },
+              { icon: <Image src="/icons/ICON-05.png" width={64} height={64} alt="Aislamiento Acústico" className="object-contain" />, title: "Aislamiento Acústico" },
+              { icon: <Image src="/icons/ICON-06.png" width={64} height={64} alt="Buen Aspecto" className="object-contain" />, title: "Buen Aspecto" },
+              { icon: <Image src="/icons/ICON-07.png" width={64} height={64} alt="Material certificado" className="object-contain" />, title: "Material certificado 100% seguro y resistente" },
             ].map((item, idx) => (
               <div key={idx} className="flex flex-col items-center text-center group">
-                <div className={`${item.color} mb-6 transform group-hover:scale-110 transition-transform duration-300`}>
+                <div className="mb-6 transform group-hover:scale-110 transition-transform duration-300">
                   {item.icon}
                 </div>
                 <h3 className="font-tt-drugs text-[11px] sm:text-sm font-bold uppercase tracking-widest text-[#11406C] max-w-[150px] leading-snug">
