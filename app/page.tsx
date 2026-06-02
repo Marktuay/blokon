@@ -22,9 +22,10 @@ export default function Home() {
         <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-[url('/images/muro/home/1-D.png')] bg-cover bg-center"></div>
         
         <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="max-w-3xl">
-            <h1 className="font-moderniz text-3xl sm:text-4xl md:text-7xl font-bold text-white uppercase tracking-tight leading-[1.05] mb-6">
-              El Futuro de la Construccion <span className="text-[#96C121]">Comienza Aqui.</span>
+          <div className="max-w-5xl">
+            <h1 className="font-moderniz text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white uppercase tracking-tight leading-[1.05] mb-6">
+              El Futuro de la Construccion <br className="hidden md:block" />
+              <span className="text-[#96C121]">Comienza Aqui.</span>
             </h1>
             <p className="font-acumin text-base md:text-xl text-white/80 mb-10 max-w-xl">
               Sistemas estructurales inteligentes, diseño vanguardista y kits de viviendas listos para ensamblar. Construye más rápido, más fuerte y con precisión milimétrica.

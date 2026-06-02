@@ -230,13 +230,9 @@ export default function KitsPage() {
                   <h4 className="font-bold uppercase text-[#11406C] mb-2 text-sm tracking-widest">Documentación</h4>
                   <p className="text-sm text-gray-600">Manual de armado paso a paso y planos constructivos detallados.</p>
                 </div>
-                <div className="bg-gray-50 p-8 border-l-4 border-[#96C121]">
-                  <h4 className="font-bold uppercase text-[#11406C] mb-2 text-sm tracking-widest">Estructura</h4>
-                  <p className="text-sm text-gray-600">Viga asísmica (VA-C-23) y viga corona (VC-C-2) incluidas.</p>
-                </div>
               </div>
               <p className="mt-8 text-xs font-bold text-red-500 uppercase tracking-widest">
-                * Nota: El precio NO incluye mano de obra, acabados, carga ni transporte.
+                * Nota: El precio NO incluye y no ofrecemos mano de obra, acabados, carga ni transporte.
               </p>
             </div>
 
