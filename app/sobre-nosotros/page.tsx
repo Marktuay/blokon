@@ -71,8 +71,8 @@ export default function SobreNosotros() {
             </div>
             <div className="relative aspect-video lg:aspect-square bg-gray-100 overflow-hidden shadow-2xl">
               <Image 
-                src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2062&auto=format&fit=crop"
-                alt="Arquitectura Moderna"
+                src="/images/muro/home/SOBRE-NOSOTROS.jpg"
+                alt="Equipo Blok-On"
                 fill
                 className="object-cover"
               />
