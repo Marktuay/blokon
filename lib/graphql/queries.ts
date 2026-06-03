@@ -44,6 +44,9 @@ export const GET_PRODUCTS_QUERY = gql`
                   value
                 }
               }
+              image {
+                sourceUrl
+              }
             }
           }
         }

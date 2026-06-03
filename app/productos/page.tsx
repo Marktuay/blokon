@@ -31,9 +31,10 @@ const ProductCard = ({ databaseId, name, price, regularPrice, desc, category, im
     return variations.find(v => v.id === selectedVariationId);
   }, [selectedVariationId, variations]);
 
-  // Si hay una variación seleccionada, usamos sus precios; si no, los del producto padre
+  // Si hay una variación seleccionada, usamos sus precios e imagen; si no, los del producto padre
   const activePrice = selectedVariation ? selectedVariation.price : price;
   const activeRegularPrice = selectedVariation ? selectedVariation.regularPrice : regularPrice;
+  const activeImage = selectedVariation?.image?.sourceUrl || image;
 
   const formattedPrice = formatPrice(activePrice);
   const formattedRegularPrice = formatPrice(activeRegularPrice);
@@ -95,9 +96,9 @@ const ProductCard = ({ databaseId, name, price, regularPrice, desc, category, im
     <div className="bg-white group overflow-hidden border border-gray-200 hover:border-[#96C121] transition-all duration-300 flex flex-col shadow-sm hover:shadow-2xl">
       {/* Image Placeholder or Dynamic Image */}
       <div className="relative aspect-[4/3] bg-gray-100 overflow-hidden">
-        {image ? (
+        {activeImage ? (
           <Image 
-            src={image} 
+            src={activeImage} 
             alt={name} 
             fill 
             className="object-cover group-hover:scale-105 transition-transform duration-500" 
