@@ -434,8 +434,8 @@ function ProductosContent() {
                   name={product.name}
                   price={product.price}
                   regularPrice={product.regularPrice}
-                  desc={product.desc}
-                  image={product.image}
+                  desc={product.desc || product.shortDescription || product.description}
+                  image={product.image?.sourceUrl || product.image}
                   variations={product.variations || []}
                 />
               ))}

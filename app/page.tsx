@@ -173,7 +173,7 @@ export default function Home() {
               { nombre: 'Dalila', imagen: '/images/muro/home/dalila.png' },
               { nombre: 'Esperanza', imagen: '/images/muro/home/esperanza.png' }
             ].map((kit, idx) => (
-              <div key={idx} className="group cursor-pointer bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl flex flex-col">
+              <Link href="/kits" key={idx} className="group cursor-pointer bg-white overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 rounded-2xl flex flex-col block">
                 <div className="h-64 bg-gray-200 relative overflow-hidden">
                   <div className="absolute inset-0 bg-[#11406C]/10 group-hover:bg-transparent transition-all z-10"></div>
                   <Image src={kit.imagen} alt={`Modelo ${kit.nombre}`} fill className="object-cover transform group-hover:scale-105 transition-transform duration-700" />
@@ -190,7 +190,7 @@ export default function Home() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
           <div className="text-center mt-12 md:hidden">
