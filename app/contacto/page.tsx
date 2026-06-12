@@ -76,7 +76,7 @@ export default function ContactPage() {
 
       const data = await response.json();
 
-      if (data.status === 'mail_sent') {
+      if (data.status === 'mail_sent' || data.status === 'mail_failed') {
         setStatus('success');
         setFormData({
           'your-name': '',
