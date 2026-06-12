@@ -144,7 +144,7 @@ export default function ContactPage() {
                     </ContactIcon>
                     <div>
                       <h3 className="font-tt-drugs font-bold uppercase tracking-widest text-[#11406C] text-xs sm:text-sm mb-1">Correo Electronico</h3>
-                      <p className="font-acumin text-base sm:text-lg text-gray-600">ventas@blok-on.com</p>
+                      <p className="font-acumin text-base sm:text-lg text-gray-600">info@blok-on.com</p>
                     </div>
                   </div>
 
