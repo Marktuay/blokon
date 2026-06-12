@@ -234,10 +234,10 @@ export default function Home() {
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
             {[
-              { nombre: "Postes", imagen: "https://api.blok-on.com/wp-content/uploads/2026/05/postes.png" },
-              { nombre: "Vigas", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/vigas.png" },
-              { nombre: "Lavanderos", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/lavanderos.png" },
-              { nombre: "Bordillo 30 CM x 50 CM", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/bordillo.png" }
+              { nombre: "Postes", imagen: "https://api.blok-on.com/wp-content/uploads/2026/05/POSTES.jpg" },
+              { nombre: "Vigas", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/VIGA-ASISMICA.jpg" },
+              { nombre: "Lavanderos", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/LAV-SENCILLO-scaled.jpg" },
+              { nombre: "Bordillo 30 CM x 50 CM", imagen: "https://api.blok-on.com/wp-content/uploads/2026/06/BORDILLO.jpg" }
             ].map((item, idx) => (
               <Link 
                 key={idx} 
@@ -247,7 +247,7 @@ export default function Home() {
                 <div className="w-full aspect-square bg-gray-200 rounded-xl mb-6 relative overflow-hidden">
                   <div className="absolute inset-0 bg-[#11406C]/5 z-10"></div>
                   {item.imagen ? (
-                    <Image src={item.imagen} alt={item.nombre} fill className="object-cover transition-transform duration-500 group-hover:scale-105" />
+                    <Image src={item.imagen} alt={item.nombre} fill className="object-contain p-2 transition-transform duration-500 group-hover:scale-105" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <svg className="w-16 h-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
