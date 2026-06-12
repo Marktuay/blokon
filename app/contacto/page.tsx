@@ -59,11 +59,7 @@ export default function ContactPage() {
     setStatus('loading');
 
     const FORM_ID = '14'; 
-    // Usamos el proxy local para evitar problemas de CORS en producción
-    const API_URL = typeof window !== 'undefined' 
-      ? `/api/contact-proxy?id=${FORM_ID}`
-      : `https://api.blok-on.com/wp-json/contact-form-7/v1/contact-forms/${FORM_ID}/feedback`;
-
+    const API_URL = `https://api.blok-on.com/wp-json/contact-form-7/v1/contact-forms/${FORM_ID}/feedback`;
     const body = new FormData();
     Object.entries(formData).forEach(([key, value]) => {
       body.append(key, value);
