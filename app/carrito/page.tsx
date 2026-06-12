@@ -1,9 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '@/hooks/useCart';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const formatPrice = (rawPrice?: string) => {
   if (!rawPrice) return '';
@@ -12,6 +14,14 @@ const formatPrice = (rawPrice?: string) => {
 
 export default function CarritoPage() {
   const { cart, loading, updateQuantity, removeFromCart } = useCart();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      router.push('/');
+    }
+  }, [authLoading, isAuthenticated, router]);
 
   const cartItems = cart?.contents?.nodes || [];
   const isEmpty = cartItems.length === 0;
@@ -25,6 +35,14 @@ export default function CarritoPage() {
   const handleRemove = async (key: string) => {
     await removeFromCart([key]);
   };
+
+  if (authLoading || (!isAuthenticated && !authLoading)) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#11406C]"></div>
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-gray-50 py-20 px-4 md:px-8 font-acumin text-[#1a1c1c]">

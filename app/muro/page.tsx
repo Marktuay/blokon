@@ -26,6 +26,70 @@ const StepCard = ({ number, title, desc, icon }: { number: string, title: string
 export default function MuroPage() {
   const [forma, setForma] = useState('Línea Recta');
   const [altura, setAltura] = useState('2.00 Metros');
+  const [formData, setFormData] = useState({
+    'your-name': '',
+    'your-email': '',
+    'your-tel': '',
+    'medidas-muro': ''
+  });
+  const [file, setFile] = useState<File | null>(null);
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+
+    const FORM_ID = 'f505c2e'; 
+    const API_URL = `https://api.blok-on.com/wp-json/contact-form-7/v1/contact-forms/${FORM_ID}/feedback`;
+
+    const body = new FormData();
+    body.append('your-name', formData['your-name']);
+    body.append('your-email', formData['your-email']);
+    body.append('your-tel', formData['your-tel']);
+    body.append('medidas-muro', formData['medidas-muro']);
+    body.append('forma-muro', forma);
+    body.append('altura-muro', altura);
+    
+    // Campos técnicos requeridos por la API de Contact Form 7
+    body.append('_wpcf7', FORM_ID);
+    body.append('_wpcf7_unit_tag', `wpcf7-f${FORM_ID}-p1-o1`);
+
+    if (file) {
+      body.append('croquis-muro', file);
+    }
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        body: body,
+      });
+
+      const result = await response.json();
+
+      if (result.status === 'mail_sent' || result.status === 'mail_failed') {
+        setStatus('success');
+        setFormData({ 'your-name': '', 'your-email': '', 'your-tel': '', 'medidas-muro': '' });
+        setFile(null);
+        setForma('Línea Recta');
+        setAltura('2.00 Metros');
+      } else {
+        setStatus('error');
+      }
+    } catch (error) {
+      console.error('Error sending form:', error);
+      setStatus('error');
+    }
+  };
 
   return (
     <main className="min-h-screen bg-white">
@@ -110,7 +174,7 @@ export default function MuroPage() {
             <div className="bg-[#11406C] py-6 px-10">
               <h3 className="font-moderniz text-white text-xl uppercase tracking-tight">Formulario de Cotización Especializada</h3>
             </div>
-            <form className="p-10 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <form onSubmit={handleSubmit} className="p-10 grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Datos de Contacto */}
               <div className="space-y-4 md:col-span-2">
                 <label className="font-moderniz text-[10px] uppercase tracking-widest text-gray-400">Datos del Solicitante</label>
@@ -119,19 +183,19 @@ export default function MuroPage() {
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                     </span>
-                    <input type="text" placeholder="Nombre Completo" className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
+                    <input type="text" name="your-name" value={formData['your-name']} onChange={handleChange} placeholder="Nombre Completo" className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
                   </div>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                     </span>
-                    <input type="email" placeholder="Correo Electrónico" className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
+                    <input type="email" name="your-email" value={formData['your-email']} onChange={handleChange} placeholder="Correo Electrónico" className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
                   </div>
                   <div className="relative">
                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
                       <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                     </span>
-                    <input type="tel" placeholder="Teléfono / WhatsApp" className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
+                    <input type="tel" name="your-tel" value={formData['your-tel']} onChange={handleChange} placeholder="Teléfono / WhatsApp" className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all" required />
                   </div>
                 </div>
               </div>
@@ -190,7 +254,7 @@ export default function MuroPage() {
                   <span className="absolute left-4 top-6 text-gray-400">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                   </span>
-                  <textarea placeholder="Ej: Lado A: 10m, Lado B: 15m..." className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all h-24 resize-none" required></textarea>
+                  <textarea name="medidas-muro" value={formData['medidas-muro']} onChange={handleChange} placeholder="Ej: Lado A: 10m, Lado B: 15m..." className="w-full bg-gray-50 border-0 p-4 pl-12 text-sm font-acumin outline-none focus:ring-1 focus:ring-[#96C121] transition-all h-24 resize-none" required></textarea>
                 </div>
               </div>
 
@@ -198,21 +262,37 @@ export default function MuroPage() {
               <div className="space-y-4 md:col-span-2">
                 <label className="font-moderniz text-[10px] uppercase tracking-widest text-gray-400">Adjuntar Croquis o Plano (Opcional)</label>
                 <div className="border-2 border-dashed border-gray-100 p-8 text-center hover:border-[#96C121] transition-all group cursor-pointer">
-                  <input type="file" className="hidden" id="file-upload" accept=".pdf,image/*" />
+                  <input type="file" onChange={handleFileChange} className="hidden" id="file-upload" accept=".pdf,image/*" />
                   <label htmlFor="file-upload" className="cursor-pointer">
                     <svg className="w-8 h-8 mx-auto text-gray-300 group-hover:text-[#96C121] mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
-                    <span className="text-xs text-gray-400 font-acumin group-hover:text-[#11406C] block">Haz clic para subir un archivo o arrástralo aquí</span>
+                    <span className="text-xs text-gray-400 font-acumin group-hover:text-[#11406C] block">
+                      {file ? file.name : "Haz clic para subir un archivo o arrástralo aquí"}
+                    </span>
                     <span className="text-[9px] text-gray-300 uppercase tracking-tighter mt-1">Formatos permitidos: PDF, JPG, PNG</span>
                   </label>
                 </div>
               </div>
 
               <div className="md:col-span-2">
-                <button type="submit" className="w-full bg-[#96C121] text-[#11406C] font-moderniz py-5 uppercase tracking-widest text-sm hover:bg-[#11406C] hover:text-white transition-all">
-                  Enviar Solicitud de Cotizacion
+                <button 
+                  type="submit" 
+                  disabled={status === 'loading'}
+                  className="w-full bg-[#96C121] text-[#11406C] font-moderniz py-5 uppercase tracking-widest text-sm hover:bg-[#11406C] hover:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {status === 'loading' ? 'Enviando...' : 'Enviar Solicitud de Cotizacion'}
                 </button>
+                {status === 'success' && (
+                  <p className="mt-4 text-sm text-green-600 font-acumin text-center bg-green-50 py-3 rounded-lg border border-green-200">
+                    ¡Gracias! Hemos recibido tu solicitud. Nos pondremos en contacto contigo pronto.
+                  </p>
+                )}
+                {status === 'error' && (
+                  <p className="mt-4 text-sm text-red-600 font-acumin text-center bg-red-50 py-3 rounded-lg border border-red-200">
+                    Ocurrió un error al enviar el formulario. Por favor intenta de nuevo.
+                  </p>
+                )}
               </div>
             </form>
           </div>
