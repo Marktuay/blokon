@@ -61,6 +61,13 @@ export default function RootLayout({
       className={`${moderniz.variable} ${ttDrugs.variable} ${acumin.variable} h-full antialiased`}
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col font-acumin bg-white text-slate-900">
+        <div dangerouslySetInnerHTML={{ __html: `<!-- 
+=========================================================
+  🚀 Construido con orgullo para BLOK-ON
+  👨‍💻 Desarrollado por: Marcelo Martinez
+  📧 Contacto: marktuay@gmail.com
+=========================================================
+-->` }} />
         <Providers>
           <Header />
           <main className="flex-grow">
