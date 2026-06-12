@@ -129,7 +129,12 @@ export default function ContactPage() {
                     </ContactIcon>
                     <div>
                       <h3 className="font-tt-drugs font-bold uppercase tracking-widest text-[#11406C] text-xs sm:text-sm mb-1">Telefono</h3>
-                      <p className="font-acumin text-base sm:text-lg text-gray-600">+505 8692 - 7530</p>
+                      <p className="font-acumin text-base sm:text-lg text-gray-600">
+                        +505 8238 9667 <br />
+                        +505 5871 0904 <br />
+                        +505 8692 7557 <br />
+                        +505 8692 7530
+                      </p>
                     </div>
                   </div>
 
