@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { validateFormSecurity } from '@/lib/sanitize';
 
 const StepCard = ({ number, title, desc, icon }: { number: string, title: string, desc: string, icon: React.ReactNode }) => (
   <div className="bg-white p-8 border border-gray-100 hover:border-[#96C121] transition-all group relative overflow-hidden shadow-sm hover:shadow-xl">
@@ -33,7 +34,8 @@ export default function MuroPage() {
     'medidas-muro': ''
   });
   const [file, setFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'validation_error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,6 +49,15 @@ export default function MuroPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validar seguridad
+    const validation = validateFormSecurity(formData);
+    if (!validation.isValid) {
+      setStatus('validation_error');
+      setErrorMessage(validation.error || 'Error de validación');
+      return;
+    }
+
     setStatus('loading');
 
     const FORM_ID = 'f505c2e'; 
@@ -291,6 +302,11 @@ export default function MuroPage() {
                 {status === 'error' && (
                   <p className="mt-4 text-sm text-red-600 font-acumin text-center bg-red-50 py-3 rounded-lg border border-red-200">
                     Ocurrió un error al enviar el formulario. Por favor intenta de nuevo.
+                  </p>
+                )}
+                {status === 'validation_error' && (
+                  <p className="mt-4 text-sm text-orange-600 font-acumin text-center bg-orange-50 py-3 rounded-lg border border-orange-200">
+                    {errorMessage}
                   </p>
                 )}
               </div>

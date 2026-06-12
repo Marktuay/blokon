@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { IconWhatsApp } from '@/components/ui/Icons';
 import { useAuth } from '@/contexts/AuthContext';
+import { validateFormSecurity } from '@/lib/sanitize';
 
 export const Footer = () => {
   const { isAuthenticated } = useAuth();
@@ -14,7 +15,7 @@ export const Footer = () => {
     setMounted(true);
   }, []);
 
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'validation_error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     'your-name': '',
@@ -32,6 +33,15 @@ export const Footer = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validar seguridad
+    const validation = validateFormSecurity(formData);
+    if (!validation.isValid) {
+      setStatus('validation_error');
+      setErrorMessage(validation.error || 'Error de validación');
+      return;
+    }
+
     setStatus('loading');
     setErrorMessage('');
 
@@ -152,6 +162,12 @@ export const Footer = () => {
                   {status === 'loading' ? 'Enviando...' : 'Enviar'}
                 </button>
               </form>
+            )}
+            
+            {status === 'validation_error' && (
+              <p className="text-orange-400 text-xs mt-2 bg-orange-900/30 p-2 rounded">
+                {errorMessage}
+              </p>
             )}
 
             <p className="text-[10px] text-gray-500 mt-4 leading-relaxed">

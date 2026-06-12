@@ -11,6 +11,7 @@ export const CheckoutForm = () => {
   const [paymentMethod, setPaymentMethod] = useState<'card' | 'transfer'>('card');
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [discountCode, setDiscountCode] = useState('');
+  const [hasExoneration, setHasExoneration] = useState(false);
 
   const cartItems = cart?.contents?.nodes || [];
   
@@ -29,25 +30,31 @@ export const CheckoutForm = () => {
 
     const formData = new FormData(e.currentTarget);
     
+    // Extraemos nombre y apellidos
+    const fullName = formData.get('billing_name') as string || '';
+    const nameParts = fullName.trim().split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : 'N/A';
+
     // Construcción del objeto compatible con WooCommerce REST API
     const data = {
       billing: {
-        first_name: formData.get('billing_first_name'),
-        last_name: formData.get('billing_last_name'),
-        company: formData.get('billing_company'),
-        address_1: formData.get('billing_address_1'),
-        address_2: formData.get('billing_address_2'),
-        city: formData.get('billing_city'),
-        state: formData.get('billing_state'),
-        postcode: formData.get('billing_postcode'),
-        country: formData.get('billing_country') || 'NI',
-        email: formData.get('billing_email'),
+        first_name: firstName,
+        last_name: lastName,
+        company: '',
+        address_1: 'N/A',
+        address_2: '',
+        city: 'Managua',
+        state: 'Managua',
+        postcode: '10000',
+        country: 'NI',
+        email: 'ventas@blok-on.com', // Correo por defecto ya que no se solicitó
         phone: formData.get('billing_phone'),
       },
-      meta_data: needsInvoice ? [
-        { key: 'billing_rfc', value: formData.get('billing_rfc') },
-        { key: 'billing_cfdi_use', value: formData.get('billing_cfdi_use') }
-      ] : [],
+      meta_data: [
+        { key: 'ruc_cedula', value: formData.get('billing_ruc_cedula') },
+        { key: 'exoneracion', value: hasExoneration ? 'Sí' : 'No' }
+      ],
       customer_note: formData.get('order_comments'),
       paymentMethod: paymentMethod,
       coupon: discountCode,
@@ -67,109 +74,38 @@ export const CheckoutForm = () => {
       <div className="lg:col-span-7 space-y-12">
         <section>
           <h2 className="font-tt-drugs text-3xl font-bold uppercase tracking-tighter mb-8 border-b-4 border-[#11406C] inline-block">
-            Información de Envío
+            Información del Cliente
           </h2>
-          <form id="checkout-form" onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* 1. Nombre y Apellidos */}
-            <div className="flex flex-col">
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Nombre *</label>
-              <input name="billing_first_name" required className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Apellidos *</label>
-              <input name="billing_last_name" required className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
-            </div>
-
-            {/* 2. Empresa */}
-            <div className="md:col-span-2 flex flex-col">
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Nombre de la empresa (Opcional)</label>
-              <input name="billing_company" className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
-            </div>
-
-            {/* 3. País */}
-            <div className="md:col-span-2 flex flex-col">
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">País / Región *</label>
-              <select name="billing_country" required className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c] cursor-pointer">
-                <option value="NI">Nicaragua</option>
-              </select>
-            </div>
-
-            {/* 4. Dirección */}
-            <div className="md:col-span-2 flex flex-col">
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Dirección de la calle *</label>
-              <input name="billing_address_1" required placeholder="Número de la casa y nombre de la calle" className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c] mb-2" />
-              <input name="billing_address_2" placeholder="Apartamento, habitación, etc. (Opcional)" className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
-            </div>
-
-            {/* 5. Localidad / Ciudad */}
-            <div className="flex flex-col">
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Localidad / Ciudad *</label>
-              <input name="billing_city" required className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
-            </div>
-
-            {/* 6. Región / Estado */}
-            <div className="flex flex-col">
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Estado / Provincia *</label>
-              <input name="billing_state" required className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
-            </div>
-
-            {/* 7. Código Postal */}
-            <div className="flex flex-col">
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Código Postal *</label>
-              <input name="billing_postcode" required className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
-            </div>
+          <form id="checkout-form" onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
             
-            {/* Espaciador para grid */}
-            <div className="hidden md:block"></div>
-
-            {/* 8. Teléfono */}
             <div className="flex flex-col">
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Teléfono *</label>
+              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Nombre Completo *</label>
+              <input name="billing_name" required className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">RUC o Cédula *</label>
+              <input name="billing_ruc_cedula" required className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
+            </div>
+
+            <div className="flex flex-col">
+              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Número de Celular *</label>
               <input name="billing_phone" type="tel" required className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
             </div>
 
-            {/* 9. Correo */}
-            <div className="flex flex-col">
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Dirección de correo electrónico *</label>
-              <input name="billing_email" type="email" required className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c]" />
-            </div>
-
-            {/* 10. Notas del pedido */}
-            <div className="md:col-span-2 flex flex-col mt-4">
-              <h3 className="font-bold text-lg mb-4 border-b pb-2">Información Adicional</h3>
-              <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Notas del pedido (Opcional)</label>
-              <textarea name="order_comments" rows={3} placeholder="Notas sobre tu pedido, por ejemplo, notas especiales para la entrega." className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c] resize-none" />
-            </div>
-            
-            {/* Facturación Toggle (Campos Custom México) */}
-            <div className="md:col-span-2 flex items-center gap-3 mt-4">
+            <div className="flex items-center gap-3 mt-4">
               <input 
                 type="checkbox" 
-                id="needsInvoice" 
-                checked={needsInvoice}
-                onChange={(e) => setNeedsInvoice(e.target.checked)}
-                className="w-4 h-4 accent-[#96C121]" 
+                id="hasExoneration" 
+                checked={hasExoneration}
+                onChange={(e) => setHasExoneration(e.target.checked)}
+                className="w-5 h-5 accent-[#96C121] cursor-pointer" 
               />
-              <label htmlFor="needsInvoice" className="text-sm font-bold cursor-pointer">Requiero Factura (CFDI)</label>
+              <label htmlFor="hasExoneration" className="text-sm font-bold cursor-pointer">
+                Aplica para recibir exoneraciones
+              </label>
             </div>
 
-            {needsInvoice && (
-              <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6 bg-gray-50 p-6 border border-gray-200 rounded mt-2">
-                <div className="flex flex-col">
-                  <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">RFC *</label>
-                  <input name="billing_rfc" required={needsInvoice} className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c] uppercase" />
-                </div>
-                <div className="flex flex-col">
-                  <label className="text-xs font-bold uppercase tracking-widest mb-2 opacity-60 text-[#1a1c1c]">Uso de CFDI *</label>
-                  <select name="billing_cfdi_use" required={needsInvoice} className="border-b-2 border-gray-200 focus:border-[#11406C] p-3 outline-none transition-colors bg-white text-[#1a1c1c] cursor-pointer">
-                    <option value="">Selecciona el uso</option>
-                    <option value="G01">G01 - Adquisición de mercancias</option>
-                    <option value="G03">G03 - Gastos en general</option>
-                    <option value="I01">I01 - Construcciones</option>
-                  </select>
-                </div>
-              </div>
-            )}
           </form>
         </section>
 

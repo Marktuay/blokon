@@ -5,6 +5,7 @@ import {
   IconWhatsApp, 
   IconCheckCircle 
 } from "@/components/ui/Icons";
+import { validateFormSecurity } from '@/lib/sanitize';
 
 const ContactIcon = ({ children }: { children: React.ReactNode }) => (
   <div className="w-12 h-12 rounded-full bg-[#11406C]/5 flex items-center justify-center text-[#11406C] group-hover:bg-[#96C121] group-hover:text-[#11406C] transition-all duration-300">
@@ -13,7 +14,8 @@ const ContactIcon = ({ children }: { children: React.ReactNode }) => (
 );
 
 export default function ContactPage() {
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error' | 'validation_error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     'your-name': '',
     'your-company': '',
@@ -45,6 +47,15 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validar seguridad
+    const validation = validateFormSecurity(formData);
+    if (!validation.isValid) {
+      setStatus('validation_error');
+      setErrorMessage(validation.error || 'Error de validación');
+      return;
+    }
+
     setStatus('loading');
 
     const FORM_ID = '14'; 
@@ -287,6 +298,11 @@ export default function ContactPage() {
 
                   {status === 'error' && (
                     <p className="text-red-500 font-acumin text-sm">Hubo un error al enviar el mensaje. Por favor intenta de nuevo.</p>
+                  )}
+                  {status === 'validation_error' && (
+                    <p className="text-orange-600 font-acumin text-sm bg-orange-50 p-3 rounded border border-orange-200">
+                      {errorMessage}
+                    </p>
                   )}
 
                   <button 
