@@ -60,7 +60,7 @@ export default function MuroPage() {
 
     setStatus('loading');
 
-    const FORM_ID = 'f505c2e'; 
+    const FORM_ID = '449'; 
     const API_URL = `https://api.blok-on.com/wp-json/contact-form-7/v1/contact-forms/${FORM_ID}/feedback`;
 
     const body = new FormData();
@@ -94,6 +94,7 @@ export default function MuroPage() {
         setForma('Línea Recta');
         setAltura('2.00 Metros');
       } else {
+        console.error('Error from CF7 API:', result);
         setStatus('error');
       }
     } catch (error) {
