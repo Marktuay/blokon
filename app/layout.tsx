@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Montserrat, Noto_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "@/components/providers/Providers";
@@ -10,36 +11,16 @@ const moderniz = localFont({
   variable: "--font-moderniz",
 });
 
-const ttDrugs = localFont({
-  src: "../public/fonts/TT Drugs Trial Condensed Bold.otf",
+const montserrat = Montserrat({
+  subsets: ["latin"],
   variable: "--font-tt-drugs",
 });
 
-const acumin = localFont({
-  src: [
-    {
-      path: "../public/fonts/Acumin-RPro.otf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Acumin-BdPro.otf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/Acumin-ItPro.otf",
-      weight: "400",
-      style: "italic",
-    },
-    {
-      path: "../public/fonts/Acumin-BdItPro.otf",
-      weight: "700",
-      style: "italic",
-    },
-  ],
+const notoSans = Noto_Sans({
+  subsets: ["latin"],
   variable: "--font-acumin",
 });
+
 
 export const metadata: Metadata = {
   title: "Blok-On | Soluciones Estructurales",
@@ -58,7 +39,7 @@ export default function RootLayout({
     <html
       lang="es"
       suppressHydrationWarning
-      className={`${moderniz.variable} ${ttDrugs.variable} ${acumin.variable} h-full antialiased`}
+      className={`${moderniz.variable} ${montserrat.variable} ${notoSans.variable} h-full antialiased`}
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col font-acumin bg-white text-slate-900">
         <div dangerouslySetInnerHTML={{ __html: `<!-- 
