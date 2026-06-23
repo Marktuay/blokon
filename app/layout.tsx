@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Montserrat, Noto_Sans } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -42,6 +43,19 @@ export default function RootLayout({
       className={`${moderniz.variable} ${montserrat.variable} ${notoSans.variable} h-full antialiased`}
     >
       <body suppressHydrationWarning className="min-h-full flex flex-col font-acumin bg-white text-slate-900">
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-VN221G75DZ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-VN221G75DZ');
+          `}
+        </Script>
         <div dangerouslySetInnerHTML={{ __html: `<!-- 
 =========================================================
   🚀 Construido con orgullo para BLOK-ON
