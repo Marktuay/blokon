@@ -21,8 +21,6 @@ export default function Home() {
       <section className="relative w-full h-[85vh] bg-[#11406C] flex items-center overflow-hidden">
         {/* Imagen de fondo arquitectónico Blok-On */}
         <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-[url('/images/muro/home/1-D.png')] bg-cover bg-center"></div>
-        
-        <HeroVideo />
 
         <div className="container mx-auto px-6 md:px-12 relative z-10">
           <div className="max-w-5xl">
@@ -43,6 +41,11 @@ export default function Home() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Video Presentation Section */}
+      <section className="relative w-full h-[50vh] md:h-[70vh] bg-black overflow-hidden flex items-center justify-center">
+        <HeroVideo />
       </section>
 
       {/* Philosophy / Features Section */}

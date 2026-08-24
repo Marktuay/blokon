@@ -16,11 +16,11 @@ export function HeroVideo() {
 
   return (
     <>
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-black/10">
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-black">
         <iframe
           ref={iframeRef}
           src="https://www.youtube-nocookie.com/embed/MCTTEprwnS4?autoplay=1&mute=1&loop=1&playlist=MCTTEprwnS4&controls=0&rel=0&modestbranding=1&enablejsapi=1"
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-60"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100"
           style={{ border: 'none', width: '100vw', height: '56.25vw', minHeight: '85vh', minWidth: '151.11vh' }}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           title="Blok-On Video"

@@ -6,7 +6,7 @@ Este documento sirve como registro y "memoria" del estado actual, estructura y r
 
 El frontend está estructurado como una aplicación multi-página orientada a conversión y exposición de portafolio B2B/B2C:
 
-- **`/` (Inicio - `app/page.tsx`)**: Actúa como el *Hub* central (Landing Page). Agrupa de forma resumida el valor de la marca e invita a visitar el resto de secciones. Contiene un Hero principal, "Ventajas Estructurales" (iconos) y resúmenes con llamadas a la acción (CTAs) para Sobre Nosotros, Proyectos, Kits, Muros y Productos.
+- **`/` (Inicio - `app/page.tsx`)**: Actúa como el *Hub* central (Landing Page). Agrupa de forma resumida el valor de la marca e invita a visitar el resto de secciones. Contiene un Hero principal (con imagen estática), seguido de una **sección dedicada para el video promocional**, "Ventajas Estructurales" (iconos) y resúmenes con llamadas a la acción (CTAs) para Sobre Nosotros, Proyectos, Kits, Muros y Productos.
 - **`/muro`**: Landing page especializada en **Muros Perimetrales**. Incluye un hero enfocado, una guía visual de pasos de cotización y un formulario de contacto altamente personalizado con iconos en cada campo (incluyendo logo de WhatsApp).
 - **`/productos`**: Catálogo de materiales sueltos. Implementa tarjetas de producto (`ProductCard`) que soportan lógica de precios regulares vs. precios de oferta.
 - **`/proyectos`**: Portafolio corporativo. Muestra logotipos de alianzas/proyectos destacados (ej. Ciudad El Doral, Monte Nebo), una galería de viviendas construidas y una reiteración de las ventajas competitivas.
@@ -37,7 +37,7 @@ La identidad visual está programada rígidamente para transmitir **solidez, ing
   - Contiene el logo a la izquierda, enlaces al centro, y un bloque derecho tipo "píldora" con información de contacto directa y botones de carrito/usuario. Se integra también un botón flotante directo a WhatsApp.
   - Menú hamburguesa responsivo completamente estilizado.
 - **`Footer.tsx`**: Pie de página estandarizado presente en todo el sitio gracias a `layout.tsx`. (Se removió el botón flotante general para priorizar el de la cabecera).
-- **`HeroVideo.tsx` (`components/home/HeroVideo.tsx`)**: Componente cliente que despliega un reproductor *iframe* de **YouTube (nocookie)** ocupando el 100% de la pantalla (`minWidth: 151.11vh`) sin mostrar controles, permitiendo silenciar/activar el audio usando un botón inferior que se comunica internamente con la API de YouTube mediante `postMessage`.
+- **`HeroVideo.tsx` (`components/home/HeroVideo.tsx`)**: Componente cliente que despliega un reproductor *iframe* de **YouTube (nocookie)** en formato panorámico, sin mostrar controles, permitiendo silenciar/activar el audio usando un botón inferior que se comunica internamente con la API de YouTube mediante `postMessage`. Se ubica en su propia sección debajo del Hero.
 
 ## ⚙️ 4. Reglas de Desarrollo y Mantenimiento
 
