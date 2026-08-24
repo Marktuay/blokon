@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { IconWhatsApp } from '@/components/ui/Icons';
 import { useCart } from '@/hooks/useCart';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -76,7 +77,7 @@ export const Header = () => {
         <div className="flex items-center gap-2 md:gap-4">
           {/* Icons & Cart Capsule (Desktop/Tablets) */}
           <div className="flex items-center bg-white border border-gray-100 rounded-full pl-4 md:pl-8 pr-4 md:pr-6 py-2 shadow-sm gap-3 md:gap-6">
-            <div className="hidden xl:flex flex-col border-r border-gray-100 pr-6 text-right">
+            <div className="hidden xl:flex flex-col border-r border-gray-100 pr-6 text-right whitespace-nowrap">
               <span className="font-acumin font-bold text-[#11406C] text-sm">+505 8692 - 7530</span>
               <span className="font-acumin text-[11px] text-gray-500">ventas@blok-on.com</span>
             </div>
@@ -190,6 +191,17 @@ export const Header = () => {
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
             )}
           </button>
+
+          {/* WhatsApp Button from Footer */}
+          <a 
+            href="https://wa.me/50586927530" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="bg-[#25D366] text-white p-2.5 md:p-3 rounded-full shadow-md hover:scale-110 transition-transform flex items-center justify-center ml-1"
+            aria-label="Chat on WhatsApp"
+          >
+            <IconWhatsApp size={22} />
+          </a>
         </div>
       </div>
 

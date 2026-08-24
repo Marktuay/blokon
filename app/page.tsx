@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { HeroVideo } from "@/components/home/HeroVideo";
 import { 
   IconAntisismico, 
   IconViento, 
@@ -21,6 +22,8 @@ export default function Home() {
         {/* Imagen de fondo arquitectónico Blok-On */}
         <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-[url('/images/muro/home/1-D.png')] bg-cover bg-center"></div>
         
+        <HeroVideo />
+
         <div className="container mx-auto px-6 md:px-12 relative z-10">
           <div className="max-w-5xl">
             <h1 className="font-moderniz text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white uppercase tracking-tight leading-[1.05] mb-6">

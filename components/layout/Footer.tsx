@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { IconWhatsApp } from '@/components/ui/Icons';
 import { useAuth } from '@/contexts/AuthContext';
 import { validateFormSecurity } from '@/lib/sanitize';
 
@@ -338,12 +337,6 @@ export const Footer = () => {
         </div>
       </div>
 
-      {/* Floating WhatsApp */}
-      <div className="fixed bottom-8 right-8 z-50">
-        <button className="bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center">
-          <IconWhatsApp size={24} />
-        </button>
-      </div>
     </footer>
   );
 };

@@ -30,13 +30,14 @@ La identidad visual está programada rígidamente para transmitir **solidez, ing
   - Tarjetas (Cards) con bordes redondeados y transiciones suaves al hacer hover (`hover:shadow-xl`, `hover:scale-105`).
   - Iconografía vectorial estandarizada (SVGs limpios, sin relleno, solo trazo `strokeWidth="1.5"`).
 
-## 🧩 3. Componentes Globales
+## 🧩 3. Componentes Globales e Interactivos
 
 - **`Header.tsx` (`components/layout/Header.tsx`)**: 
   - Barra de navegación *sticky* superior.
-  - Contiene el logo a la izquierda, enlaces al centro, y un bloque derecho tipo "píldora" con información de contacto directa y botones de carrito/usuario.
+  - Contiene el logo a la izquierda, enlaces al centro, y un bloque derecho tipo "píldora" con información de contacto directa y botones de carrito/usuario. Se integra también un botón flotante directo a WhatsApp.
   - Menú hamburguesa responsivo completamente estilizado.
-- **`Footer.tsx`**: Pie de página estandarizado presente en todo el sitio gracias a `layout.tsx`.
+- **`Footer.tsx`**: Pie de página estandarizado presente en todo el sitio gracias a `layout.tsx`. (Se removió el botón flotante general para priorizar el de la cabecera).
+- **`HeroVideo.tsx` (`components/home/HeroVideo.tsx`)**: Componente cliente que maneja un video de fondo 100% interactivo (mutear/desmutear) en la página de inicio.
 
 ## ⚙️ 4. Reglas de Desarrollo y Mantenimiento
 
