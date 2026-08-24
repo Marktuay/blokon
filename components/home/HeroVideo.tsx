@@ -4,32 +4,32 @@ import { useState, useRef } from "react";
 
 export function HeroVideo() {
   const [isMuted, setIsMuted] = useState(true);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
+    if (iframeRef.current && iframeRef.current.contentWindow) {
+      const command = isMuted ? 'unMute' : 'mute';
+      iframeRef.current.contentWindow.postMessage(JSON.stringify({ event: 'command', func: command, args: [] }), '*');
       setIsMuted(!isMuted);
     }
   };
 
   return (
     <>
-      <div className="absolute inset-0 z-0">
-        <video 
-          ref={videoRef}
-          src="/media/general/BLOKONIN.mp4" 
-          autoPlay 
-          loop 
-          muted={isMuted}
-          playsInline 
-          className="w-full h-full object-cover opacity-60"
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-black/10">
+        <iframe
+          ref={iframeRef}
+          src="https://www.youtube-nocookie.com/embed/MCTTEprwnS4?autoplay=1&mute=1&loop=1&playlist=MCTTEprwnS4&controls=0&rel=0&modestbranding=1&enablejsapi=1"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-60"
+          style={{ border: 'none', width: '100vw', height: '56.25vw', minHeight: '85vh', minWidth: '151.11vh' }}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          title="Blok-On Video"
         />
       </div>
       
       <button 
         onClick={toggleMute}
-        className="absolute bottom-6 right-6 z-30 bg-[#11406C]/80 hover:bg-[#96C121] text-white hover:text-[#11406C] p-3 rounded-full backdrop-blur-sm transition-colors border border-white/20 shadow-lg flex items-center justify-center cursor-pointer"
+        className="absolute bottom-6 right-6 z-30 bg-[#11406C]/80 hover:bg-[#96C121] text-white hover:text-[#11406C] p-3 rounded-full backdrop-blur-sm transition-colors border border-white/20 shadow-lg flex items-center justify-center cursor-pointer pointer-events-auto"
         aria-label={isMuted ? "Activar sonido" : "Silenciar sonido"}
         title={isMuted ? "Activar sonido" : "Silenciar sonido"}
       >

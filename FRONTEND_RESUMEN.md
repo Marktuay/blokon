@@ -37,14 +37,15 @@ La identidad visual está programada rígidamente para transmitir **solidez, ing
   - Contiene el logo a la izquierda, enlaces al centro, y un bloque derecho tipo "píldora" con información de contacto directa y botones de carrito/usuario. Se integra también un botón flotante directo a WhatsApp.
   - Menú hamburguesa responsivo completamente estilizado.
 - **`Footer.tsx`**: Pie de página estandarizado presente en todo el sitio gracias a `layout.tsx`. (Se removió el botón flotante general para priorizar el de la cabecera).
-- **`HeroVideo.tsx` (`components/home/HeroVideo.tsx`)**: Componente cliente que maneja un video de fondo 100% interactivo (mutear/desmutear) en la página de inicio.
+- **`HeroVideo.tsx` (`components/home/HeroVideo.tsx`)**: Componente cliente que despliega un reproductor *iframe* de **YouTube (nocookie)** ocupando el 100% de la pantalla (`minWidth: 151.11vh`) sin mostrar controles, permitiendo silenciar/activar el audio usando un botón inferior que se comunica internamente con la API de YouTube mediante `postMessage`.
 
 ## ⚙️ 4. Reglas de Desarrollo y Mantenimiento
 
-1. **Uso de Imágenes:** Las imágenes estáticas de diseño (ej. fotos de muros) están en `public/images/muro/`. Las imágenes dinámicas (productos) provienen del backend (CORS y dominios configurados en `next.config.js`).
+1. **Uso de Imágenes y Medios:** Las imágenes estáticas de diseño (ej. fotos de muros) están en `public/images/muro/`. Para ahorrar espacio de almacenamiento y mejorar la carga, no se alojan videos grandes de fondo localmente; en su lugar, se insertan desde YouTube.
 2. **Interactividad Visual:** No se deben usar colores estridentes fuera de la paleta. Todo botón debe tener una transición (`transition-colors` o `transition-all`).
-3. **Formularios:** Los formularios deben tener validación y usar iconos para guiar visualmente al usuario. El botón de envío debe ser contrastante.
-4. **Despliegue:** Para subir cambios, siempre recordar: `git pull`, `npm install`, `npm run build` y `pm2 restart blokon-web`.
+3. **Seguridad y CSP (`next.config.ts`):** Existe una estricta Política de Seguridad de Contenido (CSP). Si se añade un recurso externo nuevo (como scripts, imágenes o iframes externos), **es imperativo agregarlo en el apartado `frame-src` o `script-src` de `next.config.ts`** para que el navegador no lo bloquee.
+4. **Formularios:** Los formularios deben tener validación y usar iconos para guiar visualmente al usuario. El botón de envío debe ser contrastante.
+5. **Despliegue:** Para subir cambios, siempre recordar: `git pull`, `npm install`, `npm run build` y `pm2 restart blokon-web`.
 
 ---
-*Última actualización: Mayo 2026. Documento generado para mantener el contexto arquitectónico del Frontend.*
+*Última actualización: Agosto 2026. Documento generado para mantener el contexto arquitectónico del Frontend.*
