@@ -9,21 +9,34 @@ export function HeroSection() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    const onMessage = (e: MessageEvent) => {
-      if (typeof e.data === 'string') {
-        try {
-          const payload = JSON.parse(e.data);
-          // 0 means ended in YT Player API
-          if (payload.event === 'onStateChange' && payload.info === 0) {
-            setShowVideo(false);
+    const initPlayer = () => {
+      if (iframeRef.current && (window as any).YT) {
+        new (window as any).YT.Player(iframeRef.current, {
+          events: {
+            'onStateChange': (event: any) => {
+              // 0 = ENDED
+              if (event.data === 0) {
+                setShowVideo(false);
+              }
+            }
           }
-        } catch (err) {}
+        });
       }
     };
-    window.addEventListener("message", onMessage);
-    return () => {
-      window.removeEventListener("message", onMessage);
-    };
+
+    if (!(window as any).YT) {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      if (firstScriptTag && firstScriptTag.parentNode) {
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      } else {
+        document.head.appendChild(tag);
+      }
+      (window as any).onYouTubeIframeAPIReady = initPlayer;
+    } else {
+      initPlayer();
+    }
   }, []);
 
   const toggleMute = () => {
@@ -47,7 +60,7 @@ export function HeroSection() {
             <iframe
               ref={iframeRef}
               // Removed loop=1 and playlist to allow it to end naturally
-              src="https://www.youtube-nocookie.com/embed/MCTTEprwnS4?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&enablejsapi=1"
+              src="https://www.youtube.com/embed/MCTTEprwnS4?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&enablejsapi=1"
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100"
               style={{ border: 'none', width: '100vw', height: '56.25vw', minHeight: '85vh', minWidth: '151.11vh' }}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
