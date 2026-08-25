@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { HeroVideo } from "@/components/home/HeroVideo";
+import { ProductCard } from "@/components/products/ProductCard";
+import { ProductModal } from "@/components/products/ProductModal";
+import { HeroSection } from "@/components/home/HeroSection";
 import { 
   IconAntisismico, 
   IconViento, 
@@ -17,36 +19,7 @@ import {
 export default function Home() {
   return (
     <main className="flex flex-col min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative w-full h-[85vh] bg-[#11406C] flex items-center overflow-hidden">
-        {/* Imagen de fondo arquitectónico Blok-On */}
-        <div className="absolute inset-0 opacity-40 mix-blend-overlay bg-[url('/images/muro/home/1-D.png')] bg-cover bg-center"></div>
-
-        <div className="container mx-auto px-6 md:px-12 relative z-10">
-          <div className="max-w-5xl">
-            <h1 className="font-moderniz text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white uppercase tracking-tight leading-[1.05] mb-6">
-              El Futuro de la Construccion <br className="hidden md:block" />
-              <span className="text-[#96C121]">Comienza Aqui.</span>
-            </h1>
-            <p className="font-acumin text-base md:text-xl text-white/80 mb-10 max-w-xl">
-              Sistemas estructurales inteligentes, diseño vanguardista y kits de viviendas listos para ensamblar. Construye más rápido, más fuerte y con precisión milimétrica.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/kits" className="bg-[#96C121] text-[#11406C] px-8 py-4 font-bold uppercase tracking-widest hover:bg-white transition-all text-center">
-                Explorar Kits
-              </Link>
-              <Link href="/proyectos" className="bg-transparent border border-white text-white px-8 py-4 font-bold uppercase tracking-widest hover:bg-white hover:text-[#11406C] transition-all text-center">
-                Ver Proyectos
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Video Presentation Section */}
-      <section className="relative w-full h-[50vh] md:h-[70vh] bg-black overflow-hidden flex items-center justify-center">
-        <HeroVideo />
-      </section>
+      <HeroSection />
 
       {/* Philosophy / Features Section */}
       <section className="py-24 bg-white">

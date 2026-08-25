@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://songbird.cardinalcommerce.com https://*.cardinalcommerce.com https://www.youtube.com https://s.ytimg.com; frame-src 'self' https://*.cardinalcommerce.com https://www.google.com https://maps.google.com https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' https://*.cardinalcommerce.com https://api.blok-on.com; img-src 'self' data: https://blok-on.com https://api.blok-on.com https://images.unsplash.com https://secure.gravatar.com https://www.new-century-companies.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://songbird.cardinalcommerce.com https://*.cardinalcommerce.com https://www.youtube.com https://s.ytimg.com; frame-src 'self' https://*.cardinalcommerce.com https://www.google.com https://maps.google.com https://www.youtube.com https://www.youtube-nocookie.com; connect-src 'self' https://*.cardinalcommerce.com https://api.blok-on.com; img-src 'self' data: https://blok-on.com https://api.blok-on.com https://images.unsplash.com https://secure.gravatar.com https://www.new-century-companies.com https://img.youtube.com https://i.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;",
           },
           {
             key: 'X-Content-Type-Options',
