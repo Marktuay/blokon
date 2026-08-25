@@ -1,7 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ProductCard } from "@/components/products/ProductCard";
-import { ProductModal } from "@/components/products/ProductModal";
 import { HeroSection } from "@/components/home/HeroSection";
 import { 
   IconAntisismico, 
