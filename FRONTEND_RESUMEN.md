@@ -37,9 +37,24 @@ La identidad visual está programada rígidamente para transmitir **solidez, ing
   - Contiene el logo a la izquierda, enlaces al centro, y un bloque derecho tipo "píldora" con información de contacto directa y botones de carrito/usuario. Se integra también un botón flotante directo a WhatsApp.
   - Menú hamburguesa responsivo completamente estilizado.
 - **`Footer.tsx`**: Pie de página estandarizado presente en todo el sitio gracias a `layout.tsx`. (Se removió el botón flotante general para priorizar el de la cabecera).
-- **`HeroSection.tsx` (`components/home/HeroSection.tsx`)**: Componente cliente que consolida el Hero en un carrusel dinámico. Inicia mostrando el iframe de YouTube (nocookie) a pantalla completa con botón de Mute y Omitir. Al finalizar (capturado vía `postMessage`), transiciona al contenido estático tradicional dejando una miniatura interactiva flotante para volver a reproducir el video en cualquier momento.
+- **`HeroSection.tsx` (`components/home/HeroSection.tsx`)**: Componente cliente que consolida el Hero en un carrusel dinámico. Inicia mostrando el iframe de YouTube a pantalla completa con botón de Mute y Omitir. Al finalizar (capturado vía API oficial de YouTube `onStateChange`), transiciona al contenido estático tradicional dejando una miniatura interactiva flotante en la esquina inferior derecha para volver a reproducir el video en cualquier momento.
 
-## ⚙️ 4. Reglas de Desarrollo y Mantenimiento
+## 🕒 4. Cronología de Cambios Recientes
+
+- **`cdd57fe` (Octubre 2026)**: `fix(kits): Remove 'Vigas y Accesorios' from kit models features`  
+  Se retiró la característica "Vigas y Accesorios" del listado de características de todos los modelos de kits (`app/kits/page.tsx`), tanto para espesores de 12cm como de 15cm y en modalidades Completo y Cajón.
+- **`d2f5501` (Agosto 2026)**: `fix(page): Remove erroneous ProductCard imports breaking build`  
+  Corrección de imports no utilizados en `app/page.tsx` que provocaban errores de tipado en TypeScript durante el `npm run build` en entornos de producción.
+- **`5cceaee` (Agosto 2026)**: `feat(hero): Integrate HeroSection into page and update CSP`  
+  Integración definitiva de `HeroSection` en `app/page.tsx`, eliminación del componente obsoleto `HeroVideo.tsx` y actualización de la directiva `img-src` en `next.config.ts` para soportar miniaturas de YouTube (`img.youtube.com`, `i.ytimg.com`).
+- **`5b321bd` (Agosto 2026)**: `fix(hero): Use official YT Iframe API for robust state detection`  
+  Implementación de la API oficial de YouTube Iframe para capturar de manera fiable el evento `onStateChange` (código 0 = finalizado) y ejecutar la transición automática al contenido estático.
+- **`2e11885` (Agosto 2026)**: `feat(hero): Add replay thumbnail to static hero state`  
+  Incorporación de la miniatura flotante con botón Play en la esquina inferior derecha del Hero estático para volver a reproducir el video a pantalla completa.
+- **`ee496ae` (Agosto 2026)**: `feat(home): Move HeroVideo to a dedicated section below Hero`  
+  Etapa previa de experimentación donde el video se ubicó bajo el Hero antes de consolidarse en el carrusel interactivo actual.
+
+## ⚙️ 5. Reglas de Desarrollo y Mantenimiento
 
 1. **Uso de Imágenes y Medios:** Las imágenes estáticas de diseño (ej. fotos de muros) están en `public/images/muro/`. Para ahorrar espacio de almacenamiento y mejorar la carga, no se alojan videos grandes de fondo localmente; en su lugar, se insertan desde YouTube.
 2. **Interactividad Visual:** No se deben usar colores estridentes fuera de la paleta. Todo botón debe tener una transición (`transition-colors` o `transition-all`).
@@ -48,4 +63,4 @@ La identidad visual está programada rígidamente para transmitir **solidez, ing
 5. **Despliegue:** Para subir cambios, siempre recordar: `git pull`, `npm install`, `npm run build` y `pm2 restart blokon-web`.
 
 ---
-*Última actualización: Agosto 2026. Documento generado para mantener el contexto arquitectónico del Frontend.*
+*Última actualización: Octubre 2026. Documento generado para mantener el contexto arquitectónico del Frontend.*
