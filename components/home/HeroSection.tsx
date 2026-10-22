@@ -3,20 +3,42 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
+const VIDEOS = [
+  { id: "rF-uyP2mSKk", title: "Video Introductorio Blok-On 1" },
+  { id: "MCTTEprwnS4", title: "Video Introductorio Blok-On 2" }
+];
+
 export function HeroSection() {
   const [showVideo, setShowVideo] = useState(true);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const playerRef = useRef<any>(null);
+
+  const currentVideo = VIDEOS[currentVideoIndex];
+
+  // Mantener referencia al índice actual para usar dentro de callbacks de eventos de YT
+  const currentVideoIndexRef = useRef(currentVideoIndex);
+  useEffect(() => {
+    currentVideoIndexRef.current = currentVideoIndex;
+  }, [currentVideoIndex]);
 
   useEffect(() => {
+    if (!showVideo) return;
+
     const initPlayer = () => {
-      if (iframeRef.current && (window as any).YT) {
-        new (window as any).YT.Player(iframeRef.current, {
+      if (iframeRef.current && (window as any).YT && (window as any).YT.Player) {
+        playerRef.current = new (window as any).YT.Player(iframeRef.current, {
           events: {
             'onStateChange': (event: any) => {
               // 0 = ENDED
               if (event.data === 0) {
-                setShowVideo(false);
+                const nextIndex = currentVideoIndexRef.current + 1;
+                if (nextIndex < VIDEOS.length) {
+                  setCurrentVideoIndex(nextIndex);
+                } else {
+                  setShowVideo(false);
+                }
               }
             }
           }
@@ -24,7 +46,7 @@ export function HeroSection() {
       }
     };
 
-    if (!(window as any).YT) {
+    if (!(window as any).YT || !(window as any).YT.Player) {
       const tag = document.createElement('script');
       tag.src = "https://www.youtube.com/iframe_api";
       const firstScriptTag = document.getElementsByTagName('script')[0];
@@ -37,7 +59,15 @@ export function HeroSection() {
     } else {
       initPlayer();
     }
-  }, []);
+
+    return () => {
+      if (playerRef.current && playerRef.current.destroy) {
+        try {
+          playerRef.current.destroy();
+        } catch (e) {}
+      }
+    };
+  }, [showVideo, currentVideoIndex]);
 
   const toggleMute = () => {
     if (iframeRef.current && iframeRef.current.contentWindow) {
@@ -51,6 +81,25 @@ export function HeroSection() {
     setShowVideo(false);
   };
 
+  const nextVideo = () => {
+    if (currentVideoIndex + 1 < VIDEOS.length) {
+      setCurrentVideoIndex(currentVideoIndex + 1);
+    } else {
+      setShowVideo(false);
+    }
+  };
+
+  const prevVideo = () => {
+    if (currentVideoIndex > 0) {
+      setCurrentVideoIndex(currentVideoIndex - 1);
+    }
+  };
+
+  const playSpecificVideo = (index: number) => {
+    setCurrentVideoIndex(index);
+    setShowVideo(true);
+  };
+
   return (
     <section className="relative w-full h-[85vh] bg-[#11406C] flex items-center overflow-hidden transition-all duration-1000">
       {showVideo ? (
@@ -58,15 +107,55 @@ export function HeroSection() {
         <div className="absolute inset-0 w-full h-full z-20 bg-black animate-in fade-in duration-1000">
           <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-black">
             <iframe
+              key={currentVideo.id}
               ref={iframeRef}
-              // Removed loop=1 and playlist to allow it to end naturally
-              src="https://www.youtube.com/embed/MCTTEprwnS4?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&enablejsapi=1"
+              src={`https://www.youtube.com/embed/${currentVideo.id}?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&enablejsapi=1`}
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-100"
               style={{ border: 'none', width: '100vw', height: '56.25vw', minHeight: '85vh', minWidth: '151.11vh' }}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              title="Blok-On Video"
+              title={currentVideo.title}
             />
           </div>
+
+          {/* Indicador de Video Actual en Carousel */}
+          <div className="absolute top-6 left-6 z-30 flex items-center gap-2 bg-black/50 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
+            <span className="text-white text-xs font-semibold uppercase tracking-wider">
+              Video {currentVideoIndex + 1} de {VIDEOS.length}
+            </span>
+            <div className="flex gap-1.5 ml-2">
+              {VIDEOS.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setCurrentVideoIndex(i)}
+                  className={`w-2 h-2 rounded-full transition-all cursor-pointer ${i === currentVideoIndex ? 'bg-[#96C121] w-5' : 'bg-white/40 hover:bg-white'}`}
+                  title={`Ir al video ${i + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Controles de Navegación Anterior / Siguiente */}
+          {currentVideoIndex > 0 && (
+            <button
+              onClick={prevVideo}
+              className="absolute left-6 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-[#96C121] text-white hover:text-[#11406C] p-3 rounded-full backdrop-blur-sm transition-all border border-white/20 cursor-pointer shadow-lg group"
+              title="Video anterior"
+            >
+              <svg className="w-6 h-6 transform group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+          )}
+
+          <button
+            onClick={nextVideo}
+            className="absolute right-6 top-1/2 -translate-y-1/2 z-30 bg-black/40 hover:bg-[#96C121] text-white hover:text-[#11406C] p-3 rounded-full backdrop-blur-sm transition-all border border-white/20 cursor-pointer shadow-lg group"
+            title={currentVideoIndex + 1 < VIDEOS.length ? "Siguiente video" : "Ir al inicio"}
+          >
+            <svg className="w-6 h-6 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
           
           {/* Mute Button */}
           <button 
@@ -121,25 +210,33 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Replay Video Thumbnail */}
-          <button
-            onClick={() => setShowVideo(true)}
-            className="absolute bottom-6 right-6 z-30 w-32 md:w-48 aspect-video rounded-lg overflow-hidden border-2 border-white/20 shadow-2xl group cursor-pointer hover:border-[#96C121] transition-colors"
-            title="Volver a reproducir el video"
-          >
-            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors z-10 flex items-center justify-center">
-              <div className="bg-[#96C121] text-[#11406C] p-2 md:p-3 rounded-full shadow-lg transform group-hover:scale-110 transition-transform">
-                <svg className="w-4 h-4 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-            </div>
-            <img 
-              src="https://img.youtube.com/vi/MCTTEprwnS4/maxresdefault.jpg" 
-              alt="Miniatura del video" 
-              className="w-full h-full object-cover"
-            />
-          </button>
+          {/* Replay Video Thumbnails */}
+          <div className="absolute bottom-6 right-6 z-30 flex gap-3">
+            {VIDEOS.map((vid, idx) => (
+              <button
+                key={vid.id}
+                onClick={() => playSpecificVideo(idx)}
+                className="w-28 sm:w-36 md:w-44 aspect-video rounded-lg overflow-hidden border-2 border-white/30 shadow-2xl group cursor-pointer hover:border-[#96C121] transition-all relative transform hover:-translate-y-1"
+                title={`Reproducir ${vid.title}`}
+              >
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/10 transition-colors z-10 flex flex-col items-center justify-center p-1">
+                  <div className="bg-[#96C121] text-[#11406C] p-1.5 md:p-2 rounded-full shadow-lg transform group-hover:scale-110 transition-transform mb-1">
+                    <svg className="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                  </div>
+                  <span className="text-white text-[10px] md:text-xs font-bold tracking-wide uppercase drop-shadow">
+                    Video {idx + 1}
+                  </span>
+                </div>
+                <img 
+                  src={`https://img.youtube.com/vi/${vid.id}/mqdefault.jpg`} 
+                  alt={`Miniatura ${vid.title}`} 
+                  className="w-full h-full object-cover"
+                />
+              </button>
+            ))}
+          </div>
         </div>
       )}
     </section>

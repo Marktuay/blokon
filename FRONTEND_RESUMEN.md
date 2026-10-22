@@ -37,10 +37,12 @@ La identidad visual está programada rígidamente para transmitir **solidez, ing
   - Contiene el logo a la izquierda, enlaces al centro, y un bloque derecho tipo "píldora" con información de contacto directa y botones de carrito/usuario. Se integra también un botón flotante directo a WhatsApp.
   - Menú hamburguesa responsivo completamente estilizado.
 - **`Footer.tsx`**: Pie de página estandarizado presente en todo el sitio gracias a `layout.tsx`. (Se removió el botón flotante general para priorizar el de la cabecera).
-- **`HeroSection.tsx` (`components/home/HeroSection.tsx`)**: Componente cliente que consolida el Hero en un carrusel dinámico. Inicia mostrando el iframe de YouTube a pantalla completa con botón de Mute y Omitir. Al finalizar (capturado vía API oficial de YouTube `onStateChange`), transiciona al contenido estático tradicional dejando una miniatura interactiva flotante en la esquina inferior derecha para volver a reproducir el video en cualquier momento.
+- **`HeroSection.tsx` (`components/home/HeroSection.tsx`)**: Componente cliente que consolida el Hero en un carrusel dinámico de videos introductorios en secuencia. Soporta múltiples videos (actualmente 2: `rF-uyP2mSKk` de primero y `MCTTEprwnS4` de segundo) con autoplay silencioso, botones para omitir, silenciar/desmutear, flechas de anterior/siguiente e indicador de video actual. Al concluir la secuencia completa de videos (detectada mediante la API de YouTube Iframe), realiza una transición suave hacia el Hero estático, dejando un selector de miniaturas interactivas en la esquina inferior derecha para volver a reproducir cualquier video a pantalla completa.
 
 ## 🕒 4. Cronología de Cambios Recientes
 
+- **Octubre 2026**: `feat(hero): Add multi-video carousel sequence with rF-uyP2mSKk as first video`  
+  Se agregó el video `https://www.youtube.com/watch?v=rF-uyP2mSKk` en primera posición y se mantuvo `MCTTEprwnS4` en segunda posición. Se implementó navegación entre videos (indicador de video 1 de 2, flechas previo/siguiente) y doble miniatura interactiva de repetición en el Hero estático.
 - **`cdd57fe` (Octubre 2026)**: `fix(kits): Remove 'Vigas y Accesorios' from kit models features`  
   Se retiró la característica "Vigas y Accesorios" del listado de características de todos los modelos de kits (`app/kits/page.tsx`), tanto para espesores de 12cm como de 15cm y en modalidades Completo y Cajón.
 - **`d2f5501` (Agosto 2026)**: `fix(page): Remove erroneous ProductCard imports breaking build`  
