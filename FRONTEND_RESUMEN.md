@@ -41,6 +41,8 @@ La identidad visual está programada rígidamente para transmitir **solidez, ing
 
 ## 🕒 4. Cronología de Cambios Recientes
 
+- **Octubre 2026**: `fix(security): Patch dependencies and resolve all vulnerabilities via npm audit fix`  
+  Se ejecutó remediación de seguridad actualizando Next.js a 16.4.3 y parches en dependencias como `sharp`, `postcss`, `js-cookie`, `zod`, `brace-expansion`. La auditoría de `npm audit` pasó de 12 vulnerabilidades (incluyendo 1 crítica y 9 altas) a **0 vulnerabilidades**. La compilación `npm run build` verificó 18 rutas estáticas y dinámicas sin errores.
 - **Octubre 2026**: `feat(hero): Add multi-video carousel sequence with rF-uyP2mSKk as first video`  
   Se agregó el video `https://www.youtube.com/watch?v=rF-uyP2mSKk` en primera posición y se mantuvo `MCTTEprwnS4` en segunda posición. Se implementó navegación entre videos (indicador de video 1 de 2, flechas previo/siguiente) y doble miniatura interactiva de repetición en el Hero estático.
 - **`cdd57fe` (Octubre 2026)**: `fix(kits): Remove 'Vigas y Accesorios' from kit models features`  
